@@ -8,7 +8,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   
   <style>
-    /* ---------- CORE VARIABLES (RED THEME) ---------- */
+    /* ---------- CORE VARIABLES ---------- */
     :root {
       --bg-base: #070303;
       --bg-surface: #110707;
@@ -442,9 +442,34 @@
       font-size: 0.9rem;
       font-weight: 600;
       pointer-events: none;
+      z-index: 10;
     }
     .card-img-container:hover .img-hover-overlay { opacity: 1; }
     .img-hover-overlay i { margin-right: 0.5rem; }
+
+    /* Status Overlay */
+    .status-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-5deg);
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 900;
+      color: #ff0000;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px rgba(0,0,0,0.8), 0 0 20px rgba(255,0,0,0.5);
+      z-index: 15;
+      pointer-events: none;
+      white-space: nowrap;
+      letter-spacing: 2px;
+      animation: pulseStatus 2s infinite alternate;
+    }
+
+    @keyframes pulseStatus {
+      0% { transform: translate(-50%, -50%) rotate(-5deg) scale(1); }
+      100% { transform: translate(-50%, -50%) rotate(-5deg) scale(1.05); }
+    }
 
     .card-content {
       padding: 1.5rem;
@@ -536,6 +561,7 @@
       border: none;
       position: relative;
       overflow: hidden;
+      text-decoration: none;
     }
 
     .btn-primary {
@@ -875,7 +901,6 @@
     }
     .toast.success i { color: var(--green-bright); }
 
-    /* Particle animation for copy */
     .particle {
       position: absolute;
       background: var(--green-bright);
@@ -893,7 +918,6 @@
 
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* Empty state */
     .empty-state {
       grid-column: 1 / -1;
       text-align: center;
@@ -963,6 +987,7 @@
       .login-box { padding: 2rem 1.5rem; }
       .view-script-details { padding: 1.5rem; }
       .view-script-title { font-size: 2rem; }
+      .status-overlay { font-size: 2.5rem; }
     }
   </style>
 </head>
@@ -974,17 +999,12 @@
   <div class="hub-container">
     <!-- TOP NAV -->
     <div class="top-nav">
-      <a href="#" class="discord-link" onclick="goHome(event)">
-        <i class="fas fa-chevron-left"></i> Back to Hub
+      <a href="https://discord.gg/luascript" target="_blank" class="discord-link">
+        <i class="fab fa-discord"></i> discord.gg/luascript
       </a>
-      <div style="display: flex; gap: 1rem;">
-        <a href="https://discord.gg/luascript" target="_blank" class="discord-link">
-          <i class="fab fa-discord"></i> discord.gg/luascript
-        </a>
-        <button class="admin-btn" id="adminToggleBtn">
-          <i class="fas fa-lock"></i> Admin
-        </button>
-      </div>
+      <button class="admin-btn" id="adminToggleBtn">
+        <i class="fas fa-lock"></i> Admin
+      </button>
     </div>
 
     <!-- HEADER -->
@@ -1050,6 +1070,16 @@
           <div class="form-group">
             <label>Script Name</label>
             <input type="text" id="scriptName" class="form-control" placeholder="e.g. Dice Predictor">
+          </div>
+
+          <div class="form-group">
+            <label>Status</label>
+            <select id="scriptStatus" class="form-control">
+              <option value="Working">🟢 Working</option>
+              <option value="Patched">🔴 Patched</option>
+              <option value="Updating">🟡 Updating</option>
+              <option value="Detected">⚠️ Detected</option>
+            </select>
           </div>
 
           <div class="form-group">
@@ -1150,6 +1180,7 @@
       const formTitle = document.getElementById('formTitle');
       const editScriptId = document.getElementById('editScriptId');
       const scriptName = document.getElementById('scriptName');
+      const scriptStatus = document.getElementById('scriptStatus');
       const scriptCategory = document.getElementById('scriptCategory');
       const scriptImageUrl = document.getElementById('scriptImageUrl');
       const scriptImageFile = document.getElementById('scriptImageFile');
@@ -1229,16 +1260,16 @@
 
       // ---------- STORAGE ----------
       function loadData() {
-        const c = localStorage.getItem('kevinHub_cats_v8');
-        const s = localStorage.getItem('kevinHub_scripts_v8');
+        const c = localStorage.getItem('kevinHub_cats_v9');
+        const s = localStorage.getItem('kevinHub_scripts_v9');
         
         categories = c ? JSON.parse(c) : [...DEFAULT_CATEGORIES];
         scripts = s ? JSON.parse(s) : [...DEFAULT_SCRIPTS];
       }
 
       function saveData() {
-        localStorage.setItem('kevinHub_cats_v8', JSON.stringify(categories));
-        localStorage.setItem('kevinHub_scripts_v8', JSON.stringify(scripts));
+        localStorage.setItem('kevinHub_cats_v9', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v9', JSON.stringify(scripts));
       }
 
       // ---------- ROUTING ----------
@@ -1250,7 +1281,6 @@
       function handleRoute() {
         const hash = window.location.hash;
         
-        // Hide all main views
         publicView.classList.remove('active');
         adminView.classList.remove('active');
         loginView.classList.remove('active');
@@ -1268,7 +1298,6 @@
           }
         }
 
-        // Default to public view
         if (isAdmin) {
           adminView.classList.add('active');
         } else {
@@ -1296,7 +1325,7 @@
             </div>
             
             <div class="view-script-meta">
-              <span><i class="fas fa-check-circle" style="color: #4ade80;"></i> Working</span>
+              <span><i class="fas fa-info-circle"></i> Status: <strong style="margin-left:0.3rem; color: ${script.status === 'Patched' ? '#ff3333' : '#4ade80'};">${escapeHTML(script.status || 'Working')}</strong></span>
               <span><i class="fas fa-star"></i> 5.0 Rating</span>
               ${script.price ? `<span><i class="fas fa-tag"></i> ${escapeHTML(script.price)}</span>` : ''}
             </div>
@@ -1360,6 +1389,10 @@
         const delay = (index * 0.05).toFixed(2);
         const imgSrc = script.image || '';
         const slug = slugify(script.name);
+        
+        // Check status
+        const isPatched = script.status === 'Patched';
+        const statusText = isPatched ? 'Patched' : '';
 
         return `
           <div class="script-card" style="animation-delay: ${delay}s">
@@ -1376,6 +1409,7 @@
                    <div class="img-hover-overlay"><i class="fas fa-expand"></i> View Full Image</div>`
                 : `<div class="img-placeholder"><i class="fas ${getIcon(script.category)}"></i></div>`
               }
+              ${isPatched ? `<div class="status-overlay">Patched</div>` : ''}
             </div>
 
             <div class="card-content">
@@ -1385,7 +1419,10 @@
               </div>
               
               <div class="card-meta">
-                <span><i class="fas fa-check-circle" style="color: #4ade80;"></i> Working</span>
+                <span>
+                  <i class="fas fa-circle" style="color: ${isPatched ? '#ff3333' : '#4ade80'}; font-size: 0.6rem;"></i> 
+                  ${escapeHTML(script.status || 'Working')}
+                </span>
                 <span><i class="fas fa-star"></i> 5.0</span>
               </div>
 
@@ -1396,7 +1433,7 @@
 
               <div class="card-actions">
                 ${!isAdminView ? `
-                  <a href="#/script/${slug}" class="btn btn-outline" style="text-decoration: none;">
+                  <a href="#/script/${slug}" class="btn btn-outline">
                     <i class="fas fa-eye"></i> View
                   </a>
                 ` : ''}
@@ -1532,6 +1569,7 @@
         formTitle.textContent = 'Edit Script';
         editScriptId.value = s.id;
         scriptName.value = s.name;
+        scriptStatus.value = s.status || 'Working';
         scriptCategory.value = s.category;
         scriptCode.value = s.code;
         scriptPrice.value = s.price || '';
@@ -1557,6 +1595,7 @@
         formTitle.textContent = 'Manage Scripts';
         editScriptId.value = '';
         scriptName.value = '';
+        scriptStatus.value = 'Working';
         scriptImageUrl.value = '';
         scriptCode.value = '';
         scriptPrice.value = '';
@@ -1570,7 +1609,7 @@
 
       // ---------- VIEW SWITCHING ----------
       function showPublic() {
-        window.location.hash = ''; // Routes to public
+        window.location.hash = '';
         isAdmin = false;
         adminToggleBtn.innerHTML = '<i class="fas fa-lock"></i> Admin';
       }
@@ -1588,7 +1627,7 @@
 
       function showAdmin() {
         isAdmin = true;
-        handleRoute(); // This will show admin view
+        handleRoute(); 
         adminToggleBtn.innerHTML = '<i class="fas fa-unlock"></i> Admin';
         adminToggleBtn.style.display = 'inline-flex';
         
@@ -1603,13 +1642,11 @@
         renderCategories();
         handleRoute();
 
-        // Nav
         adminToggleBtn.onclick = () => {
           if (isAdmin) { showPublic(); showToast('Logged out'); }
           else { showLogin(); }
         };
 
-        // Login
         loginBtn.onclick = () => {
           if (adminPassword.value === ADMIN_PASSWORD) {
             showAdmin();
@@ -1626,13 +1663,11 @@
         cancelLoginBtn.onclick = showPublic;
         document.getElementById('logoutBtn').onclick = showPublic;
 
-        // Search
         searchInput.oninput = (e) => {
           currentSearch = e.target.value;
           filterPublic();
         };
 
-        // Add Category
         addCatBtn.onclick = () => {
           const val = newCatInput.value.trim();
           if (!val) return;
@@ -1645,7 +1680,6 @@
         };
         newCatInput.onkeydown = (e) => { if (e.key === 'Enter') addCatBtn.click(); };
 
-        // Image Upload Handler
         scriptImageFile.onchange = (e) => {
           const file = e.target.files[0];
           if (!file) return;
@@ -1660,7 +1694,6 @@
           reader.readAsDataURL(file);
         };
 
-        // Clear uploaded file if user types URL
         scriptImageUrl.oninput = (e) => {
           if (e.target.value.trim()) {
             currentBase64Image = '';
@@ -1670,10 +1703,10 @@
           }
         };
 
-        // Save Script
         saveScriptBtn.onclick = () => {
           const id = editScriptId.value;
           const name = scriptName.value.trim();
+          const status = scriptStatus.value;
           const cat = scriptCategory.value;
           const url = scriptImageUrl.value.trim();
           const code = scriptCode.value.trim();
@@ -1688,14 +1721,14 @@
           if (id) {
             const idx = scripts.findIndex(s => s.id === id);
             if (idx !== -1) {
-              scripts[idx] = { ...scripts[idx], name, category: cat, image: finalImage, code, price };
+              scripts[idx] = { ...scripts[idx], name, status, category: cat, image: finalImage, code, price };
               saveData();
               showToast('Script updated!');
             }
           } else {
             const newScript = {
               id: 'script-' + Date.now(),
-              name, category: cat, image: finalImage, code, price
+              name, status, category: cat, image: finalImage, code, price
             };
             scripts.unshift(newScript);
             saveData();
