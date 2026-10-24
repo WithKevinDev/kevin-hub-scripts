@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kevin Hub · Scripts</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- RED THEME ---------- */
+    :root {
+      --bg-dark: #0b0606;
+      --bg-card: #1c0f0f;
+      --bg-elevated: #261414;
+      --red-primary: #d32f2f;
+      --red-bright: #ff3b3b;
+      --red-glow: rgba(255, 50, 50, 0.45);
+      --text-light: #ffe6e6;
+      --text-dim: #b38f8f;
+      --border-red: #5a1e1e;
+      --border-bright: #a13333;
+      --discord: #5865F2;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: var(--bg-dark);
+      background-image: radial-gradient(circle at 10% 20%, rgba(180, 20, 20, 0.08) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 70%, rgba(200, 30, 30, 0.06) 0%, transparent 50%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 1.5rem 1rem 3rem;
+      color: var(--text-light);
+    }
+
+    .hub-container {
+      max-width: 1280px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    /* ---------- TOP BAR ---------- */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      width: 100%;
+      padding: 0.25rem 0;
+    }
+
+    .discord-btn {
+      background: #2a0f0f;
+      border: 1px solid #4a2020;
+      color: #c9b3ff;
+      border-radius: 2.5rem;
+      padding: 0.55rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      letter-spacing: 0.3px;
+      box-shadow: 0 0 12px rgba(88, 101, 242, 0.2);
+    }
+
+    .discord-btn i {
+      color: var(--discord);
+      font-size: 1.2rem;
+      filter: drop-shadow(0 0 6px #5865F2);
+    }
+
+    .discord-btn:hover {
+      border-color: var(--discord);
+      box-shadow: 0 0 22px rgba(88, 101, 242, 0.7), 0 0 40px rgba(88, 101, 242, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .admin-toggle-btn {
+      background: #1a0e0e;
+      border: 1px solid #4a2020;
+      color: #d9b3b3;
+      border-radius: 2rem;
+      padding: 0.55rem 1.2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .admin-toggle-btn:hover {
+      border-color: var(--red-bright);
+      color: #ffd0d0;
+      box-shadow: 0 0 18px rgba(255, 40, 40, 0.5);
+    }
+
+    /* ---------- HEADER ---------- */
+    .header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+    }
+
+    .header h1 {
+      font-size: 3.2rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #fff0f0;
+      text-shadow: 0 0 10px var(--red-primary), 0 0 25px var(--red-bright), 0 0 45px #ff0000;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      transition: text-shadow 0.3s;
+    }
+
+    .header h1:hover {
+      text-shadow: 0 0 20px var(--red-bright), 0 0 45px #ff2222, 0 0 70px #ff0000;
+    }
+
+    .header h1 i {
+      color: var(--red-bright);
+      font-size: 2.8rem;
+      filter: drop-shadow(0 0 8px #ff3b3b);
+      transition: transform 0.3s, filter 0.3s;
+    }
+
+    .header h1:hover i {
+      filter: drop-shadow(0 0 18px #ff3b3b);
+      transform: rotate(8deg) scale(1.05);
+    }
+
+    .subhead {
+      color: var(--text-dim);
+      font-size: 1.05rem;
+      margin-top: 0.5rem;
+      border-bottom: 1px solid var(--border-red);
+      padding-bottom: 1.25rem;
+      width: 100%;
+      max-width: 700px;
+      letter-spacing: 0.3px;
+    }
+
+    .subhead i {
+      color: var(--red-primary);
+      margin: 0 0.3rem;
+    }
+
+    /* ---------- LOGIN SCREEN ---------- */
+    .login-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-red);
+      border-radius: 1.5rem;
+      padding: 3rem 2rem;
+      max-width: 420px;
+      margin: 1rem auto;
+      box-shadow: 0 15px 40px -10px rgba(200, 0, 0, 0.5);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .login-screen.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .login-screen h2 {
+      color: #ffb6b6;
+      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .login-screen h2 i {
+      color: var(--red-bright);
+    }
+
+    .login-screen input {
+      width: 100%;
+      background: #100808;
+      border: 1px solid #3d1e1e;
+      border-radius: 0.75rem;
+      padding: 0.9rem 1rem;
+      font-size: 1rem;
+      color: #ffe0e0;
+      outline: none;
+      transition: border 0.15s, box-shadow 0.15s;
+      text-align: center;
+      letter-spacing: 2px;
+    }
+
+    .login-screen input:focus {
+      border-color: var(--red-bright);
+      box-shadow: 0 0 18px rgba(255, 50, 50, 0.4);
+    }
+
+    .login-screen input::placeholder {
+      letter-spacing: 0.5px;
+      color: #6b3f3f;
+    }
+
+    .login-screen .error-msg {
+      color: #ff6b6b;
+      font-size: 0.85rem;
+      min-height: 1.2rem;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    /* ---------- ADMIN LAYOUT ---------- */
+    .admin-layout {
+      display: none;
+      gap: 2rem;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .admin-layout.active {
+      display: flex;
+    }
+
+    /* ---------- SCRIPT LIST ---------- */
+    .script-list-section {
+      flex: 2 1 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .script-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-red);
+      border-radius: 1.2rem;
+      box-shadow: 0 10px 25px -8px rgba(200, 0, 0, 0.3), 0 0 0 1px rgba(255, 60, 60, 0.1) inset;
+      transition: all 0.25s ease;
+      overflow: hidden;
+      padding: 1.25rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+      cursor: default;
+    }
+
+    .script-card:hover {
+      border-color: var(--red-bright);
+      box-shadow: 0 0 35px rgba(255, 40, 40, 0.55), 0 0 0 1px var(--red-bright) inset, 0 0 60px rgba(255, 0, 0, 0.2);
+      transform: translateY(-4px) scale(1.005);
+    }
+
+    .card-image {
+      width: 100%;
+      max-height: 180px;
+      object-fit: cover;
+      border-radius: 0.8rem;
+      border: 1px solid #3a1a1a;
+      background: #0e0606;
+      transition: transform 0.3s;
+    }
+
+    .script-card:hover .card-image {
+      transform: scale(1.01);
+    }
+
+    .card-image-placeholder {
+      width: 100%;
+      height: 100px;
+      background: #1f0e0e;
+      border-radius: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #7a4a4a;
+      font-size: 2rem;
+      border: 1px dashed #4a1e1e;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .script-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #ffd9d9;
+      letter-spacing: -0.2px;
+      flex-wrap: wrap;
+    }
+
+    .script-title i {
+      color: var(--red-bright);
+      font-size: 1.5rem;
+      text-shadow: 0 0 12px #f66;
+      transition: transform 0.2s;
+    }
+
+    .script-card:hover .script-title i {
+      transform: scale(1.1);
+    }
+
+    .badge {
+      background: #2e1313;
+      border: 1px solid #8b2a2a;
+      border-radius: 2rem;
+      padding: 0.25rem 0.9rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: #ffb6b6;
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 0 8px rgba(200, 30, 30, 0.4);
+    }
+
+    .badge i {
+      color: var(--red-primary);
+    }
+
+    .category-badge {
+      background: #1f2a1f;
+      border-color: #3a6b3a;
+      color: #9fdf9f;
+    }
+
+    .category-badge i {
+      color: #6fcf6f;
+    }
+
+    /* code block */
+    .code-wrapper {
+      background: #0a0505;
+      border-radius: 0.9rem;
+      border-left: 5px solid var(--red-primary);
+      padding: 0.9rem 1.1rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.8rem;
+      box-shadow: 0 0 0 1px #2e1a1a inset;
+      transition: border-color 0.2s;
+    }
+
+    .script-card:hover .code-wrapper {
+      border-left-color: var(--red-bright);
+    }
+
+    .code-block {
+      font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+      font-size: 0.92rem;
+      color: #ffbaba;
+      word-break: break-all;
+      white-space: pre-wrap;
+      flex: 1 1 250px;
+      line-height: 1.6;
+      letter-spacing: 0.2px;
+    }
+
+    /* Copy button */
+    .copy-btn {
+      background: #2a0f0f;
+      border: 1px solid #a13333;
+      color: #ffc2c2;
+      border-radius: 2.5rem;
+      padding: 0.55rem 1.2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+      box-shadow: 0 0 8px rgba(180, 20, 20, 0.3);
+    }
+
+    .copy-btn i {
+      font-size: 0.9rem;
+      color: #ff6b6b;
+    }
+
+    .copy-btn:hover {
+      background: #3d1616;
+      border-color: var(--red-bright);
+      box-shadow: 0 0 22px rgba(255, 50, 50, 0.7);
+      color: #ffe0e0;
+      transform: scale(1.05);
+    }
+
+    /* delete button */
+    .delete-btn {
+      background: #1f0a0a;
+      border: 1px solid #6b1e1e;
+      color: #d98a8a;
+      border-radius: 2rem;
+      padding: 0.35rem 0.9rem;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 600;
+    }
+
+    .delete-btn:hover {
+      background: #3d0f0f;
+      border-color: #ff3b3b;
+      color: #ffb6b6;
+      box-shadow: 0 0 18px rgba(255, 40, 40, 0.6);
+      transform: scale(1.05);
+    }
+
+    /* ---------- FORM SIDEBAR ---------- */
+    .form-sidebar {
+      flex: 1 1 340px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-red);
+      border-radius: 1.5rem;
+      padding: 1.75rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      box-shadow: 0 15px 35px -10px rgba(180, 0, 0, 0.4);
+      position: sticky;
+      top: 1.5rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-sidebar:hover {
+      border-color: var(--red-bright);
+      box-shadow: 0 0 40px rgba(255, 30, 30, 0.35), 0 15px 35px -10px rgba(180, 0, 0, 0.6);
+    }
+
+    .form-sidebar h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ffd0d0;
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      border-bottom: 1px solid #3a1a1a;
+      padding-bottom: 1rem;
+    }
+
+    .form-sidebar h2 i {
+      color: var(--red-bright);
+      font-size: 1.4rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #d9b3b3;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      letter-spacing: 0.3px;
+    }
+
+    .form-group label i {
+      color: #b34d4d;
+      font-size: 0.8rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      background: #100808;
+      border: 1px solid #3d1e1e;
+      border-radius: 0.75rem;
+      padding: 0.75rem 1rem;
+      font-size: 0.92rem;
+      color: #ffe0e0;
+      outline: none;
+      transition: border 0.15s, box-shadow 0.15s;
+      font-family: inherit;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      border-color: var(--red-bright);
+      box-shadow: 0 0 18px rgba(255, 50, 50, 0.4);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 80px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.85rem;
+    }
+
+    .form-group input::placeholder,
+    .form-group textarea::placeholder {
+      color: #6b3f3f;
+    }
+
+    .image-preview {
+      width: 100%;
+      max-height: 120px;
+      object-fit: cover;
+      border-radius: 0.6rem;
+      border: 1px solid #3d1e1e;
+      margin-top: 0.25rem;
+      background: #0a0505;
+    }
+
+    .image-preview-placeholder {
+      width: 100%;
+      height: 70px;
+      background: #120a0a;
+      border-radius: 0.6rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #5a3030;
+      font-size: 0.8rem;
+      border: 1px dashed #3d1e1e;
+      margin-top: 0.25rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(145deg, #a12323, #7a1515);
+      border: 1px solid #d32f2f;
+      color: #fff0f0;
+      border-radius: 2.5rem;
+      padding: 0.9rem 1.5rem;
+      font-size: 1rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 6px 18px rgba(200, 20, 20, 0.5);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(145deg, #c92a2a, #9e1a1a);
+      box-shadow: 0 8px 30px rgba(255, 40, 40, 0.8), 0 0 50px rgba(255, 0, 0, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background: #1f0e0e;
+      border: 1px solid #4a2020;
+      color: #d9b3b3;
+      border-radius: 2rem;
+      padding: 0.6rem 1.2rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--red-bright);
+      color: #ffd0d0;
+      box-shadow: 0 0 18px rgba(255, 40, 40, 0.5);
+    }
+
+    /* ---------- TOAST ---------- */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) scale(0.95);
+      background: #2a0a0a;
+      border: 1px solid var(--red-bright);
+      color: #ffd6d6;
+      padding: 0.85rem 2.2rem;
+      border-radius: 3rem;
+      font-weight: 600;
+      letter-spacing: 0.4px;
+      box-shadow: 0 0 30px rgba(255, 30, 30, 0.7), 0 0 60px rgba(255, 0, 0, 0.3);
+      opacity: 0;
+      transition: opacity 0.2s, transform 0.2s;
+      pointer-events: none;
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1rem;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+    }
+
+    .toast i {
+      color: #ff6b6b;
+    }
+
+    /* ---------- FOOTER ---------- */
+    .footer {
+      text-align: center;
+      color: #7a5151;
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      border-top: 1px solid #2e1a1a;
+      padding-top: 1.5rem;
+      width: 100%;
+    }
+
+    .footer i {
+      color: #b33;
+      margin: 0 0.25rem;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 800px) {
+      .admin-layout.active {
+        flex-direction: column;
+      }
+      .form-sidebar {
+        position: static;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 1rem 0.75rem; }
+      .header h1 { font-size: 2.2rem; }
+      .header h1 i { font-size: 2rem; }
+      .script-card { padding: 1rem; }
+      .script-title { font-size: 1.15rem; }
+      .code-block { font-size: 0.8rem; }
+      .copy-btn { padding: 0.45rem 1rem; font-size: 0.75rem; }
+      .toast { padding: 0.7rem 1.5rem; font-size: 0.9rem; width: 90%; text-align: center; justify-content: center; }
+      .form-sidebar { padding: 1.25rem; }
+      .login-screen { padding: 2rem 1.2rem; }
+      .top-bar { justify-content: center; }
+    }
+
+    /* empty state */
+    .empty-state {
+      background: #150a0a;
+      border: 1px dashed #4a1e1e;
+      border-radius: 1.2rem;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: #7a4a4a;
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      color: #5a2020;
+      margin-bottom: 1rem;
+    }
+
+    .empty-state p {
+      font-size: 1rem;
+      color: #9a6565;
+    }
+
+    .info-note {
+      font-size: 0.75rem;
+      color: #7a5555;
+      text-align: center;
+      margin-top: 0.5rem;
+      letter-spacing: 0.2px;
+    }
+
+    .info-note i {
+      color: #a34d4d;
+    }
+
+    /* ---------- MEMBERS VIEW ---------- */
+    .members-view {
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+      width: 100%;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .members-view.active {
+      display: flex;
+    }
+
+    .members-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .members-header h2 {
+      color: #ffd0d0;
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .members-header h2 i {
+      color: var(--red-bright);
+    }
+
+    /* ---------- CATEGORY MANAGER ---------- */
+    .cat-manager {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      padding: 0.75rem;
+      background: #120a0a;
+      border-radius: 0.9rem;
+      border: 1px solid #2e1a1a;
+      margin-top: 0.5rem;
+    }
+
+    .cat-manager-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #b38f8f;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .cat-manager-header i {
+      color: var(--red-primary);
+    }
+
+    .cat-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .cat-chip {
+      background: #1f0e0e;
+      border: 1px solid #4a2020;
+      border-radius: 2rem;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.75rem;
+      color: #d9b3b3;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: 0.15s;
+    }
+
+    .cat-chip .cat-remove {
+      background: none;
+      border: none;
+      color: #b34d4d;
+      cursor: pointer;
+      font-size: 0.8rem;
+      padding: 0;
+      line-height: 1;
+      display: inline-flex;
+      transition: color 0.15s;
+    }
+
+    .cat-chip .cat-remove:hover {
+      color: #ff3b3b;
+    }
+
+    .cat-add-row {
+      display: flex;
+      gap: 0.4rem;
+      margin-top: 0.2rem;
+    }
+
+    .cat-add-row input {
+      flex: 1;
+      background: #100808;
+      border: 1px solid #3d1e1e;
+      border-radius: 2rem;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      color: #ffe0e0;
+      outline: none;
+      transition: border 0.15s, box-shadow 0.15s;
+    }
+
+    .cat-add-row input:focus {
+      border-color: var(--red-bright);
+      box-shadow: 0 0 12px rgba(255, 50, 50, 0.3);
+    }
+
+    .cat-add-row button {
+      background: #2a0f0f;
+      border: 1px solid #a13333;
+      border-radius: 2rem;
+      color: #ffc2c2;
+      padding: 0.4rem 0.9rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.15s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .cat-add-row button:hover {
+      background: #3d1616;
+      border-color: var(--red-bright);
+      box-shadow: 0 0 15px rgba(255, 50, 50, 0.5);
+    }
+  </style>
+</head>
+<body>
+  <div class="hub-container">
+    <!-- TOP BAR -->
+    <div class="top-bar">
+      <a href="https://discord.gg/luascript" target="_blank" class="discord-btn">
+        <i class="fab fa-discord"></i> discord.gg/luascript
+      </a>
+      <button class="admin-toggle-btn" id="adminToggleBtn">
+        <i class="fas fa-lock"></i> Admin
+      </button>
+    </div>
+
+    <!-- HEADER -->
+    <header class="header">
+      <h1>
+        <i class="fas fa-dice-d6"></i>
+        Kevin Hub
+        <i class="fas fa-code"></i>
+      </h1>
+      <div class="subhead">
+        <i class="fas fa-list"></i> List scripts <i class="fas fa-fire"></i>
+      </div>
+    </header>
+
+    <!-- LOGIN SCREEN -->
+    <div class="login-screen" id="loginScreen">
+      <h2><i class="fas fa-shield-halved"></i> Admin Access</h2>
+      <p style="color:#a37a7a; font-size:0.9rem; text-align:center;">Enter password to manage scripts</p>
+      <input type="password" id="adminPasswordInput" placeholder="••••••••••" autocomplete="off">
+      <div class="error-msg" id="loginError"></div>
+      <button class="btn-primary" id="loginBtn" style="width:100%;">
+        <i class="fas fa-arrow-right-to-bracket"></i> Login
+      </button>
+      <button class="btn-secondary" id="cancelLoginBtn" style="width:100%; justify-content:center;">
+        <i class="fas fa-arrow-left"></i> Back to Scripts
+      </button>
+    </div>
+
+    <!-- MEMBERS VIEW -->
+    <div class="members-view" id="membersView">
+      <div class="members-header">
+        <h2><i class="fas fa-list"></i> Kevin Hub Scripts</h2>
+        <span class="badge"><i class="fas fa-users"></i> Members</span>
+      </div>
+      <div class="script-list-section" id="memberScriptList">
+        <!-- Cards injected via JS -->
+      </div>
+    </div>
+
+    <!-- ADMIN LAYOUT -->
+    <div class="admin-layout" id="adminLayout">
+      <!-- LEFT: SCRIPT LIST -->
+      <div class="script-list-section" id="scriptList">
+        <!-- cards injected via JS -->
+      </div>
+
+      <!-- RIGHT: FORM SIDEBAR -->
+      <aside class="form-sidebar">
+        <h2><i class="fas fa-plus-circle"></i> New Script</h2>
+        
+        <div class="form-group">
+          <label><i class="fas fa-heading"></i> Script Name</label>
+          <input type="text" id="scriptName" placeholder="e.g. Dice Predictor" maxlength="60">
+        </div>
+
+        <!-- CATEGORY MANAGER -->
+        <div class="form-group">
+          <label><i class="fas fa-tag"></i> Category</label>
+          <div class="cat-manager" id="catManager">
+            <div class="cat-manager-header">
+              <span><i class="fas fa-folder-open"></i> Your Categories</span>
+            </div>
+            <div class="cat-list" id="catList">
+              <!-- chips injected -->
+            </div>
+            <div class="cat-add-row">
+              <input type="text" id="newCategoryInput" placeholder="New category name" maxlength="24">
+              <button id="addCategoryBtn"><i class="fas fa-plus"></i> Add</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- SELECT CATEGORY -->
+        <div class="form-group">
+          <label><i class="fas fa-check-circle"></i> Select Category for Script</label>
+          <select id="scriptCategory">
+            <!-- options injected via JS -->
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-image"></i> Image URL (optional)</label>
+          <input type="url" id="scriptImage" placeholder="https://example.com/image.png">
+          <div id="imagePreviewContainer">
+            <div class="image-preview-placeholder"><i class="fas fa-image"></i> Image preview</div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-code"></i> Script Code (loadstring)</label>
+          <textarea id="scriptCode" placeholder='loadstring(game:HttpGet("https://..."))()' rows="4"></textarea>
+        </div>
+
+        <button class="btn-primary" id="addScriptBtn">
+          <i class="fas fa-upload"></i> Post Script
+        </button>
+        <div class="info-note">
+          <i class="fas fa-database"></i> Saved in localStorage · persists on refresh
+        </div>
+
+        <div style="border-top:1px solid #2e1a1a; margin-top:0.5rem; padding-top:1rem; display:flex; gap:0.7rem; flex-wrap:wrap;">
+          <button class="btn-secondary" id="resetDefaultsBtn">
+            <i class="fas fa-rotate-left"></i> Reset defaults
+          </button>
+          <button class="btn-secondary" id="clearAllBtn">
+            <i class="fas fa-trash-can"></i> Clear all
+          </button>
+        </div>
+        <button class="btn-secondary" id="logoutBtn" style="width:100%; justify-content:center; margin-top:0.5rem;">
+          <i class="fas fa-right-from-bracket"></i> Logout
+        </button>
+      </aside>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <i class="fas fa-cloud-upload-alt"></i> Deploy on Cloudflare Pages & GitHub <i class="fas fa-code-branch"></i><br>
+      <span style="opacity:0.6; font-size:0.8rem;">Kevin Hub · red theme · all scripts loadstring compatible</span>
+    </footer>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i> <span id="toast-message">Script posted!</span>
+  </div>
+
+  <script>
+    (function() {
+      // ---------- CONFIG ----------
+      const ADMIN_PASSWORD = 'kevinontop';
+      const STORAGE_KEY = 'kevinHubScripts_v3';
+      const CATEGORY_KEY = 'kevinHubCategories_v3';
+
+      // ---------- DEFAULT DATA ----------
+      const DEFAULT_CATEGORIES = ['Predictor', 'Auto-Farm', 'ESP / Aimbot', 'Utility', 'Admin', 'Other'];
+
+      const DEFAULT_SCRIPTS = [
+        {
+          id: 'default-1',
+          name: 'Dice Predictor',
+          category: 'Predictor',
+          image: 'https://i.imgur.com/8Q6Z4kL.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-dice-predictor/refs/heads/main/main.lua"))()',
+          icon: 'fa-dice'
+        },
+        {
+          id: 'default-2',
+          name: "Kevin's Auto-Farm",
+          category: 'Auto-Farm',
+          image: 'https://i.imgur.com/5Xk9wL2.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-hub/main/autofarm.lua"))()',
+          icon: 'fa-hat-wizard'
+        },
+        {
+          id: 'default-3',
+          name: "Kevin's ESP & Aimbot",
+          category: 'ESP / Aimbot',
+          image: 'https://i.imgur.com/3Yq8vN1.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-hub/main/esp_aimbot.lua"))()',
+          icon: 'fa-shield-halved'
+        },
+        {
+          id: 'default-4',
+          name: "Kevin's Infinite Yield",
+          category: 'Utility',
+          image: 'https://i.imgur.com/9Zt7mR4.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-hub/main/infiniteyield.lua"))()',
+          icon: 'fa-gem'
+        }
+      ];
+
+      // ---------- STATE ----------
+      let scripts = [];
+      let categories = [];
+      let isAdmin = false;
+
+      // ---------- DOM refs ----------
+      const loginScreen = document.getElementById('loginScreen');
+      const membersView = document.getElementById('membersView');
+      const adminLayout = document.getElementById('adminLayout');
+      const adminToggleBtn = document.getElementById('adminToggleBtn');
+      const loginBtn = document.getElementById('loginBtn');
+      const cancelLoginBtn = document.getElementById('cancelLoginBtn');
+      const adminPasswordInput = document.getElementById('adminPasswordInput');
+      const loginError = document.getElementById('loginError');
+      const memberScriptList = document.getElementById('memberScriptList');
+      const scriptListEl = document.getElementById('scriptList');
+      const scriptNameInput = document.getElementById('scriptName');
+      const scriptCategorySelect = document.getElementById('scriptCategory');
+      const scriptImageInput = document.getElementById('scriptImage');
+      const scriptCodeInput = document.getElementById('scriptCode');
+      const addBtn = document.getElementById('addScriptBtn');
+      const resetBtn = document.getElementById('resetDefaultsBtn');
+      const clearAllBtn = document.getElementById('clearAllBtn');
+      const logoutBtn = document.getElementById('logoutBtn');
+      const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+      const toast = document.getElementById('toast');
+      const toastMessage = document.getElementById('toast-message');
+      const catListEl = document.getElementById('catList');
+      const newCategoryInput = document.getElementById('newCategoryInput');
+      const addCategoryBtn = document.getElementById('addCategoryBtn');
+
+      // ---------- UTILS ----------
+      function showToast(text) {
+        toastMessage.textContent = text || 'Done!';
+        toast.classList.add('show');
+        clearTimeout(window._toastTimeout);
+        window._toastTimeout = setTimeout(() => {
+          toast.classList.remove('show');
+        }, 2200);
+      }
+
+      function escapeHtml(text) {
+        if (!text) return '';
+        const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+      }
+
+      function getIconForCategory(category) {
+        // Try to match by common names, fallback to a generic folder/code
+        const lower = (category || '').toLowerCase();
+        if (lower.includes('predict') || lower.includes('dice')) return 'fa-dice';
+        if (lower.includes('farm') || lower.includes('auto')) return 'fa-hat-wizard';
+        if (lower.includes('esp') || lower.includes('aim') || lower.includes('pvp')) return 'fa-shield-halved';
+        if (lower.includes('util') || lower.includes('yield') || lower.includes('inf')) return 'fa-gem';
+        if (lower.includes('admin') || lower.includes('owner')) return 'fa-crown';
+        return 'fa-folder';
+      }
+
+      // ---------- STORAGE ----------
+      function loadFromStorage() {
+        // categories
+        const storedCats = localStorage.getItem(CATEGORY_KEY);
+        if (storedCats) {
+          try {
+            categories = JSON.parse(storedCats);
+            if (!Array.isArray(categories) || categories.length === 0) throw new Error();
+          } catch (e) {
+            categories = [...DEFAULT_CATEGORIES];
+            localStorage.setItem(CATEGORY_KEY, JSON.stringify(categories));
+          }
+        } else {
+          categories = [...DEFAULT_CATEGORIES];
+          localStorage.setItem(CATEGORY_KEY, JSON.stringify(categories));
+        }
+
+        // scripts
+        const storedScripts = localStorage.getItem(STORAGE_KEY);
+        if (storedScripts) {
+          try {
+            scripts = JSON.parse(storedScripts);
+            if (!Array.isArray(scripts)) throw new Error();
+          } catch (e) {
+            scripts = DEFAULT_SCRIPTS.map(s => ({ ...s }));
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(scripts));
+          }
+        } else {
+          scripts = DEFAULT_SCRIPTS.map(s => ({ ...s }));
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(scripts));
+        }
+
+        // ensure all script categories exist in categories list (fix old data)
+        const catSet = new Set(categories);
+        let dirty = false;
+        scripts.forEach(s => {
+          if (s.category && !catSet.has(s.category)) {
+            catSet.add(s.category);
+            dirty = true;
+          }
+        });
+        if (dirty) {
+          categories = Array.from(catSet);
+          saveCategories();
+        }
+      }
+
+      function saveScripts() {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(scripts));
+      }
+
+      function saveCategories() {
+        localStorage.setItem(CATEGORY_KEY, JSON.stringify(categories));
+      }
+
+      // ---------- CATEGORY MANAGER ----------
+      function renderCategories() {
+        if (!catListEl) return;
+        catListEl.innerHTML = categories.map(cat => `
+          <span class="cat-chip" data-cat="${escapeHtml(cat)}">
+            ${escapeHtml(cat)}
+            <button class="cat-remove" data-cat-remove="${escapeHtml(cat)}" title="Remove category">
+              <i class="fas fa-times"></i>
+            </button>
+          </span>
+        `).join('');
+
+        // remove handlers
+        catListEl.querySelectorAll('.cat-remove').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const cat = btn.getAttribute('data-cat-remove');
+            if (!cat) return;
+            // count scripts using this category
+            const used = scripts.filter(s => s.category === cat).length;
+            if (used > 0) {
+              if (!confirm(`"${cat}" is used by ${used} script(s). Delete category anyway? Scripts will be moved to "Other".`)) return;
+              // move scripts to Other
+              let hasOther = categories.includes('Other');
+              if (!hasOther) {
+                categories.push('Other');
+                hasOther = true;
+              }
+              scripts.forEach(s => {
+                if (s.category === cat) s.category = 'Other';
+              });
+              saveScripts();
+            }
+            categories = categories.filter(c => c !== cat);
+            if (categories.length === 0) categories = ['Other'];
+            saveCategories();
+            renderCategories();
+            renderCategorySelect();
+            renderAllViews();
+            showToast(`🗑️ Removed category "${cat}"`);
+          });
+        });
+      }
+
+      function renderCategorySelect() {
+        if (!scriptCategorySelect) return;
+        const currentVal = scriptCategorySelect.value;
+        scriptCategorySelect.innerHTML = categories.map(cat => 
+          `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`
+        ).join('');
+        // restore selection if possible
+        if (categories.includes(currentVal)) {
+          scriptCategorySelect.value = currentVal;
+        }
+      }
+
+      function addCategory() {
+        const name = newCategoryInput.value.trim();
+        if (!name) {
+          showToast('❌ Enter a category name');
+          return;
+        }
+        if (categories.includes(name)) {
+          showToast('⚠️ Category already exists');
+          return;
+        }
+        if (name.length > 24) {
+          showToast('❌ Category name too long (max 24)');
+          return;
+        }
+        categories.push(name);
+        saveCategories();
+        renderCategories();
+        renderCategorySelect();
+        newCategoryInput.value = '';
+        showToast(`✅ Added category "${name}"`);
+      }
+
+      // ---------- RENDER SCRIPT CARDS ----------
+      function renderScriptCards(container, isAdminView) {
+        if (!container) return;
+
+        if (scripts.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-folder-open"></i>
+              <p>No scripts yet. ${isAdminView ? 'Post your first script using the form.' : 'Check back later.'}</p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = '';
+        scripts.forEach((script, index) => {
+          const codeId = `script-code-${isAdminView ? 'admin' : 'member'}-${index}-${script.id || Date.now()}`;
+          const icon = script.icon || getIconForCategory(script.category);
+
+          html += `
+            <div class="script-card" data-script-id="${script.id}">
+              ${script.image ? 
+                `<img class="card-image" src="${escapeHtml(script.image)}" alt="${escapeHtml(script.name)}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : ''
+              }
+              <div class="card-image-placeholder" style="${script.image ? 'display:none' : 'display:flex'}">
+                <i class="fas fa-image"></i> No image
+              </div>
+
+              <div class="card-header">
+                <div class="script-title">
+                  <i class="fas ${icon}"></i>
+                  ${escapeHtml(script.name)}
+                </div>
+                <div style="display:flex; gap:0.5rem; flex-wrap:wrap; align-items:center;">
+                  <span class="badge category-badge"><i class="fas fa-folder"></i> ${escapeHtml(script.category)}</span>
+                  <span class="badge"><i class="fas fa-code"></i> loadstring</span>
+                  ${isAdminView ? `
+                    <button class="delete-btn" data-delete-id="${script.id}">
+                      <i class="fas fa-trash-can"></i> Delete
+                    </button>
+                  ` : ''}
+                </div>
+              </div>
+
+              <div class="code-wrapper">
+                <div class="code-block" id="${codeId}">${escapeHtml(script.code)}</div>
+                <button class="copy-btn" data-copy-target="${codeId}">
+                  <i class="fas fa-copy"></i> Copy
+                </button>
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML = html;
+
+        // copy handlers
+        container.querySelectorAll('.copy-btn').forEach(btn => {
+          btn.addEventListener('click', async (e) => {
+            const targetId = btn.getAttribute('data-copy-target');
+            const codeEl = document.getElementById(targetId);
+            if (!codeEl) return;
+            const code = codeEl.innerText.trim();
+
+            try {
+              await navigator.clipboard.writeText(code);
+              showToast('✅ Script copied to clipboard!');
+              const originalHTML = btn.innerHTML;
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              setTimeout(() => { btn.innerHTML = originalHTML; }, 1500);
+            } catch (err) {
+              const textArea = document.createElement('textarea');
+              textArea.value = code;
+              document.body.appendChild(textArea);
+              textArea.select();
+              document.execCommand('copy');
+              document.body.removeChild(textArea);
+              showToast('📋 Script copied (fallback)');
+              btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+              setTimeout(() => { btn.innerHTML = '<i class="fas fa-copy"></i> Copy'; }, 1500);
+            }
+          });
+        });
+
+        // delete handlers (admin only)
+        if (isAdminView) {
+          container.querySelectorAll('.delete-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+              const id = btn.getAttribute('data-delete-id');
+              if (!id) return;
+              const scriptName = scripts.find(s => s.id === id)?.name || 'script';
+              if (confirm(`Delete "${scriptName}"?`)) {
+                scripts = scripts.filter(s => s.id !== id);
+                saveScripts();
+                renderAllViews();
+                showToast(`🗑️ Deleted "${scriptName}"`);
+              }
+            });
+          });
+        }
+      }
+
+      function renderAllViews() {
+        renderScriptCards(memberScriptList, false);
+        renderScriptCards(scriptListEl, true);
+      }
+
+      // ---------- UI STATE ----------
+      function showMembersView() {
+        loginScreen.classList.remove('active');
+        membersView.classList.add('active');
+        adminLayout.classList.remove('active');
+        adminToggleBtn.innerHTML = '<i class="fas fa-lock"></i> Admin';
+        adminToggleBtn.style.display = 'inline-flex';
+        isAdmin = false;
+      }
+
+      function showLoginScreen() {
+        loginScreen.classList.add('active');
+        membersView.classList.remove('active');
+        adminLayout.classList.remove('active');
+        adminToggleBtn.style.display = 'none';
+        adminPasswordInput.value = '';
+        loginError.textContent = '';
+        setTimeout(() => adminPasswordInput.focus(), 100);
+      }
+
+      function showAdminPanel() {
+        loginScreen.classList.remove('active');
+        membersView.classList.remove('active');
+        adminLayout.classList.add('active');
+        adminToggleBtn.innerHTML = '<i class="fas fa-unlock"></i> Admin';
+        adminToggleBtn.style.display = 'inline-flex';
+        isAdmin = true;
+        renderAllViews();
+        renderCategories();
+        renderCategorySelect();
+      }
+
+      // ---------- LOGIN ----------
+      function attemptLogin() {
+        const pwd = adminPasswordInput.value;
+        if (pwd === ADMIN_PASSWORD) {
+          loginError.textContent = '';
+          showAdminPanel();
+          showToast('🔓 Welcome back, Kevin!');
+        } else {
+          loginError.textContent = '❌ Incorrect password. Try again.';
+          adminPasswordInput.value = '';
+          adminPasswordInput.focus();
+          adminPasswordInput.style.borderColor = '#ff3b3b';
+          adminPasswordInput.style.boxShadow = '0 0 25px rgba(255, 30, 30, 0.8)';
+          setTimeout(() => {
+            adminPasswordInput.style.borderColor = '#3d1e1e';
+            adminPasswordInput.style.boxShadow = 'none';
+          }, 600);
+        }
+      }
+
+      // ---------- FORM ----------
+      function updateImagePreview(url) {
+        if (!imagePreviewContainer) return;
+        if (url && url.trim() !== '') {
+          imagePreviewContainer.innerHTML = `<img class="image-preview" src="${escapeHtml(url)}" alt="Preview" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\\'image-preview-placeholder\\'><i class=\\'fas fa-image\\'></i> Invalid image URL</div>';">`;
+        } else {
+          imagePreviewContainer.innerHTML = `<div class="image-preview-placeholder"><i class="fas fa-image"></i> Image preview</div>`;
+        }
+      }
+
+      function addScript() {
+        const name = scriptNameInput.value.trim();
+        const category = scriptCategorySelect.value;
+        const image = scriptImageInput.value.trim();
+        const code = scriptCodeInput.value.trim();
+
+        if (!name) {
+          showToast('❌ Please enter a script name');
+          scriptNameInput.focus();
+          return;
+        }
+        if (!code) {
+          showToast('❌ Please enter the loadstring code');
+          scriptCodeInput.focus();
+          return;
+        }
+        if (!category) {
+          showToast('❌ Please select a category');
+          return;
+        }
+
+        if (!code.includes('loadstring') && !code.includes('HttpGet')) {
+          if (!confirm("This doesn't look like a loadstring. Continue anyway?")) return;
+        }
+
+        const newScript = {
+          id: 'script-' + Date.now() + '-' + Math.random().toString(36).substring(2, 7),
+          name: name,
+          category: category,
+          image: image || '',
+          code: code,
+          icon: getIconForCategory(category)
+        };
+
+        scripts.unshift(newScript);
+        saveScripts();
+        renderAllViews();
+
+        scriptNameInput.value = '';
+        scriptImageInput.value = '';
+        scriptCodeInput.value = '';
+        updateImagePreview('');
+
+        showToast('✅ Script posted!');
+        scriptNameInput.focus();
+      }
+
+      // ---------- INIT ----------
+      function init() {
+        loadFromStorage();
+        renderAllViews();
+        renderCategories();
+        renderCategorySelect();
+        showMembersView();
+
+        // top bar admin
+        adminToggleBtn.addEventListener('click', () => {
+          if (isAdmin) {
+            showMembersView();
+            showToast('👋 Logged out of admin');
+          } else {
+            showLoginScreen();
+          }
+        });
+
+        // login
+        loginBtn.addEventListener('click', attemptLogin);
+        adminPasswordInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') attemptLogin();
+        });
+        cancelLoginBtn.addEventListener('click', showMembersView);
+
+        // logout
+        logoutBtn.addEventListener('click', () => {
+          showMembersView();
+          showToast('👋 Logged out');
+        });
+
+        // add script
+        addBtn.addEventListener('click', addScript);
+
+        scriptNameInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); addScript(); }
+        });
+        scriptCodeInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+            e.preventDefault();
+            addScript();
+          }
+        });
+
+        scriptImageInput.addEventListener('input', (e) => {
+          updateImagePreview(e.target.value);
+        });
+
+        // categories
+        addCategoryBtn.addEventListener('click', addCategory);
+        newCategoryInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') { e.preventDefault(); addCategory(); }
+        });
+
+        // reset / clear
+        resetBtn.addEventListener('click', () => {
+          if (confirm('Reset to default scripts and categories? This will remove all your custom data.')) {
+            scripts = DEFAULT_SCRIPTS.map(s => ({ ...s }));
+            categories = [...DEFAULT_CATEGORIES];
+            saveScripts();
+            saveCategories();
+            renderAllViews();
+            renderCategories();
+            renderCategorySelect();
+            showToast('🔄 Reset to defaults');
+          }
+        });
+
+        clearAllBtn.addEventListener('click', () => {
+          if (confirm('Delete all scripts? Categories will be kept. This cannot be undone.')) {
+            scripts = [];
+            saveScripts();
+            renderAllViews();
+            showToast('🗑️ All scripts cleared');
+          }
+        });
+
+        console.log('Kevin Hub ready — password protected admin · custom categories');
+      }
+
+      init();
+    })();
+  </script>
+</body>
+</html>
