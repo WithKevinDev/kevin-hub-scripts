@@ -609,6 +609,18 @@
       color: #fff;
       background: rgba(230, 25, 25, 0.05);
     }
+    
+    .btn-edit {
+      background: rgba(234, 179, 8, 0.1);
+      border: 1px solid rgba(234, 179, 8, 0.3);
+      color: var(--yellow-bright);
+      flex: 0.5;
+    }
+    .btn-edit:hover {
+      background: var(--yellow-primary);
+      color: #000;
+      border-color: var(--yellow-bright);
+    }
 
     /* Admin overlays */
     .admin-overlay {
@@ -1292,16 +1304,16 @@
 
       // ---------- STORAGE ----------
       function loadData() {
-        const c = localStorage.getItem('kevinHub_cats_v10');
-        const s = localStorage.getItem('kevinHub_scripts_v10');
+        const c = localStorage.getItem('kevinHub_cats_v11');
+        const s = localStorage.getItem('kevinHub_scripts_v11');
         
         categories = c ? JSON.parse(c) : [...DEFAULT_CATEGORIES];
         scripts = s ? JSON.parse(s) : [...DEFAULT_SCRIPTS];
       }
 
       function saveData() {
-        localStorage.setItem('kevinHub_cats_v10', JSON.stringify(categories));
-        localStorage.setItem('kevinHub_scripts_v10', JSON.stringify(scripts));
+        localStorage.setItem('kevinHub_cats_v11', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v11', JSON.stringify(scripts));
       }
 
       // ---------- ROUTING ----------
@@ -1373,11 +1385,16 @@
 
             <div class="view-code-box" id="view-code">${escapeHTML(script.code)}</div>
             
-            <button class="btn btn-primary view-copy-btn" onclick="copyCode('${script.id}', this)">
+            <button class="btn btn-primary view-copy-btn" id="copy-btn-view">
               <i class="fas fa-copy"></i> Copy Script
             </button>
           </div>
         `;
+
+        // Add event listener for copy button in view page
+        document.getElementById('copy-btn-view').onclick = function() {
+          copyCode(script.id, this);
+        };
       }
 
       // ---------- RENDER CATEGORIES ----------
@@ -1483,7 +1500,11 @@
                   <a href="#/script/${slug}" class="btn btn-outline">
                     <i class="fas fa-eye"></i> View
                   </a>
-                ` : ''}
+                ` : `
+                  <button class="btn btn-edit" onclick="editScript('${script.id}')">
+                    <i class="fas fa-pen"></i> Edit
+                  </button>
+                `}
                 <button class="btn btn-primary" onclick="copyCode('${script.id}', this)">
                   <i class="fas fa-copy"></i> Copy
                 </button>
@@ -1611,7 +1632,10 @@
 
       window.editScript = function(id) {
         const s = scripts.find(x => x.id === id);
-        if (!s) return;
+        if (!s) {
+          showToast('Error: Script not found');
+          return;
+        }
         
         formTitle.textContent = 'Edit Script';
         editScriptId.value = s.id;
@@ -1637,6 +1661,7 @@
         cancelEditBtn.style.display = 'block';
         saveScriptBtn.innerHTML = '<i class="fas fa-save"></i> Update Script';
         document.querySelector('.admin-sidebar').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        showToast('Loaded script for editing');
       };
 
       function resetForm() {
@@ -1773,7 +1798,7 @@
             if (idx !== -1) {
               scripts[idx] = { ...scripts[idx], name, status, access, category: cat, image: finalImage, code, price };
               saveData();
-              showToast('Script updated!');
+              showToast('Script updated successfully!');
             }
           } else {
             const newScript = {
