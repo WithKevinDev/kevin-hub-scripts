@@ -43,7 +43,6 @@
       box-sizing: border-box;
     }
 
-    /* ---------- ANIMATED BACKGROUND ---------- */
     body {
       background-color: var(--bg-base);
       color: var(--text-main);
@@ -148,6 +147,7 @@
       text-align: center;
       padding: 1.5rem 0;
       animation: fadeInDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
     }
 
     .header h1 {
@@ -396,26 +396,55 @@
       z-index: 10;
     }
 
+    /* Image Container */
+    .card-img-container {
+      width: 100%;
+      height: 200px;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border-subtle);
+      position: relative;
+      cursor: pointer;
+    }
+
     .card-img {
       width: 100%;
-      height: 180px;
-      object-fit: cover;
-      border-bottom: 1px solid var(--border-subtle);
+      height: 100%;
+      object-fit: contain;
       transition: transform 0.6s;
     }
     .script-card:hover .card-img { transform: scale(1.05); }
     
     .img-placeholder {
       width: 100%;
-      height: 180px;
+      height: 100%;
       background: linear-gradient(45deg, var(--bg-surface), var(--bg-base));
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--border-active);
       font-size: 3rem;
-      border-bottom: 1px solid var(--border-subtle);
     }
+
+    .img-hover-overlay {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.3s;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      pointer-events: none;
+    }
+    .card-img-container:hover .img-hover-overlay { opacity: 1; }
+    .img-hover-overlay i { margin-right: 0.5rem; }
 
     .card-content {
       padding: 1.5rem;
@@ -482,11 +511,7 @@
       align-items: center;
     }
 
-    .code-preview:hover {
-      border-color: var(--red-primary);
-      color: #fff;
-    }
-
+    .code-preview:hover { border-color: var(--red-primary); color: #fff; }
     .code-preview i { color: var(--red-primary); }
 
     .card-actions {
@@ -549,7 +574,7 @@
       background: rgba(230, 25, 25, 0.05);
     }
 
-    /* Admin overlays on cards */
+    /* Admin overlays */
     .admin-overlay {
       position: absolute;
       top: 1rem; right: 1rem;
@@ -638,7 +663,6 @@
       box-shadow: 0 0 15px var(--red-glow);
     }
 
-    /* Image Upload Area */
     .image-upload-wrapper {
       display: flex;
       flex-direction: column;
@@ -696,6 +720,132 @@
     }
     .cat-input-group button:hover { background: var(--red-primary); color: #fff; }
 
+    /* ---------- SINGLE SCRIPT VIEW (VIEW PAGE) ---------- */
+    #viewScriptPage {
+      display: none;
+      animation: fadeIn 0.5s ease;
+    }
+    #viewScriptPage.active { display: block; }
+
+    .view-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      margin-bottom: 2rem;
+      transition: all 0.2s;
+    }
+    .view-back-btn:hover {
+      border-color: var(--red-primary);
+      color: #fff;
+      background: rgba(230,25,25,0.05);
+      transform: translateX(-5px);
+    }
+
+    .view-script-container {
+      display: flex;
+      gap: 2rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    @media (max-width: 900px) {
+      .view-script-container { flex-direction: column; }
+    }
+
+    .view-script-image {
+      flex: 1 1 50%;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+      position: relative;
+    }
+
+    .view-script-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      max-height: 600px;
+    }
+
+    .view-script-image .img-placeholder {
+      font-size: 5rem;
+    }
+
+    .view-script-details {
+      flex: 1 1 50%;
+      padding: 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .view-script-title {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.1;
+    }
+
+    .view-script-category {
+      display: inline-block;
+      align-self: flex-start;
+      background: rgba(230,25,25,0.1);
+      border: 1px solid rgba(230,25,25,0.3);
+      color: var(--red-bright);
+      padding: 0.3rem 0.8rem;
+      border-radius: 1rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .view-script-meta {
+      display: flex;
+      gap: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1.5rem;
+    }
+
+    .view-script-meta i { color: var(--red-primary); margin-right: 0.4rem; }
+
+    .view-code-box {
+      background: #000;
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.8rem;
+      padding: 1.5rem;
+      font-family: monospace;
+      font-size: 1rem;
+      color: #a88c8c;
+      line-height: 1.6;
+      word-break: break-all;
+      white-space: pre-wrap;
+      position: relative;
+    }
+
+    .view-copy-btn {
+      align-self: flex-start;
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      border-radius: 2rem;
+    }
+
     /* ---------- GREEN COPIED TOAST ---------- */
     .toast {
       position: fixed;
@@ -719,7 +869,6 @@
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     .toast i { color: var(--red-bright); }
 
-    /* Special green toast for copy */
     .toast.success {
       border-color: var(--green-primary);
       box-shadow: 0 10px 40px rgba(0,0,0,0.9), 0 0 25px var(--green-glow);
@@ -757,21 +906,67 @@
     .empty-state h3 { font-family: var(--font-display); font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem; }
     .empty-state p { color: var(--text-muted); }
 
-    @media (max-width: 900px) {
-      .admin-layout { flex-direction: column; }
-      .admin-sidebar { width: 100%; position: static; }
+    /* ---------- LIGHTBOX ---------- */
+    .lightbox {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
     }
+
+    .lightbox.active { opacity: 1; pointer-events: auto; }
+
+    .lightbox-img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      border-radius: 1rem;
+      box-shadow: 0 0 50px rgba(230, 25, 25, 0.3);
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .lightbox.active .lightbox-img { transform: scale(1); }
+
+    .lightbox-close {
+      position: absolute;
+      top: 2rem; right: 2rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      width: 50px; height: 50px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .lightbox-close:hover {
+      background: var(--red-primary);
+      border-color: var(--red-bright);
+      transform: rotate(90deg) scale(1.1);
+    }
+
     @media (max-width: 600px) {
       .hub-container { padding: 1rem; }
       .header h1 { font-size: 2.8rem; flex-direction: column; gap: 0.5rem; }
       .header h1 i { font-size: 2.5rem; }
       .filter-bar { flex-direction: column; align-items: stretch; }
       .login-box { padding: 2rem 1.5rem; }
+      .view-script-details { padding: 1.5rem; }
+      .view-script-title { font-size: 2rem; }
     }
   </style>
 </head>
 <body>
-  <!-- Animated Background -->
   <div class="bg-orb orb-1"></div>
   <div class="bg-orb orb-2"></div>
   <div class="bg-orb orb-3"></div>
@@ -779,16 +974,21 @@
   <div class="hub-container">
     <!-- TOP NAV -->
     <div class="top-nav">
-      <a href="https://discord.gg/luascript" target="_blank" class="discord-link">
-        <i class="fab fa-discord"></i> discord.gg/luascript
+      <a href="#" class="discord-link" onclick="goHome(event)">
+        <i class="fas fa-chevron-left"></i> Back to Hub
       </a>
-      <button class="admin-btn" id="adminToggleBtn">
-        <i class="fas fa-lock"></i> Admin
-      </button>
+      <div style="display: flex; gap: 1rem;">
+        <a href="https://discord.gg/luascript" target="_blank" class="discord-link">
+          <i class="fab fa-discord"></i> discord.gg/luascript
+        </a>
+        <button class="admin-btn" id="adminToggleBtn">
+          <i class="fas fa-lock"></i> Admin
+        </button>
+      </div>
     </div>
 
     <!-- HEADER -->
-    <header class="header">
+    <header class="header" id="mainHeader" onclick="goHome(event)">
       <h1>
         <i class="fas fa-code"></i>
         Kevin Hub
@@ -814,7 +1014,6 @@
 
     <!-- MAIN PUBLIC VIEW -->
     <div class="main-view" id="publicView">
-      <!-- Filter Bar -->
       <div class="filter-bar">
         <div class="search-container">
           <i class="fas fa-search"></i>
@@ -822,22 +1021,27 @@
         </div>
       </div>
 
-      <!-- Category Pills -->
       <div class="category-pills" id="categoryPills" style="margin-bottom: 2rem;">
         <button class="pill active" data-cat="All">All Scripts</button>
-        <!-- Categories injected here -->
       </div>
 
-      <!-- Script Grid -->
-      <div class="script-grid" id="publicGrid">
-        <!-- Scripts injected here -->
+      <div class="script-grid" id="publicGrid"></div>
+    </div>
+
+    <!-- SINGLE SCRIPT VIEW (PAGE) -->
+    <div id="viewScriptPage">
+      <button class="view-back-btn" onclick="goHome(event)">
+        <i class="fas fa-arrow-left"></i> Back to all scripts
+      </button>
+
+      <div class="view-script-container" id="viewScriptContainer">
+        <!-- Injected via JS -->
       </div>
     </div>
 
     <!-- ADMIN VIEW -->
     <div class="main-view" id="adminView">
       <div class="admin-layout">
-        <!-- Admin Form -->
         <aside class="admin-sidebar">
           <h3><i class="fas fa-layer-group"></i> <span id="formTitle">Manage Scripts</span></h3>
           
@@ -850,11 +1054,8 @@
 
           <div class="form-group">
             <label>Category</label>
-            <select id="scriptCategory" class="form-control">
-              <!-- Options populated via JS -->
-            </select>
+            <select id="scriptCategory" class="form-control"></select>
             
-            <!-- Category Manager -->
             <div class="category-manager">
               <label style="margin-bottom: 0.5rem; display: block; font-size: 0.7rem; color: var(--text-muted);">Create Categories</label>
               <div class="cat-tags" id="catTagList"></div>
@@ -865,7 +1066,6 @@
             </div>
           </div>
 
-          <!-- Image Upload -->
           <div class="form-group">
             <label>Image (Upload or URL)</label>
             <div class="image-upload-wrapper" id="imageUploadWrapper">
@@ -900,10 +1100,7 @@
           </div>
         </aside>
 
-        <!-- Admin Grid -->
-        <div class="script-grid" id="adminGrid" style="flex: 1;">
-          <!-- Admin scripts injected here -->
-        </div>
+        <div class="script-grid" id="adminGrid" style="flex: 1;"></div>
       </div>
     </div>
   </div>
@@ -911,6 +1108,12 @@
   <!-- TOAST -->
   <div class="toast" id="toast">
     <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox">
+    <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+    <img class="lightbox-img" id="lightboxImg" src="" alt="Expanded Image">
   </div>
 
   <script>
@@ -926,12 +1129,15 @@
       let isAdmin = false;
       let currentCatFilter = 'All';
       let currentSearch = '';
-      let currentBase64Image = ''; // Holds the uploaded image
+      let currentBase64Image = '';
 
       // ---------- DOM ----------
       const publicView = document.getElementById('publicView');
       const adminView = document.getElementById('adminView');
       const loginView = document.getElementById('loginView');
+      const viewScriptPage = document.getElementById('viewScriptPage');
+      const viewScriptContainer = document.getElementById('viewScriptContainer');
+      
       const adminToggleBtn = document.getElementById('adminToggleBtn');
       
       const publicGrid = document.getElementById('publicGrid');
@@ -957,7 +1163,6 @@
       const newCatInput = document.getElementById('newCatInput');
       const addCatBtn = document.getElementById('addCatBtn');
       
-      // Login
       const adminPassword = document.getElementById('adminPassword');
       const loginError = document.getElementById('loginError');
       const loginBtn = document.getElementById('loginBtn');
@@ -965,6 +1170,9 @@
       
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toastMsg');
+
+      const lightbox = document.getElementById('lightbox');
+      const lightboxImg = document.getElementById('lightboxImg');
 
       // ---------- UTILS ----------
       function showToast(msg, isSuccess = false) {
@@ -984,6 +1192,15 @@
         }[tag]));
       }
 
+      function slugify(text) {
+        return text.toString().toLowerCase()
+          .replace(/\s+/g, '-')
+          .replace(/[^\w\-]+/g, '')
+          .replace(/\-\-+/g, '-')
+          .replace(/^-+/, '')
+          .replace(/-+$/, '');
+      }
+
       function getIcon(cat) {
         const c = (cat || '').toLowerCase();
         if (c.includes('predict') || c.includes('dice')) return 'fa-dice';
@@ -993,30 +1210,114 @@
         return 'fa-file-code';
       }
 
+      // ---------- LIGHTBOX ----------
+      window.openLightbox = function(src) {
+        if (!src) return;
+        lightboxImg.src = src;
+        lightbox.classList.add('active');
+      }
+
+      window.closeLightbox = function() {
+        lightbox.classList.remove('active');
+        setTimeout(() => { lightboxImg.src = ''; }, 300);
+      }
+
+      lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+      });
+
       // ---------- STORAGE ----------
       function loadData() {
-        const c = localStorage.getItem('kevinHub_cats_v6');
-        const s = localStorage.getItem('kevinHub_scripts_v6');
+        const c = localStorage.getItem('kevinHub_cats_v8');
+        const s = localStorage.getItem('kevinHub_scripts_v8');
         
         categories = c ? JSON.parse(c) : [...DEFAULT_CATEGORIES];
         scripts = s ? JSON.parse(s) : [...DEFAULT_SCRIPTS];
       }
 
       function saveData() {
-        localStorage.setItem('kevinHub_cats_v6', JSON.stringify(categories));
-        localStorage.setItem('kevinHub_scripts_v6', JSON.stringify(scripts));
+        localStorage.setItem('kevinHub_cats_v8', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v8', JSON.stringify(scripts));
+      }
+
+      // ---------- ROUTING ----------
+      window.goHome = function(e) {
+        if(e) e.preventDefault();
+        window.location.hash = '';
+      }
+
+      function handleRoute() {
+        const hash = window.location.hash;
+        
+        // Hide all main views
+        publicView.classList.remove('active');
+        adminView.classList.remove('active');
+        loginView.classList.remove('active');
+        viewScriptPage.classList.remove('active');
+
+        if (hash.startsWith('#/script/')) {
+          const slug = hash.replace('#/script/', '');
+          const script = scripts.find(s => slugify(s.name) === slug);
+          
+          if (script) {
+            renderSingleScript(script);
+            viewScriptPage.classList.add('active');
+            window.scrollTo(0, 0);
+            return;
+          }
+        }
+
+        // Default to public view
+        if (isAdmin) {
+          adminView.classList.add('active');
+        } else {
+          publicView.classList.add('active');
+        }
+      }
+
+      window.onhashchange = handleRoute;
+
+      // ---------- RENDER SINGLE SCRIPT ----------
+      function renderSingleScript(script) {
+        const imgSrc = script.image || '';
+        
+        viewScriptContainer.innerHTML = `
+          <div class="view-script-image" ${imgSrc ? `onclick="openLightbox('${imgSrc}')" style="cursor:pointer;"` : ''}>
+            ${imgSrc 
+              ? `<img src="${imgSrc}" alt="${escapeHTML(script.name)}">`
+              : `<div class="img-placeholder"><i class="fas ${getIcon(script.category)}"></i></div>`
+            }
+          </div>
+          <div class="view-script-details">
+            <div>
+              <h2 class="view-script-title">${escapeHTML(script.name)}</h2>
+              ${script.category ? `<div class="view-script-category">${escapeHTML(script.category)}</div>` : ''}
+            </div>
+            
+            <div class="view-script-meta">
+              <span><i class="fas fa-check-circle" style="color: #4ade80;"></i> Working</span>
+              <span><i class="fas fa-star"></i> 5.0 Rating</span>
+              ${script.price ? `<span><i class="fas fa-tag"></i> ${escapeHTML(script.price)}</span>` : ''}
+            </div>
+
+            <div class="view-code-box" id="view-code">${escapeHTML(script.code)}</div>
+            
+            <button class="btn btn-primary view-copy-btn" onclick="copyCode('${script.id}', this)">
+              <i class="fas fa-copy"></i> Copy Script
+            </button>
+          </div>
+        `;
       }
 
       // ---------- RENDER CATEGORIES ----------
       function renderCategories() {
-        // Pills
         let html = `<button class="pill ${currentCatFilter === 'All' ? 'active' : ''}" data-cat="All">All Scripts</button>`;
         categories.forEach(cat => {
           html += `<button class="pill ${currentCatFilter === cat ? 'active' : ''}" data-cat="${escapeHTML(cat)}">${escapeHTML(cat)}</button>`;
         });
         categoryPills.innerHTML = html;
 
-        // Add click events
         document.querySelectorAll('.pill').forEach(btn => {
           btn.onclick = (e) => {
             currentCatFilter = e.target.getAttribute('data-cat');
@@ -1025,14 +1326,12 @@
           };
         });
 
-        // Form Select
         const val = scriptCategory.value;
         scriptCategory.innerHTML = categories.length 
           ? categories.map(c => `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`).join('')
           : '<option value="">-- No categories yet --</option>';
         if (categories.includes(val)) scriptCategory.value = val;
 
-        // Tag Manager
         catTagList.innerHTML = categories.map(c => `
           <span class="cat-tag">
             ${escapeHTML(c)}
@@ -1059,9 +1358,8 @@
       function createCard(script, isAdminView, index) {
         const id = `code-${isAdminView ? 'adm' : 'pub'}-${index}`;
         const delay = (index * 0.05).toFixed(2);
-        
-        // Use base64 image if available, else fallback URL
         const imgSrc = script.image || '';
+        const slug = slugify(script.name);
 
         return `
           <div class="script-card" style="animation-delay: ${delay}s">
@@ -1072,11 +1370,13 @@
               </div>
             ` : ''}
 
-            ${imgSrc 
-              ? `<img src="${imgSrc}" class="card-img" onerror="this.src=''; this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                 <div class="img-placeholder" style="display:none;"><i class="fas ${getIcon(script.category)}"></i></div>`
-              : `<div class="img-placeholder"><i class="fas ${getIcon(script.category)}"></i></div>`
-            }
+            <div class="card-img-container" ${imgSrc ? `onclick="openLightbox('${imgSrc}')"` : ''}>
+              ${imgSrc 
+                ? `<img src="${imgSrc}" class="card-img" onerror="this.src=''; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                   <div class="img-hover-overlay"><i class="fas fa-expand"></i> View Full Image</div>`
+                : `<div class="img-placeholder"><i class="fas ${getIcon(script.category)}"></i></div>`
+              }
+            </div>
 
             <div class="card-content">
               <div class="card-header">
@@ -1095,10 +1395,14 @@
               </div>
 
               <div class="card-actions">
+                ${!isAdminView ? `
+                  <a href="#/script/${slug}" class="btn btn-outline" style="text-decoration: none;">
+                    <i class="fas fa-eye"></i> View
+                  </a>
+                ` : ''}
                 <button class="btn btn-primary" onclick="copyCode('${script.id}', this)">
-                  <i class="fas fa-copy"></i> Copy Script
+                  <i class="fas fa-copy"></i> Copy
                 </button>
-                ${script.price ? `<button class="btn btn-outline" style="flex: 0.5; pointer-events: none;">${escapeHTML(script.price)}</button>` : ''}
               </div>
             </div>
           </div>
@@ -1153,32 +1457,24 @@
         const script = scripts.find(s => s.id === scriptId);
         if (!script) return;
         
-        // 1. Copy to clipboard
         navigator.clipboard.writeText(script.code).then(() => {
-          
-          // 2. Trigger visual button animation (if button exists)
           if (btnElement && btnElement.classList.contains('btn')) {
             const originalHTML = btnElement.innerHTML;
             
-            // Change button text & color
             btnElement.classList.add('copied');
             btnElement.innerHTML = '<i class="fas fa-check"></i> Copied!';
             
-            // Spawn green particles
             spawnParticles(btnElement);
 
-            // Revert after 2 seconds
             setTimeout(() => {
               btnElement.classList.remove('copied');
               btnElement.innerHTML = originalHTML;
             }, 2000);
           }
 
-          // 3. Show green toast
           showToast('✅ Script copied to clipboard!', true);
 
         }).catch(() => {
-          // Fallback for older browsers
           const ta = document.createElement('textarea');
           ta.value = script.code;
           document.body.appendChild(ta);
@@ -1189,7 +1485,6 @@
         });
       };
 
-      // Particle burst effect
       function spawnParticles(container) {
         const rect = container.getBoundingClientRect();
         const centerX = rect.width / 2;
@@ -1199,14 +1494,12 @@
           const particle = document.createElement('div');
           particle.classList.add('particle');
           
-          // Random size, position, and destination
           const size = Math.random() * 8 + 4;
           particle.style.width = size + 'px';
           particle.style.height = size + 'px';
           particle.style.left = centerX + 'px';
           particle.style.top = centerY + 'px';
 
-          // Calculate random direction for the burst
           const angle = Math.random() * Math.PI * 2;
           const distance = Math.random() * 60 + 30;
           const tx = Math.cos(angle) * distance;
@@ -1217,7 +1510,6 @@
 
           container.appendChild(particle);
 
-          // Remove particle after animation completes
           setTimeout(() => {
             if (particle.parentNode) particle.remove();
           }, 800);
@@ -1244,7 +1536,6 @@
         scriptCode.value = s.code;
         scriptPrice.value = s.price || '';
         
-        // Handle Image (Base64 or URL)
         if (s.image && s.image.startsWith('data:image')) {
           currentBase64Image = s.image;
           scriptImageUrl.value = '';
@@ -1279,18 +1570,16 @@
 
       // ---------- VIEW SWITCHING ----------
       function showPublic() {
-        loginView.classList.remove('active');
-        adminView.classList.remove('active');
-        publicView.classList.add('active');
-        adminToggleBtn.innerHTML = '<i class="fas fa-lock"></i> Admin';
+        window.location.hash = ''; // Routes to public
         isAdmin = false;
-        filterPublic();
+        adminToggleBtn.innerHTML = '<i class="fas fa-lock"></i> Admin';
       }
 
       function showLogin() {
         loginView.classList.add('active');
         publicView.classList.remove('active');
         adminView.classList.remove('active');
+        viewScriptPage.classList.remove('active');
         adminPassword.value = '';
         loginError.textContent = '';
         adminToggleBtn.style.display = 'none';
@@ -1298,12 +1587,10 @@
       }
 
       function showAdmin() {
-        loginView.classList.remove('active');
-        publicView.classList.remove('active');
-        adminView.classList.add('active');
+        isAdmin = true;
+        handleRoute(); // This will show admin view
         adminToggleBtn.innerHTML = '<i class="fas fa-unlock"></i> Admin';
         adminToggleBtn.style.display = 'inline-flex';
-        isAdmin = true;
         
         renderCategories();
         renderAdmin();
@@ -1313,7 +1600,8 @@
       // ---------- INIT ----------
       function init() {
         loadData();
-        showPublic();
+        renderCategories();
+        handleRoute();
 
         // Nav
         adminToggleBtn.onclick = () => {
@@ -1367,7 +1655,7 @@
             currentBase64Image = event.target.result;
             imagePreviewThumb.src = currentBase64Image;
             imagePreviewThumb.style.display = 'block';
-            scriptImageUrl.value = ''; // Clear URL if file uploaded
+            scriptImageUrl.value = '';
           };
           reader.readAsDataURL(file);
         };
@@ -1395,11 +1683,9 @@
           if (!code) { showToast('Please enter the loadstring code'); scriptCode.focus(); return; }
           if (categories.length === 0) { showToast('Please create a category first'); newCatInput.focus(); return; }
 
-          // Determine final image (Base64 takes priority)
           const finalImage = currentBase64Image || url;
 
           if (id) {
-            // Update
             const idx = scripts.findIndex(s => s.id === id);
             if (idx !== -1) {
               scripts[idx] = { ...scripts[idx], name, category: cat, image: finalImage, code, price };
@@ -1407,7 +1693,6 @@
               showToast('Script updated!');
             }
           } else {
-            // Create
             const newScript = {
               id: 'script-' + Date.now(),
               name, category: cat, image: finalImage, code, price
