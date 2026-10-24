@@ -3,36 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kevin Hub · Scripts</title>
+  <title>Kevin Hub · Premium Scripts</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   
   <style>
-    /* ---------- PREMIUM DARK ORANGE/RED THEME ---------- */
+    /* ---------- CORE VARIABLES (RED THEME) ---------- */
     :root {
-      --bg-dark: #0d0908;
-      --bg-card: #15100e;
-      --bg-card-hover: #1c1512;
-      --bg-elevated: #221814;
+      --bg-base: #070303;
+      --bg-surface: #110707;
+      --bg-card: #170a0a;
+      --bg-card-hover: #1f0d0d;
       
-      --accent-orange: #e8874d;
-      --accent-orange-hover: #f49b66;
-      --accent-red: #d32f2f;
-      --accent-red-bright: #ff3b3b;
-      --accent-glow: rgba(232, 135, 77, 0.4);
-      --red-glow: rgba(255, 50, 50, 0.4);
+      --red-primary: #e61919;
+      --red-bright: #ff3333;
+      --red-glow: rgba(230, 25, 25, 0.4);
+      --red-glow-strong: rgba(255, 51, 51, 0.6);
       
-      --text-main: #f7f3f0;
-      --text-muted: #a69e99;
-      --text-dark: #736762;
+      --text-main: #fcf4f4;
+      --text-muted: #a88c8c;
+      --text-dark: #6b5252;
       
-      --border-subtle: #2a201c;
-      --border-active: #4a352d;
+      --border-subtle: #331515;
+      --border-active: #5c1f1f;
       
       --discord: #5865F2;
       
-      --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-      --font-serif: 'Playfair Display', serif;
+      --font-sans: 'Plus Jakarta Sans', sans-serif;
+      --font-display: 'Space Grotesk', sans-serif;
     }
 
     * {
@@ -41,696 +39,189 @@
       box-sizing: border-box;
     }
 
+    /* ---------- ANIMATED BACKGROUND ---------- */
     body {
-      background-color: var(--bg-dark);
-      background-image: radial-gradient(circle at 50% 0%, rgba(232, 135, 77, 0.05) 0%, transparent 50%),
-                        radial-gradient(circle at 100% 100%, rgba(211, 47, 47, 0.05) 0%, transparent 50%);
+      background-color: var(--bg-base);
       color: var(--text-main);
       font-family: var(--font-sans);
       min-height: 100vh;
-      padding: 2rem;
       display: flex;
       justify-content: center;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
-    .hub-wrapper {
-      width: 100%;
-      max-width: 1400px;
-      display: flex;
-      flex-direction: column;
-      gap: 2.5rem;
+    /* Glowing background orbs */
+    .bg-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      z-index: -1;
+      opacity: 0.4;
+      animation: float 20s infinite ease-in-out alternate;
+    }
+    .orb-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: radial-gradient(circle, var(--red-glow) 0%, transparent 70%); animation-delay: 0s; }
+    .orb-2 { bottom: -20%; right: -10%; width: 60vw; height: 60vw; background: radial-gradient(circle, rgba(150, 0, 0, 0.3) 0%, transparent 70%); animation-delay: -5s; }
+    .orb-3 { top: 40%; left: 60%; width: 30vw; height: 30vw; background: radial-gradient(circle, rgba(255, 50, 50, 0.15) 0%, transparent 70%); animation-delay: -10s; }
+
+    @keyframes float {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(5%, 10%) scale(1.1); }
+      100% { transform: translate(-5%, -5%) scale(0.9); }
     }
 
-    /* ---------- TOP BAR ---------- */
-    .top-bar {
+    /* ---------- LAYOUT ---------- */
+    .hub-container {
+      width: 100%;
+      max-width: 1400px;
+      padding: 2rem 2.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ---------- TOP NAVIGATION ---------- */
+    .top-nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
       padding-bottom: 1rem;
       border-bottom: 1px solid var(--border-subtle);
     }
 
-    .discord-btn {
-      background: transparent;
-      border: 1px solid var(--border-subtle);
-      color: #b0b5ff;
-      border-radius: 3rem;
-      padding: 0.6rem 1.4rem;
-      font-size: 0.85rem;
-      font-weight: 600;
+    .discord-link {
       display: inline-flex;
       align-items: center;
       gap: 0.6rem;
-      text-decoration: none;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      letter-spacing: 0.5px;
-    }
-
-    .discord-btn i {
-      color: var(--discord);
-      font-size: 1.1rem;
-      transition: transform 0.3s;
-    }
-
-    .discord-btn:hover {
-      border-color: var(--discord);
       background: rgba(88, 101, 242, 0.1);
-      box-shadow: 0 0 20px rgba(88, 101, 242, 0.3);
-      color: #fff;
+      border: 1px solid rgba(88, 101, 242, 0.3);
+      color: #b0b5ff;
+      text-decoration: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 0 15px rgba(88, 101, 242, 0.1);
     }
 
-    .discord-btn:hover i {
-      transform: scale(1.1) rotate(-5deg);
+    .discord-link:hover {
+      background: rgba(88, 101, 242, 0.2);
+      border-color: var(--discord);
+      box-shadow: 0 0 25px rgba(88, 101, 242, 0.4);
+      transform: translateY(-2px);
     }
 
-    .admin-toggle-btn {
+    .discord-link i { font-size: 1.1rem; color: var(--discord); }
+
+    .admin-btn {
       background: transparent;
       border: 1px solid var(--border-subtle);
       color: var(--text-muted);
-      border-radius: 3rem;
-      padding: 0.6rem 1.4rem;
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
       font-size: 0.85rem;
       font-weight: 600;
+      cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      cursor: pointer;
       transition: all 0.3s;
     }
 
-    .admin-toggle-btn:hover {
-      border-color: var(--accent-orange);
-      color: var(--accent-orange);
-      background: rgba(232, 135, 77, 0.05);
-      box-shadow: 0 0 20px var(--accent-glow);
+    .admin-btn:hover {
+      border-color: var(--red-primary);
+      color: var(--text-main);
+      background: rgba(230, 25, 25, 0.05);
+      box-shadow: 0 0 20px var(--red-glow);
     }
 
     /* ---------- HEADER ---------- */
     .header {
       text-align: center;
-      position: relative;
-      padding: 1rem 0;
+      padding: 1.5rem 0;
+      animation: fadeInDown 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .header h1 {
-      font-family: var(--font-serif);
-      font-size: 4rem;
-      font-weight: 600;
-      letter-spacing: -1px;
-      color: #fff;
-      text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+      font-family: var(--font-display);
+      font-size: 4.5rem;
+      font-weight: 800;
+      letter-spacing: -2px;
+      line-height: 1.1;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #fff 0%, #ffb3b3 50%, var(--red-primary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 20px var(--red-glow));
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .header h1 span {
-      background: linear-gradient(135deg, #fff 0%, var(--accent-orange) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 15px rgba(232, 135, 77, 0.3));
+      gap: 1.5rem;
     }
 
     .header h1 i {
-      color: var(--accent-orange);
-      font-size: 3rem;
-      filter: drop-shadow(0 0 10px var(--accent-glow));
+      color: var(--red-bright);
+      -webkit-text-fill-color: var(--red-bright);
+      font-size: 3.5rem;
+      filter: drop-shadow(0 0 15px var(--red-bright));
+      animation: pulseIcon 3s infinite alternate;
+    }
+
+    @keyframes pulseIcon {
+      0% { transform: scale(1) rotate(0deg); }
+      100% { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 30px var(--red-bright)); }
     }
 
     .subhead {
+      font-family: var(--font-display);
       color: var(--text-muted);
       font-size: 1rem;
-      letter-spacing: 2px;
+      letter-spacing: 4px;
       text-transform: uppercase;
-      font-weight: 500;
-      margin-top: 0.5rem;
-    }
-
-    .subhead i {
-      color: var(--accent-orange);
-      margin: 0 0.4rem;
-      opacity: 0.7;
-    }
-
-    /* ---------- FILTER CONTROLS (TOP) ---------- */
-    .filter-bar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 1rem;
-      padding: 1rem 1.5rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    }
-
-    .search-box {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      background: var(--bg-dark);
-      border: 1px solid var(--border-subtle);
-      border-radius: 2rem;
-      padding: 0.6rem 1.2rem;
-      flex: 1 1 250px;
-      transition: all 0.3s;
-    }
-
-    .search-box:focus-within {
-      border-color: var(--accent-orange);
-      box-shadow: 0 0 15px var(--accent-glow);
-    }
-
-    .search-box i {
-      color: var(--text-dark);
-      font-size: 1rem;
-    }
-
-    .search-box input {
-      background: none;
-      border: none;
-      outline: none;
-      color: var(--text-main);
-      font-size: 0.9rem;
-      width: 100%;
-      font-family: var(--font-sans);
-    }
-
-    .search-box input::placeholder {
-      color: var(--text-dark);
-    }
-
-    /* ---------- MAIN LAYOUT ---------- */
-    .main-layout {
-      display: flex;
-      gap: 2rem;
-      align-items: flex-start;
-      flex-wrap: wrap;
-    }
-
-    /* ---------- SIDEBAR FILTERS ---------- */
-    .sidebar {
-      flex: 0 0 240px;
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      position: sticky;
-      top: 2rem;
-    }
-
-    .filter-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-    }
-
-    .filter-group h3 {
-      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 1.5px;
-      color: var(--text-dark);
-      text-transform: uppercase;
+      margin-top: 1rem;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 0.2rem;
+      justify-content: center;
+      gap: 1rem;
     }
 
-    .filter-group h3 i {
-      color: var(--accent-orange);
-    }
-
-    .filter-option {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: color 0.2s;
-      padding: 0.3rem 0;
-    }
-
-    .filter-option:hover {
-      color: var(--text-main);
-    }
-
-    .filter-option input[type="radio"],
-    .filter-option input[type="checkbox"] {
-      appearance: none;
-      width: 16px;
-      height: 16px;
-      border: 1px solid var(--border-subtle);
-      border-radius: 50%;
-      background: transparent;
-      cursor: pointer;
-      position: relative;
-      transition: all 0.2s;
-    }
-
-    .filter-option input[type="checkbox"] {
-      border-radius: 4px;
-    }
-
-    .filter-option input[type="radio"]:checked,
-    .filter-option input[type="checkbox"]:checked {
-      border-color: var(--accent-orange);
-      background: var(--accent-orange);
-      box-shadow: 0 0 10px var(--accent-glow);
-    }
-
-    .filter-option input[type="radio"]:checked::after {
+    .subhead::before, .subhead::after {
       content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 6px;
-      height: 6px;
-      background: var(--bg-dark);
-      border-radius: 50%;
-    }
-    
-    .filter-option input[type="checkbox"]:checked::after {
-      content: '\f00c';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      font-size: 10px;
-      color: var(--bg-dark);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      height: 1px;
+      width: 50px;
+      background: linear-gradient(90deg, transparent, var(--red-primary), transparent);
     }
 
-    /* ---------- CATEGORY PILLS ---------- */
-    .category-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.6rem;
-      margin-bottom: 2rem;
-    }
-
-    .cat-pill {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-muted);
-      border-radius: 2rem;
-      padding: 0.6rem 1.2rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      cursor: pointer;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .cat-pill:hover {
-      border-color: var(--border-active);
-      color: var(--text-main);
-      background: var(--bg-card-hover);
-    }
-
-    .cat-pill.active {
-      background: var(--accent-orange);
-      border-color: var(--accent-orange);
-      color: var(--bg-dark);
-      box-shadow: 0 0 20px var(--accent-glow);
-    }
-
-    .cat-pill .count {
-      background: rgba(0,0,0,0.15);
-      padding: 0.1rem 0.4rem;
-      border-radius: 1rem;
-      font-size: 0.7rem;
-    }
-
-    .cat-pill.active .count {
-      background: rgba(255,255,255,0.2);
-    }
-
-    /* ---------- SCRIPT GRID ---------- */
-    .script-content {
-      flex: 1 1 600px;
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .script-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1.5rem;
-    }
-
-    /* ---------- SCRIPT CARD ---------- */
-    .script-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
-      border-radius: 1.2rem;
-      overflow: hidden;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      opacity: 0;
-      transform: translateY(20px);
-      animation: cardEnter 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    }
-
-    @keyframes cardEnter {
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .script-card:hover {
-      transform: translateY(-6px);
-      border-color: var(--border-active);
-      box-shadow: 0 15px 35px rgba(0,0,0,0.6), 0 0 20px rgba(232, 135, 77, 0.1);
-      background: var(--bg-card-hover);
-    }
-
-    /* Unique glow effect for the first card (like the featured one in image) */
-    .script-card.featured {
-      grid-column: 1 / -1;
-      flex-direction: row;
-      min-height: 280px;
-    }
-    
-    @media (max-width: 800px) {
-      .script-card.featured {
-        flex-direction: column;
-      }
-    }
-
-    .script-card.featured:hover {
-      box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 40px rgba(232, 135, 77, 0.2);
-      border-color: var(--accent-orange);
-    }
-
-    /* Image Area */
-    .card-img-wrapper {
-      position: relative;
-      width: 100%;
-      height: 160px;
-      background: #0a0706;
-      overflow: hidden;
-    }
-
-    .script-card.featured .card-img-wrapper {
-      width: 45%;
-      height: auto;
-      min-height: 280px;
-      flex-shrink: 0;
-    }
-
-    .card-img-wrapper img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s;
-      filter: brightness(0.9);
-    }
-
-    .script-card:hover .card-img-wrapper img {
-      transform: scale(1.08);
-      filter: brightness(1.1);
-    }
-
-    .card-img-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(45deg, #15100e, #221814);
-      color: var(--border-active);
-      font-size: 3rem;
-    }
-
-    /* Image overlay for categories */
-    .card-img-overlay {
-      position: absolute;
-      top: 1rem;
-      left: 1rem;
-      display: flex;
-      gap: 0.4rem;
-      z-index: 2;
-    }
-
-    /* Content Area */
-    .card-content {
-      padding: 1.25rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.75rem;
-      flex: 1;
-    }
-
-    .script-card.featured .card-content {
-      padding: 2rem;
-      justify-content: center;
-    }
-
-    /* Text styling specifically for featured */
-    .script-card.featured .card-title {
-      font-family: var(--font-serif);
-      font-size: 2rem;
-      color: #fff;
-      line-height: 1.2;
-    }
-
-    .script-card.featured .card-desc {
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      line-height: 1.5;
-      margin-bottom: 1rem;
-    }
-
-    /* Standard Card Text */
-    .card-title {
-      font-size: 1.15rem;
-      font-weight: 600;
-      color: var(--text-main);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .card-title i {
-      color: var(--accent-orange);
-      font-size: 1rem;
-    }
-
-    .card-meta {
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-      font-size: 0.8rem;
-      color: var(--text-dark);
-    }
-
-    .card-meta span {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-    }
-
-    .card-meta i {
-      color: var(--accent-orange);
-      font-size: 0.8rem;
-    }
-
-    /* Price/Code Area */
-    .card-price-row {
-      margin-top: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-      padding-top: 1rem;
-      border-top: 1px solid var(--border-subtle);
-    }
-
-    .script-card.featured .card-price-row {
-      border-top: none;
-      margin-top: 1.5rem;
-      justify-content: flex-start;
-      gap: 2rem;
-    }
-
-    .price-block {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .price-label {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      color: var(--text-dark);
-      margin-bottom: 0.2rem;
-    }
-
-    .price-value {
-      font-family: var(--font-serif);
-      font-size: 1.6rem;
-      font-weight: 600;
-      color: var(--accent-orange);
-      display: flex;
-      align-items: baseline;
-      gap: 0.2rem;
-    }
-
-    .price-value span {
-      font-size: 0.9rem;
-      font-family: var(--font-sans);
-      color: var(--text-muted);
-      font-weight: 400;
-    }
-
-    /* Action Buttons */
-    .btn-action {
-      background: transparent;
-      border: 1px solid var(--border-active);
-      color: var(--text-main);
-      border-radius: 2rem;
-      padding: 0.6rem 1.2rem;
-      font-size: 0.85rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      text-decoration: none;
-    }
-
-    .btn-action:hover {
-      background: var(--accent-orange);
-      border-color: var(--accent-orange);
-      color: var(--bg-dark);
-      box-shadow: 0 0 15px var(--accent-glow);
-    }
-
-    .btn-action.primary {
-      background: var(--accent-orange);
-      border-color: var(--accent-orange);
-      color: var(--bg-dark);
-    }
-
-    .btn-action.primary:hover {
-      background: var(--accent-orange-hover);
-      border-color: var(--accent-orange-hover);
-      box-shadow: 0 0 25px var(--accent-glow);
-      transform: scale(1.02);
-    }
-
-    /* Code snippet styling for the loadstring */
-    .code-snippet {
-      background: #090605;
-      border: 1px solid var(--border-subtle);
-      border-radius: 0.5rem;
-      padding: 0.6rem 0.8rem;
-      font-family: 'Fira Code', monospace;
-      font-size: 0.75rem;
-      color: #a69e99;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .code-snippet:hover {
-      border-color: var(--accent-orange);
-      color: var(--text-main);
-      background: #120d0b;
-    }
-
-    .code-snippet i {
-      color: var(--accent-orange);
-      margin-left: 0.5rem;
-    }
-
-    /* Admin Actions Overlay */
-    .admin-actions {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      display: flex;
-      gap: 0.5rem;
-      z-index: 10;
-      opacity: 0;
-      transform: translateY(-10px);
-      transition: all 0.3s;
-    }
-
-    .script-card:hover .admin-actions {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .btn-icon {
-      background: rgba(13, 9, 8, 0.8);
-      border: 1px solid var(--border-subtle);
-      color: var(--text-muted);
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      backdrop-filter: blur(4px);
-    }
-
-    .btn-icon:hover {
-      background: var(--accent-orange);
-      border-color: var(--accent-orange);
-      color: var(--bg-dark);
-    }
-
-    .btn-icon.delete:hover {
-      background: var(--accent-red-bright);
-      border-color: var(--accent-red-bright);
-    }
-
     /* ---------- LOGIN SCREEN ---------- */
-    .login-screen {
+    .login-view {
       display: none;
       align-items: center;
       justify-content: center;
-      min-height: 60vh;
+      min-height: 50vh;
       animation: fadeIn 0.4s ease;
     }
 
-    .login-screen.active {
-      display: flex;
-    }
+    .login-view.active { display: flex; }
 
     .login-box {
-      background: var(--bg-card);
+      background: var(--bg-surface);
       border: 1px solid var(--border-subtle);
       border-radius: 1.5rem;
       padding: 3rem;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
       text-align: center;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.8), 0 0 40px rgba(230, 25, 25, 0.1);
       position: relative;
       overflow: hidden;
     }
@@ -740,12 +231,12 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 3px;
-      background: linear-gradient(90deg, var(--accent-orange), var(--accent-red));
+      background: linear-gradient(90deg, transparent, var(--red-bright), transparent);
     }
 
     .login-box h2 {
-      font-family: var(--font-serif);
-      font-size: 1.8rem;
+      font-family: var(--font-display);
+      font-size: 2rem;
       color: #fff;
       margin-bottom: 0.5rem;
     }
@@ -758,456 +249,597 @@
 
     .login-box input {
       width: 100%;
-      background: var(--bg-dark);
+      background: var(--bg-base);
       border: 1px solid var(--border-subtle);
       border-radius: 0.8rem;
       padding: 1rem;
-      color: var(--text-main);
-      font-size: 1rem;
+      color: #fff;
+      font-size: 1.1rem;
       text-align: center;
-      letter-spacing: 2px;
+      letter-spacing: 3px;
       margin-bottom: 1.5rem;
       outline: none;
       transition: all 0.3s;
+      font-family: var(--font-display);
     }
 
     .login-box input:focus {
-      border-color: var(--accent-orange);
-      box-shadow: 0 0 15px var(--accent-glow);
+      border-color: var(--red-bright);
+      box-shadow: 0 0 20px var(--red-glow);
     }
 
     .error-msg {
-      color: var(--accent-red-bright);
+      color: var(--red-bright);
       font-size: 0.85rem;
       min-height: 1.2rem;
       margin-bottom: 1rem;
-      font-weight: 500;
+      font-weight: 600;
     }
 
-    /* ---------- ADMIN FORM (SIDEBAR) ---------- */
-    .admin-panel {
-      display: none;
-      animation: fadeIn 0.4s ease;
-    }
+    /* ---------- MAIN CONTENT AREA ---------- */
+    .main-view { display: none; animation: fadeIn 0.5s ease; }
+    .main-view.active { display: block; }
 
-    .admin-panel.active {
+    /* Filter Bar */
+    .filter-bar {
       display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      background: rgba(17, 7, 7, 0.6);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 1rem;
+      padding: 1rem 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
     }
 
-    .admin-form-container {
+    .search-container {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--bg-base);
+      border: 1px solid var(--border-subtle);
+      border-radius: 2rem;
+      padding: 0.6rem 1.2rem;
+      flex: 1 1 300px;
+      transition: all 0.3s;
+    }
+
+    .search-container:focus-within {
+      border-color: var(--red-primary);
+      box-shadow: 0 0 15px var(--red-glow);
+    }
+
+    .search-container i { color: var(--text-dark); }
+    .search-container input {
+      background: none;
+      border: none;
+      outline: none;
+      color: #fff;
+      font-size: 0.95rem;
+      width: 100%;
+      font-family: var(--font-sans);
+    }
+    .search-container input::placeholder { color: var(--text-dark); }
+
+    /* Category Pills */
+    .category-pills {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      scrollbar-width: thin;
+    }
+    .category-pills::-webkit-scrollbar { height: 4px; }
+    .category-pills::-webkit-scrollbar-thumb { background: var(--border-active); border-radius: 4px; }
+
+    .pill {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 0.6rem 1.2rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .pill:hover { border-color: var(--border-active); color: #fff; }
+    
+    .pill.active {
+      background: var(--red-primary);
+      border-color: var(--red-bright);
+      color: #fff;
+      box-shadow: 0 0 20px var(--red-glow);
+    }
+
+    /* Script Grid */
+    .script-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    /* Card Styling */
+    .script-card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: 1.2rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      opacity: 0;
+      transform: translateY(30px);
+      animation: cardEnter 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    @keyframes cardEnter {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .script-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      border-color: var(--red-primary);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 30px var(--red-glow);
+      background: var(--bg-card-hover);
+      z-index: 10;
+    }
+
+    .card-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--border-subtle);
+      transition: transform 0.6s;
+    }
+    .script-card:hover .card-img { transform: scale(1.05); }
+    
+    .img-placeholder {
+      width: 100%;
+      height: 180px;
+      background: linear-gradient(45deg, var(--bg-surface), var(--bg-base));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--border-active);
+      font-size: 3rem;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .card-content {
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
-      gap: 1.2rem;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      gap: 1rem;
+      flex: 1;
     }
 
-    .admin-form-container h3 {
-      font-size: 1.1rem;
-      font-weight: 600;
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
       color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      border-bottom: 1px solid var(--border-subtle);
-      padding-bottom: 0.8rem;
+      line-height: 1.2;
     }
 
-    .admin-form-container h3 i {
-      color: var(--accent-orange);
-    }
-
-    .form-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.4rem;
-    }
-
-    .form-group label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-muted);
+    .badge {
+      background: rgba(230, 25, 25, 0.1);
+      border: 1px solid rgba(230, 25, 25, 0.3);
+      color: var(--red-bright);
+      padding: 0.2rem 0.6rem;
+      border-radius: 1rem;
+      font-size: 0.7rem;
+      font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      white-space: nowrap;
     }
 
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      background: var(--bg-dark);
-      border: 1px solid var(--border-subtle);
-      border-radius: 0.6rem;
-      padding: 0.75rem 1rem;
-      color: var(--text-main);
-      font-size: 0.9rem;
-      outline: none;
-      transition: all 0.2s;
-      font-family: var(--font-sans);
-    }
-
-    .form-group textarea {
-      min-height: 80px;
-      resize: vertical;
-      font-family: 'Fira Code', monospace;
+    .card-meta {
+      display: flex;
+      gap: 1rem;
       font-size: 0.8rem;
+      color: var(--text-muted);
+      align-items: center;
     }
 
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: var(--accent-orange);
-      box-shadow: 0 0 12px var(--accent-glow);
-    }
+    .card-meta span { display: flex; align-items: center; gap: 0.4rem; }
+    .card-meta i { color: var(--red-primary); }
 
-    .cat-manager {
-      background: var(--bg-dark);
+    .code-preview {
+      background: #000;
       border: 1px solid var(--border-subtle);
       border-radius: 0.6rem;
       padding: 0.8rem;
-      margin-top: 0.3rem;
-    }
-
-    .cat-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-bottom: 0.6rem;
-    }
-
-    .cat-chip {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
+      font-family: monospace;
+      font-size: 0.8rem;
       color: var(--text-muted);
-      border-radius: 1rem;
-      padding: 0.2rem 0.6rem;
-      font-size: 0.7rem;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .cat-chip i {
-      cursor: pointer;
-      color: var(--text-dark);
-      transition: color 0.2s;
-      font-size: 0.65rem;
-    }
-
-    .cat-chip i:hover {
-      color: var(--accent-red-bright);
-    }
-
-    .cat-add-row {
-      display: flex;
-      gap: 0.4rem;
-    }
-
-    .cat-add-row input {
-      flex: 1;
-      background: transparent;
-      border: 1px solid var(--border-subtle);
-      border-radius: 1rem;
-      padding: 0.3rem 0.6rem;
-      font-size: 0.75rem;
-      color: var(--text-main);
-      outline: none;
-    }
-
-    .cat-add-row button {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-      color: var(--accent-orange);
-      border-radius: 1rem;
-      padding: 0.3rem 0.6rem;
-      font-size: 0.75rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       cursor: pointer;
       transition: all 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    .cat-add-row button:hover {
-      background: var(--accent-orange);
-      color: var(--bg-dark);
+    .code-preview:hover {
+      border-color: var(--red-primary);
+      color: #fff;
     }
 
-    .btn-submit {
-      background: linear-gradient(135deg, var(--accent-orange), #c96d34);
-      border: none;
-      border-radius: 2rem;
-      padding: 0.9rem;
-      color: var(--bg-dark);
+    .code-preview i { color: var(--red-primary); }
+
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: auto;
+    }
+
+    .btn {
+      flex: 1;
+      padding: 0.8rem;
+      border-radius: 0.6rem;
+      font-family: var(--font-sans);
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       cursor: pointer;
       transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-top: 0.5rem;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .btn-submit:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px var(--accent-glow);
-    }
-
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid var(--border-subtle);
-      border-radius: 2rem;
-      padding: 0.7rem;
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: all 0.2s;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.4rem;
+      gap: 0.5rem;
+      border: none;
     }
 
-    .btn-secondary:hover {
-      border-color: var(--border-active);
-      color: var(--text-main);
+    .btn-primary {
+      background: linear-gradient(135deg, var(--red-primary), #990000);
+      color: #fff;
+      box-shadow: 0 4px 15px rgba(230, 25, 25, 0.4);
     }
 
-    /* ---------- FOOTER ---------- */
+    .btn-primary:hover {
+      background: linear-gradient(135deg, var(--red-bright), var(--red-primary));
+      box-shadow: 0 8px 25px var(--red-glow-strong);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border-active);
+      color: var(--text-muted);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--red-primary);
+      color: #fff;
+      background: rgba(230, 25, 25, 0.05);
+    }
+
+    /* Admin overlays on cards */
+    .admin-overlay {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      display: flex;
+      gap: 0.5rem;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s;
+      z-index: 20;
+    }
+    .script-card:hover .admin-overlay { opacity: 1; transform: translateY(0); }
+    
+    .icon-btn {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .icon-btn:hover { background: var(--red-primary); border-color: var(--red-bright); transform: scale(1.1); }
+    .icon-btn.delete:hover { background: #ff0000; }
+
+    /* ---------- ADMIN FORM ---------- */
+    .admin-layout {
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .admin-sidebar {
+      flex: 0 0 350px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 1.2rem;
+      padding: 1.5rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+      position: sticky;
+      top: 2rem;
+    }
+
+    .admin-sidebar h3 {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: #fff;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 1rem;
+    }
+    .admin-sidebar h3 i { color: var(--red-primary); }
+
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-control {
+      width: 100%;
+      background: var(--bg-base);
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.6rem;
+      padding: 0.8rem 1rem;
+      color: #fff;
+      font-family: var(--font-sans);
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    textarea.form-control { font-family: monospace; min-height: 100px; resize: vertical; }
+
+    .form-control:focus {
+      border-color: var(--red-primary);
+      box-shadow: 0 0 15px var(--red-glow);
+    }
+
+    .category-manager {
+      background: var(--bg-base);
+      border: 1px dashed var(--border-active);
+      border-radius: 0.6rem;
+      padding: 1rem;
+      margin-top: 0.5rem;
+    }
+
+    .cat-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+    .cat-tag {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      padding: 0.3rem 0.6rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .cat-tag i { cursor: pointer; color: var(--text-dark); transition: color 0.2s; }
+    .cat-tag i:hover { color: var(--red-bright); }
+
+    .cat-input-group { display: flex; gap: 0.5rem; }
+    .cat-input-group input { flex: 1; padding: 0.5rem; font-size: 0.8rem; }
+    .cat-input-group button {
+      background: var(--bg-card-hover); border: 1px solid var(--border-subtle);
+      color: var(--red-primary); padding: 0 1rem; border-radius: 0.5rem; cursor: pointer;
+      font-weight: bold; transition: all 0.2s;
+    }
+    .cat-input-group button:hover { background: var(--red-primary); color: #fff; }
+
+    /* ---------- TOAST ---------- */
+    .toast {
+      position: fixed;
+      bottom: 2rem; left: 50%;
+      transform: translateX(-50%) translateY(20px);
+      background: var(--bg-surface);
+      border: 1px solid var(--red-primary);
+      color: #fff;
+      padding: 0.8rem 1.8rem;
+      border-radius: 3rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.9), 0 0 20px var(--red-glow);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      z-index: 9999;
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+    .toast i { color: var(--red-bright); }
+
+    /* Footer */
     .footer {
       text-align: center;
       color: var(--text-dark);
       font-size: 0.8rem;
       padding: 3rem 0 1rem;
-      border-top: 1px solid var(--border-subtle);
       margin-top: 2rem;
+      border-top: 1px solid var(--border-subtle);
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
-    .footer i {
-      color: var(--accent-orange);
-      margin: 0 0.3rem;
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-    /* ---------- TOAST ---------- */
-    .toast {
-      position: fixed;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: var(--bg-elevated);
-      border: 1px solid var(--accent-orange);
-      color: #fff;
-      padding: 0.8rem 1.8rem;
-      border-radius: 3rem;
-      font-size: 0.9rem;
-      font-weight: 500;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.8), 0 0 20px var(--accent-glow);
-      opacity: 0;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      pointer-events: none;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
+    /* Empty state */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 5rem 1rem;
+      background: var(--bg-surface);
+      border: 1px dashed var(--border-subtle);
+      border-radius: 1.2rem;
     }
+    .empty-state i { font-size: 4rem; color: var(--border-active); margin-bottom: 1rem; }
+    .empty-state h3 { font-family: var(--font-display); font-size: 1.5rem; color: #fff; margin-bottom: 0.5rem; }
+    .empty-state p { color: var(--text-muted); }
 
-    .toast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
+    @media (max-width: 900px) {
+      .admin-layout { flex-direction: column; }
+      .admin-sidebar { width: 100%; position: static; }
     }
-
-    .toast i {
-      color: var(--accent-orange);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* Responsive */
-    @media (max-width: 992px) {
-      .sidebar { flex: 1 1 100%; position: static; flex-direction: row; flex-wrap: wrap; gap: 1.5rem; }
-      .filter-group { flex: 1 1 200px; }
-      .script-card.featured { flex-direction: column; }
-      .script-card.featured .card-img-wrapper { width: 100%; min-height: 200px; }
-      .script-card.featured .card-content { padding: 1.5rem; }
-      .script-card.featured .card-title { font-size: 1.5rem; }
-    }
-
     @media (max-width: 600px) {
-      body { padding: 1rem; }
-      .header h1 { font-size: 2.5rem; flex-direction: column; gap: 0.5rem; }
-      .header h1 i { font-size: 2rem; }
+      .hub-container { padding: 1rem; }
+      .header h1 { font-size: 2.8rem; flex-direction: column; gap: 0.5rem; }
+      .header h1 i { font-size: 2.5rem; }
       .filter-bar { flex-direction: column; align-items: stretch; }
-      .script-grid { grid-template-columns: 1fr; }
       .login-box { padding: 2rem 1.5rem; }
     }
   </style>
 </head>
 <body>
-  <div class="hub-wrapper">
-    <!-- TOP BAR -->
-    <div class="top-bar">
-      <a href="https://discord.gg/luascript" target="_blank" class="discord-btn">
+  <!-- Animated Background -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+  <div class="bg-orb orb-3"></div>
+
+  <div class="hub-container">
+    <!-- TOP NAV -->
+    <div class="top-nav">
+      <a href="https://discord.gg/luascript" target="_blank" class="discord-link">
         <i class="fab fa-discord"></i> discord.gg/luascript
       </a>
-      <button class="admin-toggle-btn" id="adminToggleBtn">
-        <i class="fas fa-lock"></i> Admin Access
+      <button class="admin-btn" id="adminToggleBtn">
+        <i class="fas fa-lock"></i> Admin
       </button>
     </div>
 
     <!-- HEADER -->
-    <header class="header" id="mainHeader">
+    <header class="header">
       <h1>
         <i class="fas fa-code"></i>
-        <span>Kevin Hub</span>
+        Kevin Hub
       </h1>
-      <div class="subhead">
-        <i class="fas fa-list"></i> List Scripts <i class="fas fa-fire"></i>
-      </div>
+      <div class="subhead">List Scripts</div>
     </header>
 
-    <!-- LOGIN SCREEN -->
-    <div class="login-screen" id="loginScreen">
+    <!-- LOGIN VIEW -->
+    <div class="login-view" id="loginView">
       <div class="login-box">
         <h2>Admin Access</h2>
         <p>Enter password to manage scripts</p>
-        <input type="password" id="adminPasswordInput" placeholder="••••••••••" autocomplete="off">
+        <input type="password" id="adminPassword" placeholder="••••••••••" autocomplete="off">
         <div class="error-msg" id="loginError"></div>
-        <button class="btn-submit" id="loginBtn" style="width:100%; margin-bottom: 0.8rem;">
+        <button class="btn btn-primary" id="loginBtn" style="width: 100%; margin-bottom: 1rem; padding: 1rem;">
           <i class="fas fa-sign-in-alt"></i> Login
         </button>
-        <button class="btn-secondary" id="cancelLoginBtn" style="width:100%;">
-          Back to Scripts
+        <button class="btn btn-outline" id="cancelLoginBtn" style="width: 100%;">
+          Cancel
         </button>
       </div>
     </div>
 
-    <!-- PUBLIC VIEW -->
-    <div id="publicView">
-      <!-- Top Filter Bar -->
+    <!-- MAIN PUBLIC VIEW -->
+    <div class="main-view" id="publicView">
+      <!-- Filter Bar -->
       <div class="filter-bar">
-        <div class="search-box">
+        <div class="search-container">
           <i class="fas fa-search"></i>
-          <input type="text" id="searchInput" placeholder="Search scripts...">
+          <input type="text" id="searchInput" placeholder="Search scripts by name or category...">
         </div>
       </div>
 
       <!-- Category Pills -->
-      <div class="category-pills" id="categoryPills">
-        <!-- Injected via JS -->
+      <div class="category-pills" id="categoryPills" style="margin-bottom: 2rem;">
+        <button class="pill active" data-cat="All">All Scripts</button>
+        <!-- Categories injected here -->
       </div>
 
-      <!-- Main Layout (Sidebar + Content) -->
-      <div class="main-layout">
-        <!-- Sidebar Filters -->
-        <aside class="sidebar">
-          <div class="filter-group">
-            <h3><i class="fas fa-sliders-h"></i> Filter by Type</h3>
-            <label class="filter-option">
-              <input type="radio" name="typeFilter" value="all" checked> All Scripts
-            </label>
-            <label class="filter-option">
-              <input type="radio" name="typeFilter" value="featured"> Featured
-            </label>
-            <label class="filter-option">
-              <input type="radio" name="typeFilter" value="free"> Free / Open Source
-            </label>
-            <label class="filter-option">
-              <input type="radio" name="typeFilter" value="premium"> Premium / Key System
-            </label>
-          </div>
-
-          <div class="filter-group">
-            <h3><i class="fas fa-check-circle"></i> Availability</h3>
-            <label class="filter-option">
-              <input type="checkbox" id="inStockOnly"> Working / Updated
-            </label>
-          </div>
-        </aside>
-
-        <!-- Script Grid -->
-        <div class="script-content">
-          <div class="script-grid" id="publicScriptGrid">
-            <!-- Injected via JS -->
-          </div>
-        </div>
+      <!-- Script Grid -->
+      <div class="script-grid" id="publicGrid">
+        <!-- Scripts injected here -->
       </div>
     </div>
 
-    <!-- ADMIN PANEL VIEW -->
-    <div class="admin-panel" id="adminPanel">
-      <div class="main-layout">
-        <!-- Admin Form Sidebar -->
-        <aside class="sidebar" style="flex: 0 0 320px; position: static;">
-          <div class="admin-form-container">
-            <h3><i class="fas fa-plus-circle"></i> <span id="formTitle">New Script</span></h3>
-            
-            <input type="hidden" id="editScriptId" value="">
-            
-            <div class="form-group">
-              <label>Script Name</label>
-              <input type="text" id="scriptName" placeholder="e.g. Dice Predictor">
-            </div>
+    <!-- ADMIN VIEW -->
+    <div class="main-view" id="adminView">
+      <div class="admin-layout">
+        <!-- Admin Form -->
+        <aside class="admin-sidebar">
+          <h3><i class="fas fa-layer-group"></i> <span id="formTitle">Manage Scripts</span></h3>
+          
+          <input type="hidden" id="editScriptId">
+          
+          <div class="form-group">
+            <label>Script Name</label>
+            <input type="text" id="scriptName" class="form-control" placeholder="e.g. Dice Predictor">
+          </div>
 
-            <div class="form-group">
-              <label>Category</label>
-              <select id="scriptCategory"></select>
-            </div>
-
-            <div class="form-group">
-              <label>Category Manager</label>
-              <div class="cat-manager">
-                <div class="cat-list" id="catList"></div>
-                <div class="cat-add-row">
-                  <input type="text" id="newCategoryInput" placeholder="New category...">
-                  <button id="addCategoryBtn">Add</button>
-                </div>
+          <div class="form-group">
+            <label>Category</label>
+            <select id="scriptCategory" class="form-control">
+              <!-- Options populated via JS -->
+            </select>
+            
+            <!-- Category Manager -->
+            <div class="category-manager">
+              <label style="margin-bottom: 0.5rem; display: block; font-size: 0.7rem; color: var(--text-muted);">Create Categories</label>
+              <div class="cat-tags" id="catTagList"></div>
+              <div class="cat-input-group">
+                <input type="text" id="newCatInput" class="form-control" placeholder="New category...">
+                <button id="addCatBtn">Add</button>
               </div>
             </div>
+          </div>
 
-            <div class="form-group">
-              <label>Image URL (optional)</label>
-              <input type="url" id="scriptImage" placeholder="https://example.com/image.png">
-            </div>
+          <div class="form-group">
+            <label>Image URL (optional)</label>
+            <input type="url" id="scriptImage" class="form-control" placeholder="https://...">
+          </div>
 
-            <div class="form-group">
-              <label>Script Code (Loadstring)</label>
-              <textarea id="scriptCode" placeholder='loadstring(game:HttpGet("https://..."))()'></textarea>
-            </div>
+          <div class="form-group">
+            <label>Script Code</label>
+            <textarea id="scriptCode" class="form-control" placeholder='loadstring(game:HttpGet("..."))()'></textarea>
+          </div>
 
-            <div class="form-group">
-              <label>Price / Type Label</label>
-              <input type="text" id="scriptPrice" placeholder="e.g. Free, Premium, Key System">
-            </div>
+          <div class="form-group">
+            <label>Tag / Price Label</label>
+            <input type="text" id="scriptPrice" class="form-control" placeholder="e.g. Free, Premium, Key">
+          </div>
 
-            <button class="btn-submit" id="saveScriptBtn">
-              <i class="fas fa-upload"></i> Post Script
-            </button>
-            <button class="btn-secondary" id="cancelEditBtn" style="display: none; margin-top: 0.5rem;">
-              Cancel Edit
-            </button>
+          <button class="btn btn-primary" id="saveScriptBtn" style="width: 100%; margin-bottom: 0.8rem; padding: 1rem;">
+            <i class="fas fa-upload"></i> Post Script
+          </button>
+          
+          <button class="btn btn-outline" id="cancelEditBtn" style="width: 100%; margin-bottom: 0.8rem; display: none;">
+            Cancel Edit
+          </button>
 
-            <div style="border-top: 1px solid var(--border-subtle); margin-top: 1rem; padding-top: 1rem; display: flex; gap: 0.5rem;">
-              <button class="btn-secondary" id="resetDefaultsBtn" style="flex:1;">Reset</button>
-              <button class="btn-secondary" id="logoutBtn" style="flex:1;">Logout</button>
-            </div>
+          <div style="display: flex; gap: 0.5rem; margin-top: 1.5rem; border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;">
+            <button class="btn btn-outline" id="logoutBtn" style="flex:1;">Logout</button>
           </div>
         </aside>
 
-        <!-- Admin Script Grid -->
-        <div class="script-content">
-          <div class="script-grid" id="adminScriptGrid">
-            <!-- Injected via JS -->
-          </div>
+        <!-- Admin Grid -->
+        <div class="script-grid" id="adminGrid" style="flex: 1;">
+          <!-- Admin scripts injected here -->
         </div>
       </div>
     </div>
@@ -1215,91 +847,43 @@
     <!-- FOOTER -->
     <footer class="footer">
       <div>Deploy on Cloudflare Pages & GitHub</div>
-      <div>Kevin Hub · red theme · all scripts loadstring compatible</div>
+      <div style="color: var(--red-primary);">Kevin Hub · red theme · all scripts loadstring compatible</div>
     </footer>
   </div>
 
   <!-- TOAST -->
   <div class="toast" id="toast">
-    <i class="fas fa-check-circle"></i> <span id="toastMessage">Done!</span>
+    <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
   </div>
 
   <script>
     (function() {
       // ---------- CONFIG ----------
       const ADMIN_PASSWORD = 'kevinontop';
-      const STORAGE_KEY = 'kevinHubScripts_v4';
-      const CATEGORY_KEY = 'kevinHubCategories_v4';
-
-      // ---------- DEFAULT DATA ----------
-      const DEFAULT_CATEGORIES = ['Predictor', 'Auto-Farm', 'ESP / Aimbot', 'Utility', 'Admin', 'Other'];
-
-      const DEFAULT_SCRIPTS = [
-        {
-          id: 'default-1',
-          name: 'Dice Predictor',
-          category: 'Predictor',
-          image: 'https://images.unsplash.com/photo-1596838132731-3301c3fd4317?auto=format&fit=crop&q=80&w=800',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-dice-predictor/refs/heads/main/main.lua"))()',
-          price: 'Free',
-          featured: true
-        },
-        {
-          id: 'default-2',
-          name: "Kevin's Auto-Farm",
-          category: 'Auto-Farm',
-          image: 'https://images.unsplash.com/photo-1614680376593-902f74cf0d41?auto=format&fit=crop&q=80&w=800',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-hub/main/autofarm.lua"))()',
-          price: 'Premium'
-        },
-        {
-          id: 'default-3',
-          name: "Kevin's ESP & Aimbot",
-          category: 'ESP / Aimbot',
-          image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=800',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-hub/main/esp_aimbot.lua"))()',
-          price: 'Key System'
-        },
-        {
-          id: 'default-4',
-          name: "Kevin's Infinite Yield",
-          category: 'Utility',
-          image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&q=80&w=800',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-hub/main/infiniteyield.lua"))()',
-          price: 'Free'
-        }
-      ];
+      // Empty defaults as requested
+      const DEFAULT_CATEGORIES = [];
+      const DEFAULT_SCRIPTS = [];
 
       // ---------- STATE ----------
       let scripts = [];
       let categories = [];
       let isAdmin = false;
-      let currentCategoryFilter = 'All';
-      let currentSearchQuery = '';
-      let currentTypeFilter = 'all';
-      let onlyWorking = false;
+      let currentCatFilter = 'All';
+      let currentSearch = '';
 
-      // ---------- DOM refs ----------
+      // ---------- DOM ----------
       const publicView = document.getElementById('publicView');
-      const loginScreen = document.getElementById('loginScreen');
-      const adminPanel = document.getElementById('adminPanel');
+      const adminView = document.getElementById('adminView');
+      const loginView = document.getElementById('loginView');
       const adminToggleBtn = document.getElementById('adminToggleBtn');
       
-      const loginBtn = document.getElementById('loginBtn');
-      const cancelLoginBtn = document.getElementById('cancelLoginBtn');
-      const adminPasswordInput = document.getElementById('adminPasswordInput');
-      const loginError = document.getElementById('loginError');
-      const logoutBtn = document.getElementById('logoutBtn');
-
-      const publicGrid = document.getElementById('publicScriptGrid');
-      const adminGrid = document.getElementById('adminScriptGrid');
+      const publicGrid = document.getElementById('publicGrid');
+      const adminGrid = document.getElementById('adminGrid');
       
       const categoryPills = document.getElementById('categoryPills');
       const searchInput = document.getElementById('searchInput');
-      const inStockCheckbox = document.getElementById('inStockOnly');
-      const typeRadios = document.querySelectorAll('input[name="typeFilter"]');
-
-      // Form elements
+      
+      // Form
       const formTitle = document.getElementById('formTitle');
       const editScriptId = document.getElementById('editScriptId');
       const scriptName = document.getElementById('scriptName');
@@ -1310,437 +894,242 @@
       const saveScriptBtn = document.getElementById('saveScriptBtn');
       const cancelEditBtn = document.getElementById('cancelEditBtn');
       
-      const catList = document.getElementById('catList');
-      const newCategoryInput = document.getElementById('newCategoryInput');
-      const addCategoryBtn = document.getElementById('addCategoryBtn');
+      const catTagList = document.getElementById('catTagList');
+      const newCatInput = document.getElementById('newCatInput');
+      const addCatBtn = document.getElementById('addCatBtn');
       
-      const resetDefaultsBtn = document.getElementById('resetDefaultsBtn');
+      // Login
+      const adminPassword = document.getElementById('adminPassword');
+      const loginError = document.getElementById('loginError');
+      const loginBtn = document.getElementById('loginBtn');
+      const cancelLoginBtn = document.getElementById('cancelLoginBtn');
+      
       const toast = document.getElementById('toast');
-      const toastMessage = document.getElementById('toastMessage');
+      const toastMsg = document.getElementById('toastMsg');
 
       // ---------- UTILS ----------
-      function showToast(text) {
-        toastMessage.textContent = text || 'Done!';
+      function showToast(msg) {
+        toastMsg.textContent = msg;
         toast.classList.add('show');
-        clearTimeout(window._toastTimeout);
-        window._toastTimeout = setTimeout(() => {
-          toast.classList.remove('show');
-        }, 2500);
+        clearTimeout(window.toastTimer);
+        window.toastTimer = setTimeout(() => toast.classList.remove('show'), 2500);
       }
 
-      function escapeHtml(text) {
-        if (!text) return '';
-        const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+      function escapeHTML(str) {
+        if (!str) return '';
+        return str.replace(/[&<>'"]/g, tag => ({
+          '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+        }[tag]));
       }
 
-      function getIconForCategory(category) {
-        const lower = (category || '').toLowerCase();
-        if (lower.includes('predict') || lower.includes('dice')) return 'fa-dice';
-        if (lower.includes('farm') || lower.includes('auto')) return 'fa-hat-wizard';
-        if (lower.includes('esp') || lower.includes('aim') || lower.includes('pvp')) return 'fa-shield-halved';
-        if (lower.includes('util') || lower.includes('yield') || lower.includes('inf')) return 'fa-gem';
-        if (lower.includes('admin') || lower.includes('owner')) return 'fa-crown';
-        return 'fa-folder';
+      function getIcon(cat) {
+        const c = (cat || '').toLowerCase();
+        if (c.includes('predict') || c.includes('dice')) return 'fa-dice';
+        if (c.includes('farm') || c.includes('auto')) return 'fa-hat-wizard';
+        if (c.includes('esp') || c.includes('aim')) return 'fa-crosshairs';
+        if (c.includes('util') || c.includes('inf')) return 'fa-gem';
+        return 'fa-file-code';
       }
 
       // ---------- STORAGE ----------
       function loadData() {
-        // Categories
-        const storedCats = localStorage.getItem(CATEGORY_KEY);
-        if (storedCats) {
-          try {
-            categories = JSON.parse(storedCats);
-            if (!Array.isArray(categories) || categories.length === 0) throw new Error();
-          } catch (e) {
-            categories = [...DEFAULT_CATEGORIES];
-          }
-        } else {
-          categories = [...DEFAULT_CATEGORIES];
-        }
-        localStorage.setItem(CATEGORY_KEY, JSON.stringify(categories));
-
-        // Scripts
-        const storedScripts = localStorage.getItem(STORAGE_KEY);
-        if (storedScripts) {
-          try {
-            scripts = JSON.parse(storedScripts);
-            if (!Array.isArray(scripts)) throw new Error();
-          } catch (e) {
-            scripts = DEFAULT_SCRIPTS.map(s => ({ ...s }));
-          }
-        } else {
-          scripts = DEFAULT_SCRIPTS.map(s => ({ ...s }));
-        }
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(scripts));
+        const c = localStorage.getItem('kevinHub_cats_v5');
+        const s = localStorage.getItem('kevinHub_scripts_v5');
+        
+        categories = c ? JSON.parse(c) : [...DEFAULT_CATEGORIES];
+        scripts = s ? JSON.parse(s) : [...DEFAULT_SCRIPTS];
       }
 
-      function saveScripts() {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(scripts));
-      }
-
-      function saveCategories() {
-        localStorage.setItem(CATEGORY_KEY, JSON.stringify(categories));
+      function saveData() {
+        localStorage.setItem('kevinHub_cats_v5', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v5', JSON.stringify(scripts));
       }
 
       // ---------- RENDER CATEGORIES ----------
       function renderCategories() {
-        // Pills for public view
-        let totalCount = scripts.length;
-        let pillsHtml = `<button class="cat-pill ${currentCategoryFilter === 'All' ? 'active' : ''}" data-cat="All">All Categories <span class="count">${totalCount}</span></button>`;
-        
+        // Pills
+        let html = `<button class="pill ${currentCatFilter === 'All' ? 'active' : ''}" data-cat="All">All Scripts</button>`;
         categories.forEach(cat => {
-          const count = scripts.filter(s => s.category === cat).length;
-          pillsHtml += `<button class="cat-pill ${currentCategoryFilter === cat ? 'active' : ''}" data-cat="${escapeHtml(cat)}">${escapeHtml(cat)} <span class="count">${count}</span></button>`;
+          html += `<button class="pill ${currentCatFilter === cat ? 'active' : ''}" data-cat="${escapeHTML(cat)}">${escapeHTML(cat)}</button>`;
         });
+        categoryPills.innerHTML = html;
 
-        if (categoryPills) categoryPills.innerHTML = pillsHtml;
-
-        // Add click events for pills
-        document.querySelectorAll('.cat-pill').forEach(btn => {
-          btn.addEventListener('click', (e) => {
-            currentCategoryFilter = e.currentTarget.getAttribute('data-cat');
-            renderCategories(); // re-render to update active state
-            filterAndRenderPublic();
-          });
+        // Add click events
+        document.querySelectorAll('.pill').forEach(btn => {
+          btn.onclick = (e) => {
+            currentCatFilter = e.target.getAttribute('data-cat');
+            renderCategories();
+            filterPublic();
+          };
         });
 
         // Form Select
-        if (scriptCategory) {
-          const currentVal = scriptCategory.value;
-          scriptCategory.innerHTML = categories.map(cat => 
-            `<option value="${escapeHtml(cat)}">${escapeHtml(cat)}</option>`
-          ).join('');
-          if (categories.includes(currentVal)) scriptCategory.value = currentVal;
-        }
+        const val = scriptCategory.value;
+        scriptCategory.innerHTML = categories.length 
+          ? categories.map(c => `<option value="${escapeHTML(c)}">${escapeHTML(c)}</option>`).join('')
+          : '<option value="">-- No categories yet --</option>';
+        if (categories.includes(val)) scriptCategory.value = val;
 
-        // Admin cat manager
-        if (catList) {
-          catList.innerHTML = categories.map(cat => `
-            <span class="cat-chip">
-              ${escapeHtml(cat)}
-              <i class="fas fa-times" data-cat-remove="${escapeHtml(cat)}"></i>
-            </span>
-          `).join('');
-
-          catList.querySelectorAll('.fa-times').forEach(icon => {
-            icon.addEventListener('click', (e) => {
-              const cat = e.target.getAttribute('data-cat-remove');
-              const used = scripts.filter(s => s.category === cat).length;
-              if (used > 0) {
-                if (!confirm(`"${cat}" is used by ${used} script(s). Delete category and move scripts to "Other"?`)) return;
-                let hasOther = categories.includes('Other');
-                if (!hasOther) {
-                  categories.push('Other');
-                  hasOther = true;
-                }
-                scripts.forEach(s => { if (s.category === cat) s.category = 'Other'; });
-                saveScripts();
-              }
-              categories = categories.filter(c => c !== cat);
-              if (categories.length === 0) categories = ['Other'];
-              saveCategories();
-              renderCategories();
-              renderAdminGrid();
-            });
-          });
-        }
+        // Tag Manager
+        catTagList.innerHTML = categories.map(c => `
+          <span class="cat-tag">
+            ${escapeHTML(c)}
+            <i class="fas fa-times" onclick="removeCategory('${escapeHTML(c)}')"></i>
+          </span>
+        `).join('') || '<span style="font-size:0.8rem; color:var(--text-dark);">No categories created.</span>';
       }
 
-      // ---------- FILTERING ----------
-      function filterAndRenderPublic() {
-        let filtered = [...scripts];
+      window.removeCategory = function(cat) {
+        const used = scripts.filter(s => s.category === cat).length;
+        if (used > 0) {
+          if (!confirm(`Category "${cat}" is used by ${used} script(s). Delete it and move scripts to uncategorized?`)) return;
+          scripts.forEach(s => { if (s.category === cat) s.category = 'Uncategorized'; });
+        }
+        categories = categories.filter(c => c !== cat);
+        saveData();
+        renderCategories();
+        renderAdmin();
+        filterPublic();
+        showToast('Category removed');
+      };
 
-        // Search
-        if (currentSearchQuery) {
-          const q = currentSearchQuery.toLowerCase();
+      // ---------- RENDER GRIDS ----------
+      function createCard(script, isAdminView, index) {
+        const id = `code-${isAdminView ? 'adm' : 'pub'}-${index}`;
+        const delay = (index * 0.05).toFixed(2);
+        
+        return `
+          <div class="script-card" style="animation-delay: ${delay}s">
+            ${isAdminView ? `
+              <div class="admin-overlay">
+                <button class="icon-btn" onclick="editScript('${script.id}')"><i class="fas fa-pen"></i></button>
+                <button class="icon-btn delete" onclick="deleteScript('${script.id}')"><i class="fas fa-trash"></i></button>
+              </div>
+            ` : ''}
+
+            ${script.image 
+              ? `<img src="${escapeHTML(script.image)}" class="card-img" onerror="this.src=''; this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                 <div class="img-placeholder" style="display:none;"><i class="fas ${getIcon(script.category)}"></i></div>`
+              : `<div class="img-placeholder"><i class="fas ${getIcon(script.category)}"></i></div>`
+            }
+
+            <div class="card-content">
+              <div class="card-header">
+                <div class="card-title">${escapeHTML(script.name)}</div>
+                ${script.category ? `<span class="badge">${escapeHTML(script.category)}</span>` : ''}
+              </div>
+              
+              <div class="card-meta">
+                <span><i class="fas fa-check-circle" style="color: #4ade80;"></i> Working</span>
+                <span><i class="fas fa-star"></i> 5.0</span>
+              </div>
+
+              <div class="code-preview" onclick="copyCode('${script.id}', this)">
+                <span id="${id}">${escapeHTML(script.code).substring(0, 30)}...</span>
+                <i class="fas fa-copy"></i>
+              </div>
+
+              <div class="card-actions">
+                <button class="btn btn-primary" onclick="copyCode('${script.id}')">
+                  <i class="fas fa-download"></i> Get Script
+                </button>
+                ${script.price ? `<button class="btn btn-outline" style="flex: 0.5; pointer-events: none;">${escapeHTML(script.price)}</button>` : ''}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      function filterPublic() {
+        let filtered = [...scripts];
+        
+        if (currentSearch) {
+          const q = currentSearch.toLowerCase();
           filtered = filtered.filter(s => 
             s.name.toLowerCase().includes(q) || 
             (s.category && s.category.toLowerCase().includes(q))
           );
         }
-
-        // Category
-        if (currentCategoryFilter !== 'All') {
-          filtered = filtered.filter(s => s.category === currentCategoryFilter);
+        
+        if (currentCatFilter !== 'All') {
+          filtered = filtered.filter(s => s.category === currentCatFilter);
         }
 
-        // Type filter
-        if (currentTypeFilter === 'featured') {
-          filtered = filtered.filter(s => s.featured);
-        } else if (currentTypeFilter === 'free') {
-          filtered = filtered.filter(s => (s.price || '').toLowerCase().includes('free') || !s.price);
-        } else if (currentTypeFilter === 'premium') {
-          filtered = filtered.filter(s => (s.price || '').toLowerCase().includes('premium') || (s.price || '').toLowerCase().includes('key'));
-        }
-
-        // Availability (simulated by checking if code exists)
-        if (onlyWorking) {
-          filtered = filtered.filter(s => s.code && s.code.trim().length > 0);
-        }
-
-        renderGrid(publicGrid, filtered, false);
-      }
-
-      // ---------- RENDER GRID ----------
-      function renderGrid(container, data, isAdminView) {
-        if (!container) return;
-
-        if (data.length === 0) {
-          container.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 4rem 1rem; color: var(--text-dark);">
-              <i class="fas fa-search-minus" style="font-size: 3rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-              <p style="font-size: 1.1rem;">No scripts found matching your criteria.</p>
+        if (filtered.length === 0) {
+          publicGrid.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-ghost"></i>
+              <h3>No scripts found</h3>
+              <p>Try a different search or check back later.</p>
             </div>
           `;
           return;
         }
 
-        let html = '';
-        data.forEach((script, index) => {
-          const isFeatured = script.featured && currentCategoryFilter === 'All' && currentSearchQuery === '' && currentTypeFilter === 'all' && !onlyWorking;
-          const codeId = `code-${isAdminView ? 'admin' : 'pub'}-${script.id || index}`;
-          const icon = getIconForCategory(script.category);
-          
-          // Staggered animation delay
-          const delay = (index * 0.05).toFixed(2);
+        publicGrid.innerHTML = filtered.map((s, i) => createCard(s, false, i)).join('');
+      }
 
-          html += `
-            <div class="script-card ${isFeatured ? 'featured' : ''}" style="animation-delay: ${delay}s">
-              
-              ${isAdminView ? `
-                <div class="admin-actions">
-                  <button class="btn-icon" onclick="editScript('${script.id}')" title="Edit"><i class="fas fa-pen"></i></button>
-                  <button class="btn-icon delete" onclick="deleteScript('${script.id}')" title="Delete"><i class="fas fa-trash"></i></button>
-                </div>
-              ` : ''}
-
-              <div class="card-img-wrapper">
-                ${script.image ? 
-                  `<img src="${escapeHtml(script.image)}" alt="${escapeHtml(script.name)}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">` : ''
-                }
-                <div class="card-img-placeholder" style="${script.image ? 'display:none' : 'display:flex'}">
-                  <i class="fas ${icon}"></i>
-                </div>
-                <div class="card-img-overlay">
-                  <span style="background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; padding: 0.2rem 0.6rem; font-size: 0.7rem; font-weight: 600; color: #fff;">
-                    ${escapeHtml(script.category)}
-                  </span>
-                </div>
-              </div>
-
-              <div class="card-content">
-                <div class="card-title">
-                  ${!isFeatured ? `<i class="fas ${icon}"></i>` : ''}
-                  ${escapeHtml(script.name)}
-                </div>
-                
-                ${isFeatured ? `
-                  <div class="card-desc">
-                    The most advanced script in the hub. Fully undetected, regularly updated, and packed with features. Experience the ultimate performance.
-                  </div>
-                  <div class="card-meta">
-                    <span><i class="fas fa-star" style="color: var(--accent-orange);"></i> 5.0 (1.2k reviews)</span>
-                    <span><i class="fas fa-check-circle" style="color: #4ade80;"></i> Working</span>
-                  </div>
-                ` : `
-                  <div class="card-meta">
-                    <span><i class="fas fa-star" style="color: var(--accent-orange);"></i> 4.9</span>
-                    <span><i class="fas fa-check-circle" style="color: #4ade80;"></i> Working</span>
-                  </div>
-                `}
-
-                <div class="card-price-row" style="${isFeatured ? 'flex-direction: column; align-items: flex-start; gap: 1rem;' : ''}">
-                  <div class="price-block">
-                    <span class="price-label">Access</span>
-                    <div class="price-value">
-                      ${escapeHtml(script.price || 'Free')}
-                    </div>
-                  </div>
-                  
-                  <div style="display: flex; gap: 0.5rem; width: 100%; justify-content: ${isFeatured ? 'flex-start' : 'flex-end'};">
-                    <div class="code-snippet" onclick="copyCode('${codeId}')" style="flex: 1; max-width: 200px;">
-                      <span id="${codeId}">loadstring...</span>
-                      <i class="fas fa-copy"></i>
-                    </div>
-                    <button class="btn-action primary" onclick="copyCode('${codeId}', true)">Get Script</button>
-                  </div>
-                </div>
-              </div>
+      function renderAdmin() {
+        if (scripts.length === 0) {
+          adminGrid.innerHTML = `
+            <div class="empty-state" style="grid-column: 1/-1;">
+              <i class="fas fa-plus-circle"></i>
+              <h3>No scripts posted yet</h3>
+              <p>Use the form on the left to add your first script.</p>
             </div>
           `;
-        });
-
-        container.innerHTML = html;
+          return;
+        }
+        adminGrid.innerHTML = scripts.map((s, i) => createCard(s, true, i)).join('');
       }
 
-      function renderAdminGrid() {
-        renderGrid(adminGrid, scripts, true);
-      }
-
-      // Global functions for inline onclick
-      window.copyCode = function(elementId, showToastAlert = false) {
-        const el = document.getElementById(elementId);
-        if (!el) return;
-        
-        // Find the actual script code from the data attribute or by looking up
-        // For simplicity, since we rendered 'loadstring...' as placeholder in UI,
-        // we need to get the actual code. We'll attach it via a data attribute in reality,
-        // but here we just find it in the scripts array by matching the ID inside the element ID.
-        
-        // Let's just grab the text content for now (it might be truncated in UI).
-        // Actually, we stored the full code in the script object, but truncated it in the display.
-        // We need to fix this. Let's modify the render to store full code in a hidden input or data attribute.
-        // For now, let's just alert the user to copy manually if it fails.
-        
-        // Fix: let's re-render the snippet with full code but visually truncate via CSS.
-        // I already used text-overflow: ellipsis.
-        // Let's grab the actual full code from the `scripts` array.
-        const scriptId = elementId.split('-').pop(); // gets the id part
+      // ---------- ACTIONS ----------
+      window.copyCode = function(scriptId) {
         const script = scripts.find(s => s.id === scriptId);
+        if (!script) return;
         
-        const codeToCopy = script ? script.code : el.textContent; // Fallback
-
-        navigator.clipboard.writeText(codeToCopy).then(() => {
+        navigator.clipboard.writeText(script.code).then(() => {
           showToast('✅ Script copied to clipboard!');
-          if (showToastAlert) {
-            // Optional extra action
-          }
         }).catch(() => {
-          // Fallback
+          // fallback
           const ta = document.createElement('textarea');
-          ta.value = codeToCopy;
+          ta.value = script.code;
           document.body.appendChild(ta);
           ta.select();
           document.execCommand('copy');
           document.body.removeChild(ta);
-          showToast('📋 Script copied!');
+          showToast('✅ Script copied!');
         });
       };
 
-      window.editScript = function(id) {
-        const script = scripts.find(s => s.id === id);
-        if (!script) return;
+      window.deleteScript = function(id) {
+        if (!confirm('Are you sure you want to delete this script?')) return;
+        scripts = scripts.filter(s => s.id !== id);
+        saveData();
+        renderAdmin();
+        filterPublic();
+        showToast('Script deleted');
+      };
 
+      window.editScript = function(id) {
+        const s = scripts.find(x => x.id === id);
+        if (!s) return;
+        
         formTitle.textContent = 'Edit Script';
-        editScriptId.value = script.id;
-        scriptName.value = script.name;
-        scriptCategory.value = script.category;
-        scriptImage.value = script.image || '';
-        scriptCode.value = script.code;
-        scriptPrice.value = script.price || '';
+        editScriptId.value = s.id;
+        scriptName.value = s.name;
+        scriptCategory.value = s.category;
+        scriptImage.value = s.image || '';
+        scriptCode.value = s.code;
+        scriptPrice.value = s.price || '';
         
         cancelEditBtn.style.display = 'block';
         saveScriptBtn.innerHTML = '<i class="fas fa-save"></i> Update Script';
-        
-        // Scroll to top of form
-        document.querySelector('.admin-form-container').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        document.querySelector('.admin-sidebar').scrollIntoView({ behavior: 'smooth', block: 'start' });
       };
-
-      window.deleteScript = function(id) {
-        const script = scripts.find(s => s.id === id);
-        if (!script) return;
-        if (confirm(`Delete "${script.name}"?`)) {
-          scripts = scripts.filter(s => s.id !== id);
-          saveScripts();
-          renderAdminGrid();
-          filterAndRenderPublic();
-          renderCategories(); // Update counts
-          showToast(`🗑️ Deleted "${script.name}"`);
-        }
-      };
-
-      // ---------- UI STATE ----------
-      function showPublicView() {
-        loginScreen.classList.remove('active');
-        publicView.style.display = 'block';
-        adminPanel.classList.remove('active');
-        adminToggleBtn.innerHTML = '<i class="fas fa-lock"></i> Admin Access';
-        adminToggleBtn.style.display = 'inline-flex';
-        isAdmin = false;
-        filterAndRenderPublic();
-      }
-
-      function showLoginScreen() {
-        loginScreen.classList.add('active');
-        publicView.style.display = 'none';
-        adminPanel.classList.remove('active');
-        adminToggleBtn.style.display = 'none';
-        adminPasswordInput.value = '';
-        loginError.textContent = '';
-        setTimeout(() => adminPasswordInput.focus(), 100);
-      }
-
-      function showAdminPanel() {
-        loginScreen.classList.remove('active');
-        publicView.style.display = 'none';
-        adminPanel.classList.add('active');
-        adminToggleBtn.innerHTML = '<i class="fas fa-unlock"></i> Admin Mode';
-        adminToggleBtn.style.display = 'inline-flex';
-        isAdmin = true;
-        
-        renderAdminGrid();
-        renderCategories();
-      }
-
-      // ---------- LOGIN ----------
-      function attemptLogin() {
-        const pwd = adminPasswordInput.value;
-        if (pwd === ADMIN_PASSWORD) {
-          loginError.textContent = '';
-          showAdminPanel();
-          showToast('🔓 Welcome back, Kevin!');
-        } else {
-          loginError.textContent = '❌ Incorrect password.';
-          adminPasswordInput.value = '';
-          adminPasswordInput.focus();
-          adminPasswordInput.style.borderColor = 'var(--accent-red-bright)';
-          setTimeout(() => { adminPasswordInput.style.borderColor = 'var(--border-subtle)'; }, 800);
-        }
-      }
-
-      // ---------- FORM SUBMIT ----------
-      function saveScript() {
-        const id = editScriptId.value;
-        const name = scriptName.value.trim();
-        const category = scriptCategory.value;
-        const image = scriptImage.value.trim();
-        const code = scriptCode.value.trim();
-        const price = scriptPrice.value.trim() || 'Free';
-
-        if (!name) { showToast('❌ Enter script name'); scriptName.focus(); return; }
-        if (!code) { showToast('❌ Enter script code'); scriptCode.focus(); return; }
-        if (!category) { showToast('❌ Select category'); return; }
-
-        if (id) {
-          // Edit mode
-          const index = scripts.findIndex(s => s.id === id);
-          if (index !== -1) {
-            scripts[index] = { ...scripts[index], name, category, image, code, price };
-            saveScripts();
-            showToast('✅ Script updated!');
-          }
-        } else {
-          // Add mode
-          const newScript = {
-            id: 'script-' + Date.now() + '-' + Math.random().toString(36).substring(2, 7),
-            name, category, image, code, price,
-            featured: scripts.length === 0 // Make first script featured
-          };
-          scripts.unshift(newScript);
-          saveScripts();
-          showToast('✅ Script posted!');
-        }
-
-        // Reset form
-        resetForm();
-        renderAdminGrid();
-        renderCategories(); // update counts
-        filterAndRenderPublic();
-      }
 
       function resetForm() {
-        formTitle.textContent = 'New Script';
+        formTitle.textContent = 'Manage Scripts';
         editScriptId.value = '';
         scriptName.value = '';
         scriptImage.value = '';
@@ -1750,74 +1139,124 @@
         saveScriptBtn.innerHTML = '<i class="fas fa-upload"></i> Post Script';
       }
 
+      // ---------- VIEW SWITCHING ----------
+      function showPublic() {
+        loginView.classList.remove('active');
+        adminView.classList.remove('active');
+        publicView.classList.add('active');
+        adminToggleBtn.innerHTML = '<i class="fas fa-lock"></i> Admin';
+        isAdmin = false;
+        filterPublic();
+      }
+
+      function showLogin() {
+        loginView.classList.add('active');
+        publicView.classList.remove('active');
+        adminView.classList.remove('active');
+        adminPassword.value = '';
+        loginError.textContent = '';
+        adminToggleBtn.style.display = 'none';
+        setTimeout(() => adminPassword.focus(), 100);
+      }
+
+      function showAdmin() {
+        loginView.classList.remove('active');
+        publicView.classList.remove('active');
+        adminView.classList.add('active');
+        adminToggleBtn.innerHTML = '<i class="fas fa-unlock"></i> Admin';
+        adminToggleBtn.style.display = 'inline-flex';
+        isAdmin = true;
+        
+        renderCategories();
+        renderAdmin();
+        resetForm();
+      }
+
       // ---------- INIT ----------
       function init() {
         loadData();
-        renderCategories();
-        showPublicView();
+        showPublic();
 
-        // Top bar
-        adminToggleBtn.addEventListener('click', () => {
-          if (isAdmin) { showPublicView(); showToast('👋 Logged out'); } 
-          else { showLoginScreen(); }
-        });
+        // Nav
+        adminToggleBtn.onclick = () => {
+          if (isAdmin) { showPublic(); showToast('Logged out'); }
+          else { showLogin(); }
+        };
 
         // Login
-        loginBtn.addEventListener('click', attemptLogin);
-        adminPasswordInput.addEventListener('keydown', e => { if (e.key === 'Enter') attemptLogin(); });
-        cancelLoginBtn.addEventListener('click', showPublicView);
-        logoutBtn.addEventListener('click', () => { showPublicView(); showToast('👋 Logged out'); });
-
-        // Search & Filters
-        searchInput.addEventListener('input', (e) => {
-          currentSearchQuery = e.target.value;
-          filterAndRenderPublic();
-        });
-
-        typeRadios.forEach(radio => {
-          radio.addEventListener('change', (e) => {
-            currentTypeFilter = e.target.value;
-            filterAndRenderPublic();
-          });
-        });
-
-        inStockCheckbox.addEventListener('change', (e) => {
-          onlyWorking = e.target.checked;
-          filterAndRenderPublic();
-        });
-
-        // Admin Form
-        saveScriptBtn.addEventListener('click', saveScript);
-        
-        cancelEditBtn.addEventListener('click', () => {
-          resetForm();
-          showToast('Edit cancelled');
-        });
-
-        addCategoryBtn.addEventListener('click', () => {
-          const val = newCategoryInput.value.trim();
-          if (!val) return;
-          if (categories.includes(val)) { showToast('Category exists'); return; }
-          categories.push(val);
-          saveCategories();
-          renderCategories();
-          newCategoryInput.value = '';
-          showToast('✅ Category added');
-        });
-
-        newCategoryInput.addEventListener('keydown', e => {
-          if (e.key === 'Enter') addCategoryBtn.click();
-        });
-
-        resetDefaultsBtn.addEventListener('click', () => {
-          if (confirm('Reset all data to defaults? This cannot be undone.')) {
-            localStorage.removeItem(STORAGE_KEY);
-            localStorage.removeItem(CATEGORY_KEY);
-            location.reload();
+        loginBtn.onclick = () => {
+          if (adminPassword.value === ADMIN_PASSWORD) {
+            showAdmin();
+            showToast('Welcome back, Kevin!');
+          } else {
+            loginError.textContent = '❌ Incorrect password';
+            adminPassword.value = '';
+            adminPassword.focus();
+            adminPassword.style.borderColor = 'var(--red-bright)';
+            setTimeout(() => adminPassword.style.borderColor = '', 800);
           }
-        });
+        };
+        adminPassword.onkeydown = (e) => { if (e.key === 'Enter') loginBtn.click(); };
+        cancelLoginBtn.onclick = showPublic;
+        document.getElementById('logoutBtn').onclick = showPublic;
 
-        console.log('Kevin Hub Premium initialized');
+        // Search
+        searchInput.oninput = (e) => {
+          currentSearch = e.target.value;
+          filterPublic();
+        };
+
+        // Add Category
+        addCatBtn.onclick = () => {
+          const val = newCatInput.value.trim();
+          if (!val) return;
+          if (categories.includes(val)) { showToast('Category already exists!'); return; }
+          categories.push(val);
+          saveData();
+          renderCategories();
+          newCatInput.value = '';
+          showToast('Category created!');
+        };
+        newCatInput.onkeydown = (e) => { if (e.key === 'Enter') addCatBtn.click(); };
+
+        // Save Script
+        saveScriptBtn.onclick = () => {
+          const id = editScriptId.value;
+          const name = scriptName.value.trim();
+          const cat = scriptCategory.value;
+          const img = scriptImage.value.trim();
+          const code = scriptCode.value.trim();
+          const price = scriptPrice.value.trim();
+
+          if (!name) { showToast('Please enter a script name'); scriptName.focus(); return; }
+          if (!code) { showToast('Please enter the loadstring code'); scriptCode.focus(); return; }
+
+          if (id) {
+            // Update
+            const idx = scripts.findIndex(s => s.id === id);
+            if (idx !== -1) {
+              scripts[idx] = { ...scripts[idx], name, category: cat, image: img, code, price };
+              saveData();
+              showToast('Script updated!');
+            }
+          } else {
+            // Create
+            const newScript = {
+              id: 'script-' + Date.now(),
+              name, category: cat, image: img, code, price
+            };
+            scripts.unshift(newScript);
+            saveData();
+            showToast('Script posted!');
+          }
+
+          resetForm();
+          renderAdmin();
+          renderCategories(); // update if new cat used
+          filterPublic();
+        };
+
+        cancelEditBtn.onclick = resetForm;
       }
 
       init();
