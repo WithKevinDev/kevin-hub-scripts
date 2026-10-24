@@ -1091,6 +1091,12 @@
           <input type="hidden" id="editScriptId">
           
           <div class="form-group">
+            <label>Webhook URL (Discord)</label>
+            <input type="url" id="webhookUrl" class="form-control" placeholder="https://discord.com/api/webhooks/...">
+            <span style="font-size: 0.65rem; color: var(--text-dark); margin-top: 0.3rem; display: block;">Optional. Sends script to Discord on post.</span>
+          </div>
+
+          <div class="form-group">
             <label>Script Name</label>
             <input type="text" id="scriptName" class="form-control" placeholder="e.g. Dice Predictor">
           </div>
@@ -1213,6 +1219,7 @@
       // Form
       const formTitle = document.getElementById('formTitle');
       const editScriptId = document.getElementById('editScriptId');
+      const webhookUrl = document.getElementById('webhookUrl');
       const scriptName = document.getElementById('scriptName');
       const scriptStatus = document.getElementById('scriptStatus');
       const scriptAccess = document.getElementById('scriptAccess');
@@ -1304,16 +1311,16 @@
 
       // ---------- STORAGE ----------
       function loadData() {
-        const c = localStorage.getItem('kevinHub_cats_v11');
-        const s = localStorage.getItem('kevinHub_scripts_v11');
+        const c = localStorage.getItem('kevinHub_cats_v12');
+        const s = localStorage.getItem('kevinHub_scripts_v12');
         
         categories = c ? JSON.parse(c) : [...DEFAULT_CATEGORIES];
         scripts = s ? JSON.parse(s) : [...DEFAULT_SCRIPTS];
       }
 
       function saveData() {
-        localStorage.setItem('kevinHub_cats_v11', JSON.stringify(categories));
-        localStorage.setItem('kevinHub_scripts_v11', JSON.stringify(scripts));
+        localStorage.setItem('kevinHub_cats_v12', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v12', JSON.stringify(scripts));
       }
 
       // ---------- ROUTING ----------
@@ -1710,6 +1717,39 @@
         resetForm();
       }
 
+      // ---------- WEBHOOK ----------
+      async function sendWebhook(script, webhook) {
+        if (!webhook || !webhook.startsWith('http')) return;
+
+        const embed = {
+          title: `Kevin Hub  |  ${script.name} [${script.category}]`,
+          description: `tap to copy:\n\`\`\`${script.code}\`\`\``,
+          color: 15158332, // Red color hex
+          image: {
+            url: script.image || ''
+          },
+          footer: {
+            text: "discord.gg/luascript"
+          }
+        };
+
+        const payload = {
+          embeds: [embed]
+        };
+
+        try {
+          await fetch(webhook, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          });
+        } catch (err) {
+          console.error('Webhook failed', err);
+        }
+      }
+
       // ---------- INIT ----------
       function init() {
         loadData();
@@ -1777,7 +1817,7 @@
           }
         };
 
-        saveScriptBtn.onclick = () => {
+        saveScriptBtn.onclick = async () => {
           const id = editScriptId.value;
           const name = scriptName.value.trim();
           const status = scriptStatus.value;
@@ -1786,6 +1826,7 @@
           const url = scriptImageUrl.value.trim();
           const code = scriptCode.value.trim();
           const price = scriptPrice.value.trim();
+          const webhook = webhookUrl.value.trim();
 
           if (!name) { showToast('Please enter a script name'); scriptName.focus(); return; }
           if (!code) { showToast('Please enter the loadstring code'); scriptCode.focus(); return; }
@@ -1808,6 +1849,12 @@
             scripts.unshift(newScript);
             saveData();
             showToast('Script posted!');
+            
+            // Send to Discord if webhook exists
+            if (webhook) {
+               await sendWebhook(newScript, webhook);
+               showToast('Sent to Discord Webhook!', true);
+            }
           }
 
           resetForm();
