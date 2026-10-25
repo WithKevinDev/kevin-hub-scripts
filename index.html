@@ -827,6 +827,8 @@
     }
     .cat-tag i { cursor: pointer; color: var(--text-dark); transition: color 0.2s; }
     .cat-tag i:hover { color: var(--red-bright); }
+    .cat-tag .edit-cat { color: var(--yellow-bright); }
+    .cat-tag .edit-cat:hover { color: #fff; }
 
     .cat-input-group { display: flex; gap: 0.5rem; }
     .cat-input-group input { flex: 1; padding: 0.5rem; font-size: 0.8rem; }
@@ -1490,8 +1492,312 @@
 
       // ---------- CONFIG ----------
       const ADMIN_PASSWORD = 'kevinontop';
-      const DEFAULT_CATEGORIES = [];
-      const DEFAULT_SCRIPTS = [];
+      
+      // Pre-loaded scripts extracted from HTML (Kevin Hub removed from titles)
+      const DEFAULT_SCRIPTS = [
+        {
+          id: 'script-1',
+          name: 'Servers Finder',
+          category: 'Utility',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182480033087518/bro.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-Servers-Finder/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 2, fails: 0
+        },
+        {
+          id: 'script-2',
+          name: 'Aim Control',
+          category: 'Combat',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182497628069978/save.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-aim-control/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-3',
+          name: 'Friend Requester',
+          category: 'Utility',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182514577375353/friendreq.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-Friend-Requester/refs/heads/main/main.lua"))()',
+          status: 'Patched',
+          access: 'Keyless',
+          works: 0, fails: 1
+        },
+        {
+          id: 'script-4',
+          name: 'Fly GUI',
+          category: 'Utility',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182541119062046/flygui.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Fly-GUI/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-5',
+          name: 'Korblox Headless',
+          category: 'Visual',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182561503387809/head.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Korblox-Headless/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-6',
+          name: 'Avatar Copier',
+          category: 'Visual',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182593396744222/copier.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Avatar-Copier/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 1, fails: 0
+        },
+        {
+          id: 'script-7',
+          name: 'Badge Thingy',
+          category: 'Utility',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182612505862255/fafh.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Badge-Thingy/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 3, fails: 0
+        },
+        {
+          id: 'script-8',
+          name: 'Anti Die',
+          category: 'Utility',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182687802134538/antidie.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Anti-Die/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-9',
+          name: 'Fake Chat Bubble',
+          category: 'Visual',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182710275350658/fakechat.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Fake-Chat-Bubble/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-10',
+          name: 'Keyboard Overlay',
+          category: 'Visual',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182987489476859/keyboard.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Keyboard-overlay/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-11',
+          name: 'Account Lookup',
+          category: 'Utility',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183222068379728/Screenshot_2026-09-17_at_15.52.29.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Account-Lookup/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 2, fails: 0
+        },
+        {
+          id: 'script-12',
+          name: 'Dark GPT',
+          category: 'Utility',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183260786008105/Screenshot_2026-09-17_at_16.07.25.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Dark-GPT/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 1, fails: 0
+        },
+        {
+          id: 'script-13',
+          name: 'Desync',
+          category: 'Combat',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183397876826122/Screenshot_2026-09-27_at_18.52.13.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-hub-desync/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-14',
+          name: 'Silent Striker',
+          category: 'Combat',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183490180751470/IMG_5206.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-silent-striker/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-15',
+          name: 'Ride a Pet',
+          category: 'Game Specific',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183615716401182/IMG_5208.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-ride-a-pet/refs/heads/main/ride%20a%20pet%20script"))()',
+          status: 'Working',
+          access: 'Key System',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-16',
+          name: 'BaBT Auto Farm',
+          category: 'Auto-Farm',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183741553770606/IMG_1774.jpg',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-BaBT-auto-farm/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-17',
+          name: 'MM2 Auto Farm',
+          category: 'Auto-Farm',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183869622657134/Screenshot_2026-08-06_at_17.49.12.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-MM2-auto-farm/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-18',
+          name: 'Auto Harvest GAG2',
+          category: 'Auto-Farm',
+          image: '',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Auto-Harvest-GAG2/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-19',
+          name: 'Visual GAG2 Gifter',
+          category: 'Visual',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554184941879828480/Screenshot_2026-08-23_at_13.08.58.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Visual-GAG2-Gifter/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-20',
+          name: 'SAE Scripts',
+          category: 'Game Specific',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554185000067268758/IMG_5144.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-sae-scripts/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-21',
+          name: 'PS Bypass SAE',
+          category: 'Utility',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554185047035224094/IMG_5069.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-PS-Bypass-SAE/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-22',
+          name: 'Steal An Egg',
+          category: 'Game Specific',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554185097010221196/IMG_5017.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Steal-An-Egg/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-23',
+          name: 'Instant Grab',
+          category: 'Game Specific',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554185126261293187/Screenshot_2026-08-21_at_13.33.52.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Instant-Grab/refs/heads/main/StealAnEgg.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 3, fails: 0
+        },
+        {
+          id: 'script-24',
+          name: 'Touch Football',
+          category: 'Game Specific',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554568262736674876/IMG_5255.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Touch-Football/refs/heads/main/footballscript"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-25',
+          name: 'fe R15 Tall',
+          category: 'Game Specific',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1559652932511600680/IMG_8645.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-fe-tall/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-26',
+          name: 'Headless & Korblox (No UI)',
+          category: 'Visual',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1559966045580566639/Screenshot_2026-10-14_at_18.25.01.png',
+          code: 'loadstring(game:HttpGet("https://pastefy.app/WPl5Kk37/raw"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-27',
+          name: 'Huss Valley',
+          category: 'Game Specific',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1559971768708370622/Screenshot_2026-10-11_at_10.48.36.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-huss-valley/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Key System',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-28',
+          name: '+1 Keyboard Escape Visual Gifter',
+          category: 'Visual',
+          image: '',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-keyboard-visual-gifter/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-29',
+          name: 'Robux Visual Universal',
+          category: 'Visual',
+          image: '',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-universal-robux-visual/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        },
+        {
+          id: 'script-30',
+          name: 'Dice Predictor',
+          category: 'Game Specific',
+          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1563639789289341087/Screenshot_2026-10-24_at_21.43.09.png',
+          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-dice-predictor/refs/heads/main/main.lua"))()',
+          status: 'Working',
+          access: 'Keyless',
+          works: 0, fails: 0
+        }
+      ];
+
+      const DEFAULT_CATEGORIES = ['Game Specific', 'Combat', 'Visual', 'Utility', 'Auto-Farm'];
 
       // ---------- STATE ----------
       let scripts = [];
@@ -1583,8 +1889,10 @@
         const c = (cat || '').toLowerCase();
         if (c.includes('predict') || c.includes('dice')) return 'fa-dice';
         if (c.includes('farm') || c.includes('auto')) return 'fa-hat-wizard';
-        if (c.includes('esp') || c.includes('aim')) return 'fa-crosshairs';
+        if (c.includes('esp') || c.includes('aim') || c.includes('combat')) return 'fa-crosshairs';
         if (c.includes('util') || c.includes('inf')) return 'fa-gem';
+        if (c.includes('visual')) return 'fa-eye';
+        if (c.includes('game')) return 'fa-gamepad';
         return 'fa-file-code';
       }
 
@@ -1658,24 +1966,31 @@
 
       // ---------- STORAGE ----------
       function loadData() {
-        const c = localStorage.getItem('kevinHub_cats_v20');
-        const s = localStorage.getItem('kevinHub_scripts_v20');
-        const w = localStorage.getItem('kevinHub_webhook_v20');
+        const c = localStorage.getItem('kevinHub_cats_v22');
+        const s = localStorage.getItem('kevinHub_scripts_v22');
+        const w = localStorage.getItem('kevinHub_webhook_v22');
         
-        categories = c ? JSON.parse(c) : [...DEFAULT_CATEGORIES];
-        scripts = s ? JSON.parse(s) : [...DEFAULT_SCRIPTS];
+        if (c && s) {
+          categories = JSON.parse(c);
+          scripts = JSON.parse(s);
+        } else {
+          // First time loading, use defaults
+          categories = [...DEFAULT_CATEGORIES];
+          scripts = DEFAULT_SCRIPTS.map(s => ({ ...s }));
+          saveData();
+        }
         
         if (w) webhookUrl.value = w;
       }
 
       function saveData() {
-        localStorage.setItem('kevinHub_cats_v20', JSON.stringify(categories));
-        localStorage.setItem('kevinHub_scripts_v20', JSON.stringify(scripts));
+        localStorage.setItem('kevinHub_cats_v22', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v22', JSON.stringify(scripts));
       }
 
       // Save webhook on input
       webhookUrl.addEventListener('input', (e) => {
-        localStorage.setItem('kevinHub_webhook_v20', e.target.value.trim());
+        localStorage.setItem('kevinHub_webhook_v22', e.target.value.trim());
       });
 
       // ---------- ROUTING ----------
@@ -1790,13 +2105,43 @@
           : '<option value="">-- No categories yet --</option>';
         if (categories.includes(val)) scriptCategory.value = val;
 
+        // Add Edit and Delete icons for category tags
         catTagList.innerHTML = categories.map(c => `
           <span class="cat-tag">
             ${escapeHTML(c)}
-            <i class="fas fa-times" onclick="removeCategory('${escapeHTML(c)}')"></i>
+            <i class="fas fa-pen edit-cat" onclick="editCategory('${escapeHTML(c)}')" title="Edit Category Name"></i>
+            <i class="fas fa-times" onclick="removeCategory('${escapeHTML(c)}')" title="Delete Category"></i>
           </span>
         `).join('') || '<span style="font-size:0.8rem; color:var(--text-dark);">No categories created.</span>';
       }
+
+      window.editCategory = function(oldCat) {
+        const newCat = prompt(`Rename category "${oldCat}" to:`, oldCat);
+        if (!newCat || newCat.trim() === '' || newCat === oldCat) return;
+        
+        const cleanCat = newCat.trim();
+        if (categories.includes(cleanCat)) {
+          showToast('❌ Category name already exists!');
+          return;
+        }
+
+        // Update category list
+        categories = categories.map(c => c === oldCat ? cleanCat : c);
+        
+        // Update all scripts using this category
+        scripts.forEach(s => {
+          if (s.category === oldCat) s.category = cleanCat;
+        });
+
+        // If the current filter was the old category, update it to the new one
+        if (currentCatFilter === oldCat) currentCatFilter = cleanCat;
+
+        saveData();
+        renderCategories();
+        renderAdmin();
+        filterPublic();
+        showToast(`✅ Renamed to "${cleanCat}"`);
+      };
 
       window.removeCategory = function(cat) {
         const used = scripts.filter(s => s.category === cat).length;
@@ -2099,13 +2444,11 @@
         resetForm();
       }
 
-      // ---------- WEBHOOK (FIXED) ----------
+      // ---------- WEBHOOK ----------
       async function sendWebhook(script, webhook) {
         if (!webhook || !webhook.startsWith('http')) return;
 
         const slug = slugify(script.name);
-        
-        // Use query string format to avoid Discord dropping the button due to hash (#) in URL
         const previewUrl = `https://kevin-hub-scripts.itskevin.workers.dev/?script=${slug}`;
 
         const embed = {
@@ -2120,16 +2463,15 @@
           }
         };
 
-        // EXACT STRICT FORMAT FOR LINK BUTTONS
         const payload = {
           embeds: [embed],
           components: [
             {
-              type: 1, // Action Row
+              type: 1, 
               components: [
                 {
-                  type: 2, // Button
-                  style: 5, // Link Button
+                  type: 2, 
+                  style: 5, 
                   label: "Preview",
                   url: previewUrl
                 }
@@ -2151,7 +2493,6 @@
             const errorData = await res.json();
             console.error('Discord Webhook Error:', errorData);
             
-            // Fallback: If Discord rejects the components for ANY reason, send without them
             if (errorData.message && errorData.message.toLowerCase().includes('components')) {
                 showToast('⚠️ Discord rejected the button. Sending without it.');
                 delete payload.components;
