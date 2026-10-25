@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kevin Hub · Premium Scripts</title>
+  <title>Kevin Hub - Free Scripts</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   
@@ -551,6 +551,7 @@
 
     .card-actions {
       display: flex;
+      flex-wrap: wrap;
       gap: 0.5rem;
       margin-top: auto;
     }
@@ -620,6 +621,18 @@
       background: var(--yellow-primary);
       color: #000;
       border-color: var(--yellow-bright);
+    }
+
+    .btn-webhook {
+      background: rgba(88, 101, 242, 0.1);
+      border: 1px solid rgba(88, 101, 242, 0.3);
+      color: #b0b5ff;
+      flex: 0.5;
+    }
+    .btn-webhook:hover {
+      background: var(--discord);
+      color: #fff;
+      border-color: var(--discord);
     }
 
     /* Admin overlays */
@@ -1091,9 +1104,9 @@
           <input type="hidden" id="editScriptId">
           
           <div class="form-group">
-            <label>Webhook URL (Discord)</label>
+            <label>Webhook URL (Saved)</label>
             <input type="url" id="webhookUrl" class="form-control" placeholder="https://discord.com/api/webhooks/...">
-            <span style="font-size: 0.65rem; color: var(--text-dark); margin-top: 0.3rem; display: block;">Optional. Sends script to Discord on post.</span>
+            <span style="font-size: 0.65rem; color: var(--text-dark); margin-top: 0.3rem; display: block;">Saved automatically.</span>
           </div>
 
           <div class="form-group">
@@ -1311,17 +1324,25 @@
 
       // ---------- STORAGE ----------
       function loadData() {
-        const c = localStorage.getItem('kevinHub_cats_v13');
-        const s = localStorage.getItem('kevinHub_scripts_v13');
+        const c = localStorage.getItem('kevinHub_cats_v14');
+        const s = localStorage.getItem('kevinHub_scripts_v14');
+        const w = localStorage.getItem('kevinHub_webhook_v14');
         
         categories = c ? JSON.parse(c) : [...DEFAULT_CATEGORIES];
         scripts = s ? JSON.parse(s) : [...DEFAULT_SCRIPTS];
+        
+        if (w) webhookUrl.value = w;
       }
 
       function saveData() {
-        localStorage.setItem('kevinHub_cats_v13', JSON.stringify(categories));
-        localStorage.setItem('kevinHub_scripts_v13', JSON.stringify(scripts));
+        localStorage.setItem('kevinHub_cats_v14', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v14', JSON.stringify(scripts));
       }
+
+      // Save webhook on input
+      webhookUrl.addEventListener('input', (e) => {
+        localStorage.setItem('kevinHub_webhook_v14', e.target.value.trim());
+      });
 
       // ---------- ROUTING ----------
       window.goHome = function(e) {
@@ -1510,6 +1531,9 @@
                 ` : `
                   <button class="btn btn-edit" onclick="editScript('${script.id}')">
                     <i class="fas fa-pen"></i> Edit
+                  </button>
+                  <button class="btn btn-webhook" onclick="manualSendWebhook('${script.id}')" title="Send to Webhook">
+                    <i class="fab fa-discord"></i> Send
                   </button>
                 `}
                 <button class="btn btn-primary" onclick="copyCode('${script.id}', this)">
@@ -1769,6 +1793,21 @@
           console.error('Webhook failed', err);
         }
       }
+
+      window.manualSendWebhook = async function(id) {
+        const script = scripts.find(s => s.id === id);
+        if (!script) return;
+        
+        const webhook = webhookUrl.value.trim();
+        if (!webhook) {
+          showToast('❌ No Webhook URL saved!');
+          return;
+        }
+        
+        showToast('Sending to Discord...');
+        await sendWebhook(script, webhook);
+        showToast('✅ Sent to Discord!', true);
+      };
 
       // ---------- INIT ----------
       function init() {
