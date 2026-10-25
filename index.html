@@ -1966,9 +1966,9 @@
 
       // ---------- STORAGE ----------
       function loadData() {
-        const c = localStorage.getItem('kevinHub_cats_v22');
-        const s = localStorage.getItem('kevinHub_scripts_v22');
-        const w = localStorage.getItem('kevinHub_webhook_v22');
+        const c = localStorage.getItem('kevinHub_cats_v23');
+        const s = localStorage.getItem('kevinHub_scripts_v23');
+        const w = localStorage.getItem('kevinHub_webhook_v23');
         
         if (c && s) {
           categories = JSON.parse(c);
@@ -1984,13 +1984,13 @@
       }
 
       function saveData() {
-        localStorage.setItem('kevinHub_cats_v22', JSON.stringify(categories));
-        localStorage.setItem('kevinHub_scripts_v22', JSON.stringify(scripts));
+        localStorage.setItem('kevinHub_cats_v23', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v23', JSON.stringify(scripts));
       }
 
       // Save webhook on input
       webhookUrl.addEventListener('input', (e) => {
-        localStorage.setItem('kevinHub_webhook_v22', e.target.value.trim());
+        localStorage.setItem('kevinHub_webhook_v23', e.target.value.trim());
       });
 
       // ---------- ROUTING ----------
@@ -2453,7 +2453,8 @@
 
         const embed = {
           title: `Kevin Hub  |  ${script.name} [${script.category}]`,
-          description: `tap to copy:\n\`\`\`${script.code}\`\`\``,
+          // Changed to single backticks for mobile copy format
+          description: `tap to copy:\n\`${script.code}\``,
           color: 15158332,
           image: {
             url: script.image || ''
