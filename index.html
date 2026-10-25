@@ -1311,16 +1311,16 @@
 
       // ---------- STORAGE ----------
       function loadData() {
-        const c = localStorage.getItem('kevinHub_cats_v12');
-        const s = localStorage.getItem('kevinHub_scripts_v12');
+        const c = localStorage.getItem('kevinHub_cats_v13');
+        const s = localStorage.getItem('kevinHub_scripts_v13');
         
         categories = c ? JSON.parse(c) : [...DEFAULT_CATEGORIES];
         scripts = s ? JSON.parse(s) : [...DEFAULT_SCRIPTS];
       }
 
       function saveData() {
-        localStorage.setItem('kevinHub_cats_v12', JSON.stringify(categories));
-        localStorage.setItem('kevinHub_scripts_v12', JSON.stringify(scripts));
+        localStorage.setItem('kevinHub_cats_v13', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v13', JSON.stringify(scripts));
       }
 
       // ---------- ROUTING ----------
@@ -1721,6 +1721,10 @@
       async function sendWebhook(script, webhook) {
         if (!webhook || !webhook.startsWith('http')) return;
 
+        // Generate the slug for the URL
+        const slug = slugify(script.name);
+        const previewUrl = `https://kevin-hub-scripts.itskevin.workers.dev/#/script/${slug}`;
+
         const embed = {
           title: `Kevin Hub  |  ${script.name} [${script.category}]`,
           description: `tap to copy:\n\`\`\`${script.code}\`\`\``,
@@ -1734,7 +1738,23 @@
         };
 
         const payload = {
-          embeds: [embed]
+          embeds: [embed],
+          components: [
+            {
+              type: 1, // Action Row
+              components: [
+                {
+                  type: 2, // Button
+                  label: "Preview",
+                  style: 5, // Link Button
+                  url: previewUrl,
+                  emoji: {
+                    name: "💎"
+                  }
+                }
+              ]
+            }
+          ]
         };
 
         try {
