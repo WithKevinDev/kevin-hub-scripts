@@ -1658,9 +1658,9 @@
 
       // ---------- STORAGE ----------
       function loadData() {
-        const c = localStorage.getItem('kevinHub_cats_v18');
-        const s = localStorage.getItem('kevinHub_scripts_v18');
-        const w = localStorage.getItem('kevinHub_webhook_v18');
+        const c = localStorage.getItem('kevinHub_cats_v19');
+        const s = localStorage.getItem('kevinHub_scripts_v19');
+        const w = localStorage.getItem('kevinHub_webhook_v19');
         
         categories = c ? JSON.parse(c) : [...DEFAULT_CATEGORIES];
         scripts = s ? JSON.parse(s) : [...DEFAULT_SCRIPTS];
@@ -1669,13 +1669,13 @@
       }
 
       function saveData() {
-        localStorage.setItem('kevinHub_cats_v18', JSON.stringify(categories));
-        localStorage.setItem('kevinHub_scripts_v18', JSON.stringify(scripts));
+        localStorage.setItem('kevinHub_cats_v19', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v19', JSON.stringify(scripts));
       }
 
       // Save webhook on input
       webhookUrl.addEventListener('input', (e) => {
-        localStorage.setItem('kevinHub_webhook_v18', e.target.value.trim());
+        localStorage.setItem('kevinHub_webhook_v19', e.target.value.trim());
       });
 
       // ---------- ROUTING ----------
@@ -2099,12 +2099,15 @@
         resetForm();
       }
 
-      // ---------- WEBHOOK ----------
+      // ---------- WEBHOOK (FIXED) ----------
       async function sendWebhook(script, webhook) {
         if (!webhook || !webhook.startsWith('http')) return;
 
         const slug = slugify(script.name);
-        const previewUrl = `https://kevin-hub-scripts.itskevin.workers.dev/#/script/${slug}`;
+        
+        // Generate a clean URL without the # hash if possible to avoid Discord's spam filter
+        // We use the query param format as a fallback
+        const previewUrl = `https://kevin-hub-scripts.itskevin.workers.dev/?script=${slug}`;
 
         const embed = {
           title: `Kevin Hub  |  ${script.name} [${script.category}]`,
@@ -2118,54 +2121,61 @@
           }
         };
 
+        // Strict Discord Button Format
         const payload = {
           embeds: [embed],
           components: [
             {
-              type: 1,
+              type: 1, // Action Row
               components: [
                 {
-                  type: 2,
-                  style: 5,
+                  type: 2, // Button
+                  style: 5, // Link Button
                   label: "Preview",
-                  url: previewUrl,
-                  emoji: {
-                    name: "💎"
-                  }
+                  url: previewUrl
+                  // NO EMOJI OBJECT - Discord drops the button if the emoji fails validation
                 }
               ]
             }
           ]
         };
 
-        try {
-          const res = await fetch(webhook, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-          });
+        let attempts = 0;
+        const maxRetries = 2;
+        
+        while (attempts < maxRetries) {
+          try {
+            const res = await fetch(webhook, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            });
 
-          if (!res.ok) {
+            if (res.ok) {
+              console.log('Webhook sent successfully');
+              return;
+            }
+
             const errorData = await res.json();
             console.error('Discord Webhook Error:', errorData);
             
-            // Fallback: Send WITHOUT the button if the button is rejected
-            if (errorData.message && errorData.message.includes('components')) {
-                showToast('⚠️ Discord rejected the button. Sending without it.');
+            // If Discord rejects the button (components), try sending without it
+            if (errorData.message && errorData.message.toLowerCase().includes('components')) {
+                showToast('⚠️ Discord rejected the button URL. Sending without it.');
                 delete payload.components;
-                await fetch(webhook, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(payload)
-                });
+                attempts++;
+                continue;
             } else {
                 showToast('❌ Webhook failed. Check console.');
+                break;
             }
+          } catch (err) {
+            console.error('Webhook fetch failed', err);
+            showToast('❌ Network error sending webhook.');
+            break;
           }
-        } catch (err) {
-          console.error('Webhook failed', err);
         }
       }
 
