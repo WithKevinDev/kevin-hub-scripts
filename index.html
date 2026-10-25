@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kevin Hub · Premium Scripts</title>
+  <title>Kevin Hub - Free Scripts</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   
@@ -392,6 +392,9 @@
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
     .pill:hover { 
@@ -407,6 +410,18 @@
       color: #fff;
       box-shadow: 0 0 25px var(--red-glow);
       transform: translateY(-2px);
+    }
+
+    .pill-count {
+      background: rgba(0,0,0,0.3);
+      padding: 0.1rem 0.5rem;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .pill.active .pill-count {
+      background: rgba(255,255,255,0.2);
     }
 
     /* Script Grid */
@@ -443,10 +458,10 @@
       z-index: 10;
     }
 
-    /* Image Container */
+    /* Image Container (Now just an icon) */
     .card-img-container {
       width: 100%;
-      height: 220px;
+      height: 140px;
       background: #000;
       display: flex;
       align-items: center;
@@ -454,17 +469,8 @@
       overflow: hidden;
       border-bottom: 1px solid var(--border-subtle);
       position: relative;
-      cursor: pointer;
     }
 
-    .card-img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .script-card:hover .card-img { transform: scale(1.1); }
-    
     .img-placeholder {
       width: 100%;
       height: 100%;
@@ -474,26 +480,14 @@
       justify-content: center;
       color: var(--border-active);
       font-size: 4rem;
+      transition: transform 0.5s, color 0.3s;
     }
-
-    .img-hover-overlay {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(3px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s;
-      color: #fff;
-      font-size: 1rem;
-      font-weight: 700;
-      pointer-events: none;
-      z-index: 10;
+    
+    .script-card:hover .img-placeholder {
+      transform: scale(1.1);
+      color: var(--red-primary);
+      filter: drop-shadow(0 0 15px var(--red-glow));
     }
-    .card-img-container:hover .img-hover-overlay { opacity: 1; }
-    .img-hover-overlay i { margin-right: 0.6rem; }
 
     /* Status Overlay */
     .status-overlay {
@@ -502,7 +496,7 @@
       left: 50%;
       transform: translate(-50%, -50%) rotate(-8deg);
       font-family: var(--font-display);
-      font-size: 4rem;
+      font-size: 3.5rem;
       font-weight: 900;
       color: #ff0000;
       text-transform: uppercase;
@@ -780,34 +774,6 @@
       box-shadow: 0 0 20px rgba(230,25,25,0.2);
     }
 
-    .image-upload-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      background: var(--bg-base);
-      border: 1px dashed var(--border-active);
-      border-radius: 0.6rem;
-      padding: 1rem;
-      text-align: center;
-      position: relative;
-      transition: all 0.2s;
-    }
-    .image-upload-wrapper:hover { border-color: var(--red-primary); box-shadow: 0 0 15px rgba(230,25,25,0.1); }
-    .image-upload-wrapper input[type="file"] {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      opacity: 0; cursor: pointer;
-    }
-    .image-upload-wrapper i { font-size: 2rem; color: var(--text-dark); margin-bottom: 0.5rem; }
-    .image-upload-wrapper span { font-size: 0.8rem; color: var(--text-muted); }
-    .image-preview-thumb {
-      max-width: 100%;
-      max-height: 100px;
-      object-fit: contain;
-      border-radius: 0.4rem;
-      margin-top: 0.5rem;
-    }
-
     .category-manager {
       background: var(--bg-base);
       border: 1px dashed var(--border-active);
@@ -829,6 +795,14 @@
     .cat-tag i:hover { color: var(--red-bright); }
     .cat-tag .edit-cat { color: var(--yellow-bright); }
     .cat-tag .edit-cat:hover { color: #fff; }
+    
+    .cat-tag-count {
+      background: rgba(255,255,255,0.1);
+      padding: 0.05rem 0.3rem;
+      border-radius: 0.5rem;
+      font-size: 0.65rem;
+      margin-left: 0.2rem;
+    }
 
     .cat-input-group { display: flex; gap: 0.5rem; }
     .cat-input-group input { flex: 1; padding: 0.5rem; font-size: 0.8rem; }
@@ -893,20 +867,9 @@
       position: relative;
     }
 
-    .view-script-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      max-height: 600px;
-      transition: transform 0.5s;
-    }
-    
-    .view-script-image:hover img {
-      transform: scale(1.02);
-    }
-
     .view-script-image .img-placeholder {
-      font-size: 6rem;
+      font-size: 8rem;
+      color: var(--border-active);
     }
 
     .view-script-details {
@@ -1032,56 +995,6 @@
     .empty-state i { font-size: 5rem; color: var(--border-active); margin-bottom: 1.5rem; text-shadow: 0 0 20px rgba(0,0,0,0.5); }
     .empty-state h3 { font-family: var(--font-display); font-size: 1.8rem; color: #fff; margin-bottom: 0.5rem; }
     .empty-state p { color: var(--text-muted); font-size: 1.1rem; }
-
-    /* ---------- LIGHTBOX ---------- */
-    .lightbox {
-      position: fixed;
-      top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(0, 0, 0, 0.95);
-      backdrop-filter: blur(15px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10000;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.4s ease;
-    }
-
-    .lightbox.active { opacity: 1; pointer-events: auto; }
-
-    .lightbox-img {
-      max-width: 90%;
-      max-height: 90%;
-      object-fit: contain;
-      border-radius: 1rem;
-      box-shadow: 0 0 80px rgba(230, 25, 25, 0.4);
-      transform: scale(0.9);
-      transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-    }
-
-    .lightbox.active .lightbox-img { transform: scale(1); }
-
-    .lightbox-close {
-      position: absolute;
-      top: 2rem; right: 2rem;
-      background: rgba(255,255,255,0.1);
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #fff;
-      width: 60px; height: 60px;
-      border-radius: 50%;
-      font-size: 1.8rem;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: all 0.3s;
-    }
-
-    .lightbox-close:hover {
-      background: var(--red-primary);
-      border-color: var(--red-bright);
-      transform: rotate(90deg) scale(1.1);
-      box-shadow: 0 0 20px var(--red-glow);
-    }
 
     /* ---------- FEEDBACK MODAL (RED THEMED) ---------- */
     .modal-overlay {
@@ -1394,17 +1307,6 @@
           </div>
 
           <div class="form-group">
-            <label>Image (Upload or URL)</label>
-            <div class="image-upload-wrapper" id="imageUploadWrapper">
-              <input type="file" id="scriptImageFile" accept="image/*">
-              <i class="fas fa-cloud-upload-alt"></i>
-              <span>Click or Drag to upload image</span>
-              <img id="imagePreviewThumb" class="image-preview-thumb" style="display: none;">
-            </div>
-            <input type="url" id="scriptImageUrl" class="form-control" placeholder="Or paste image URL..." style="margin-top: 0.5rem; font-size: 0.8rem;">
-          </div>
-
-          <div class="form-group">
             <label>Script Code</label>
             <textarea id="scriptCode" class="form-control" placeholder='loadstring(game:HttpGet("..."))()'></textarea>
           </div>
@@ -1427,7 +1329,18 @@
           </div>
         </aside>
 
-        <div class="script-grid" id="adminGrid" style="flex: 1;"></div>
+        <!-- Admin Script Grid Area -->
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 1.5rem;">
+          <!-- Admin Search Bar -->
+          <div class="filter-bar" style="margin-bottom: 0;">
+            <div class="search-container">
+              <i class="fas fa-search"></i>
+              <input type="text" id="adminSearchInput" placeholder="Search scripts in admin panel...">
+            </div>
+          </div>
+          
+          <div class="script-grid" id="adminGrid"></div>
+        </div>
       </div>
     </div>
   </div>
@@ -1435,12 +1348,6 @@
   <!-- TOAST -->
   <div class="toast" id="toast">
     <i class="fas fa-check-circle"></i> <span id="toastMsg">Done!</span>
-  </div>
-
-  <!-- LIGHTBOX -->
-  <div class="lightbox" id="lightbox">
-    <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
-    <img class="lightbox-img" id="lightboxImg" src="" alt="Expanded Image">
   </div>
 
   <!-- FEEDBACK MODAL -->
@@ -1493,308 +1400,38 @@
       // ---------- CONFIG ----------
       const ADMIN_PASSWORD = 'kevinontop';
       
-      // Pre-loaded scripts extracted from HTML (Kevin Hub removed from titles)
+      // Pre-loaded scripts extracted from HTML, Images Removed
       const DEFAULT_SCRIPTS = [
-        {
-          id: 'script-1',
-          name: 'Servers Finder',
-          category: 'Utility',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182480033087518/bro.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-Servers-Finder/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 2, fails: 0
-        },
-        {
-          id: 'script-2',
-          name: 'Aim Control',
-          category: 'Combat',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182497628069978/save.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-aim-control/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-3',
-          name: 'Friend Requester',
-          category: 'Utility',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182514577375353/friendreq.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-Friend-Requester/refs/heads/main/main.lua"))()',
-          status: 'Patched',
-          access: 'Keyless',
-          works: 0, fails: 1
-        },
-        {
-          id: 'script-4',
-          name: 'Fly GUI',
-          category: 'Utility',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182541119062046/flygui.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Fly-GUI/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-5',
-          name: 'Korblox Headless',
-          category: 'Visual',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182561503387809/head.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Korblox-Headless/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-6',
-          name: 'Avatar Copier',
-          category: 'Visual',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182593396744222/copier.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Avatar-Copier/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 1, fails: 0
-        },
-        {
-          id: 'script-7',
-          name: 'Badge Thingy',
-          category: 'Utility',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182612505862255/fafh.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Badge-Thingy/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 3, fails: 0
-        },
-        {
-          id: 'script-8',
-          name: 'Anti Die',
-          category: 'Utility',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182687802134538/antidie.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Anti-Die/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-9',
-          name: 'Fake Chat Bubble',
-          category: 'Visual',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182710275350658/fakechat.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Fake-Chat-Bubble/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-10',
-          name: 'Keyboard Overlay',
-          category: 'Visual',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554182987489476859/keyboard.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Keyboard-overlay/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-11',
-          name: 'Account Lookup',
-          category: 'Utility',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183222068379728/Screenshot_2026-09-17_at_15.52.29.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Account-Lookup/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 2, fails: 0
-        },
-        {
-          id: 'script-12',
-          name: 'Dark GPT',
-          category: 'Utility',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183260786008105/Screenshot_2026-09-17_at_16.07.25.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Dark-GPT/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 1, fails: 0
-        },
-        {
-          id: 'script-13',
-          name: 'Desync',
-          category: 'Combat',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183397876826122/Screenshot_2026-09-27_at_18.52.13.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-hub-desync/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-14',
-          name: 'Silent Striker',
-          category: 'Combat',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183490180751470/IMG_5206.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-silent-striker/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-15',
-          name: 'Ride a Pet',
-          category: 'Game Specific',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183615716401182/IMG_5208.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-ride-a-pet/refs/heads/main/ride%20a%20pet%20script"))()',
-          status: 'Working',
-          access: 'Key System',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-16',
-          name: 'BaBT Auto Farm',
-          category: 'Auto-Farm',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183741553770606/IMG_1774.jpg',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-BaBT-auto-farm/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-17',
-          name: 'MM2 Auto Farm',
-          category: 'Auto-Farm',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554183869622657134/Screenshot_2026-08-06_at_17.49.12.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-MM2-auto-farm/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-18',
-          name: 'Auto Harvest GAG2',
-          category: 'Auto-Farm',
-          image: '',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Auto-Harvest-GAG2/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-19',
-          name: 'Visual GAG2 Gifter',
-          category: 'Visual',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554184941879828480/Screenshot_2026-08-23_at_13.08.58.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Visual-GAG2-Gifter/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-20',
-          name: 'SAE Scripts',
-          category: 'Game Specific',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554185000067268758/IMG_5144.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-sae-scripts/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-21',
-          name: 'PS Bypass SAE',
-          category: 'Utility',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554185047035224094/IMG_5069.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-PS-Bypass-SAE/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-22',
-          name: 'Steal An Egg',
-          category: 'Game Specific',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554185097010221196/IMG_5017.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Steal-An-Egg/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-23',
-          name: 'Instant Grab',
-          category: 'Game Specific',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554185126261293187/Screenshot_2026-08-21_at_13.33.52.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Instant-Grab/refs/heads/main/StealAnEgg.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 3, fails: 0
-        },
-        {
-          id: 'script-24',
-          name: 'Touch Football',
-          category: 'Game Specific',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1554568262736674876/IMG_5255.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Touch-Football/refs/heads/main/footballscript"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-25',
-          name: 'fe R15 Tall',
-          category: 'Game Specific',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1559652932511600680/IMG_8645.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-fe-tall/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-26',
-          name: 'Headless & Korblox (No UI)',
-          category: 'Visual',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1559966045580566639/Screenshot_2026-10-14_at_18.25.01.png',
-          code: 'loadstring(game:HttpGet("https://pastefy.app/WPl5Kk37/raw"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-27',
-          name: 'Huss Valley',
-          category: 'Game Specific',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1559971768708370622/Screenshot_2026-10-11_at_10.48.36.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-huss-valley/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Key System',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-28',
-          name: '+1 Keyboard Escape Visual Gifter',
-          category: 'Visual',
-          image: '',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-keyboard-visual-gifter/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-29',
-          name: 'Robux Visual Universal',
-          category: 'Visual',
-          image: '',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-universal-robux-visual/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        },
-        {
-          id: 'script-30',
-          name: 'Dice Predictor',
-          category: 'Game Specific',
-          image: 'https://cdn.discordapp.com/attachments/1554182444234580069/1563639789289341087/Screenshot_2026-10-24_at_21.43.09.png',
-          code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-dice-predictor/refs/heads/main/main.lua"))()',
-          status: 'Working',
-          access: 'Keyless',
-          works: 0, fails: 0
-        }
+        { id: 'script-1', name: 'Servers Finder', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-Servers-Finder/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 2, fails: 0 },
+        { id: 'script-2', name: 'Aim Control', category: 'Combat', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-aim-control/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-3', name: 'Friend Requester', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-Friend-Requester/refs/heads/main/main.lua"))()', status: 'Patched', access: 'Keyless', works: 0, fails: 1 },
+        { id: 'script-4', name: 'Fly GUI', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Fly-GUI/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-5', name: 'Korblox Headless', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Korblox-Headless/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-6', name: 'Avatar Copier', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Avatar-Copier/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 1, fails: 0 },
+        { id: 'script-7', name: 'Badge Thingy', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Badge-Thingy/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 3, fails: 0 },
+        { id: 'script-8', name: 'Anti Die', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Anti-Die/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-9', name: 'Fake Chat Bubble', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Fake-Chat-Bubble/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-10', name: 'Keyboard Overlay', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Keyboard-overlay/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-11', name: 'Account Lookup', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Account-Lookup/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 2, fails: 0 },
+        { id: 'script-12', name: 'Dark GPT', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Dark-GPT/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 1, fails: 0 },
+        { id: 'script-13', name: 'Desync', category: 'Combat', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-hub-desync/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-14', name: 'Silent Striker', category: 'Combat', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-silent-striker/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-15', name: 'Ride a Pet', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-ride-a-pet/refs/heads/main/ride%20a%20pet%20script"))()', status: 'Working', access: 'Key System', works: 0, fails: 0 },
+        { id: 'script-16', name: 'BaBT Auto Farm', category: 'Auto-Farm', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-BaBT-auto-farm/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-17', name: 'MM2 Auto Farm', category: 'Auto-Farm', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-MM2-auto-farm/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-18', name: 'Auto Harvest GAG2', category: 'Auto-Farm', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Auto-Harvest-GAG2/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-19', name: 'Visual GAG2 Gifter', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Visual-GAG2-Gifter/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-20', name: 'SAE Scripts', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-sae-scripts/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-21', name: 'PS Bypass SAE', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-PS-Bypass-SAE/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-22', name: 'Steal An Egg', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Steal-An-Egg/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-23', name: 'Instant Grab', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Instant-Grab/refs/heads/main/StealAnEgg.lua"))()', status: 'Working', access: 'Keyless', works: 3, fails: 0 },
+        { id: 'script-24', name: 'Touch Football', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Touch-Football/refs/heads/main/footballscript"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-25', name: 'fe R15 Tall', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-fe-tall/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-26', name: 'Headless & Korblox (No UI)', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://pastefy.app/WPl5Kk37/raw"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-27', name: 'Huss Valley', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-huss-valley/refs/heads/main/main.lua"))()', status: 'Working', access: 'Key System', works: 0, fails: 0 },
+        { id: 'script-28', name: '+1 Keyboard Escape Visual Gifter', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-keyboard-visual-gifter/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-29', name: 'Robux Visual Universal', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-universal-robux-visual/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
+        { id: 'script-30', name: 'Dice Predictor', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-dice-predictor/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 }
       ];
 
       const DEFAULT_CATEGORIES = ['Game Specific', 'Combat', 'Visual', 'Utility', 'Auto-Farm'];
@@ -1804,8 +1441,8 @@
       let categories = [];
       let isAdmin = false;
       let currentCatFilter = 'All';
-      let currentSearch = '';
-      let currentBase64Image = '';
+      let currentPublicSearch = '';
+      let currentAdminSearch = '';
       let activeFeedbackScriptId = null;
 
       // ---------- DOM ----------
@@ -1822,6 +1459,7 @@
       
       const categoryPills = document.getElementById('categoryPills');
       const searchInput = document.getElementById('searchInput');
+      const adminSearchInput = document.getElementById('adminSearchInput');
       
       // Form
       const formTitle = document.getElementById('formTitle');
@@ -1831,9 +1469,6 @@
       const scriptStatus = document.getElementById('scriptStatus');
       const scriptAccess = document.getElementById('scriptAccess');
       const scriptCategory = document.getElementById('scriptCategory');
-      const scriptImageUrl = document.getElementById('scriptImageUrl');
-      const scriptImageFile = document.getElementById('scriptImageFile');
-      const imagePreviewThumb = document.getElementById('imagePreviewThumb');
       const scriptCode = document.getElementById('scriptCode');
       const scriptPrice = document.getElementById('scriptPrice');
       const saveScriptBtn = document.getElementById('saveScriptBtn');
@@ -1850,9 +1485,6 @@
       
       const toast = document.getElementById('toast');
       const toastMsg = document.getElementById('toastMsg');
-
-      const lightbox = document.getElementById('lightbox');
-      const lightboxImg = document.getElementById('lightboxImg');
 
       // Feedback Modal
       const feedbackModal = document.getElementById('feedbackModal');
@@ -1905,23 +1537,6 @@
         }
       }
 
-      // ---------- LIGHTBOX ----------
-      window.openLightbox = function(src) {
-        if (!src) return;
-        lightboxImg.src = src;
-        lightbox.classList.add('active');
-      }
-
-      window.closeLightbox = function() {
-        lightbox.classList.remove('active');
-        setTimeout(() => { lightboxImg.src = ''; }, 300);
-      }
-
-      lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
-      });
-
       // ---------- FEEDBACK MODAL ----------
       function openFeedbackModal(scriptId) {
         if (localStorage.getItem('hideFeedback') === 'true') return;
@@ -1966,9 +1581,9 @@
 
       // ---------- STORAGE ----------
       function loadData() {
-        const c = localStorage.getItem('kevinHub_cats_v23');
-        const s = localStorage.getItem('kevinHub_scripts_v23');
-        const w = localStorage.getItem('kevinHub_webhook_v23');
+        const c = localStorage.getItem('kevinHub_cats_v24');
+        const s = localStorage.getItem('kevinHub_scripts_v24');
+        const w = localStorage.getItem('kevinHub_webhook_v24');
         
         if (c && s) {
           categories = JSON.parse(c);
@@ -1984,13 +1599,13 @@
       }
 
       function saveData() {
-        localStorage.setItem('kevinHub_cats_v23', JSON.stringify(categories));
-        localStorage.setItem('kevinHub_scripts_v23', JSON.stringify(scripts));
+        localStorage.setItem('kevinHub_cats_v24', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v24', JSON.stringify(scripts));
       }
 
       // Save webhook on input
       webhookUrl.addEventListener('input', (e) => {
-        localStorage.setItem('kevinHub_webhook_v23', e.target.value.trim());
+        localStorage.setItem('kevinHub_webhook_v24', e.target.value.trim());
       });
 
       // ---------- ROUTING ----------
@@ -2030,7 +1645,6 @@
 
       // ---------- RENDER SINGLE SCRIPT ----------
       function renderSingleScript(script) {
-        const imgSrc = script.image || '';
         const statusColor = getStatusColor(script.status);
         
         // Format ratings
@@ -2043,11 +1657,8 @@
         }
 
         viewScriptContainer.innerHTML = `
-          <div class="view-script-image" ${imgSrc ? `onclick="openLightbox('${imgSrc}')" style="cursor:pointer;"` : ''}>
-            ${imgSrc 
-              ? `<img src="${imgSrc}" alt="${escapeHTML(script.name)}">`
-              : `<div class="img-placeholder"><i class="fas ${getIcon(script.category)}"></i></div>`
-            }
+          <div class="view-script-image">
+            <div class="img-placeholder"><i class="fas ${getIcon(script.category)}"></i></div>
           </div>
           <div class="view-script-details">
             <div>
@@ -2085,15 +1696,25 @@
 
       // ---------- RENDER CATEGORIES ----------
       function renderCategories() {
-        let html = `<button class="pill ${currentCatFilter === 'All' ? 'active' : ''}" data-cat="All">All Scripts</button>`;
+        // Calculate counts
+        const totalScripts = scripts.length;
+        
+        let html = `<button class="pill ${currentCatFilter === 'All' ? 'active' : ''}" data-cat="All">
+          All Scripts <span class="pill-count">${totalScripts}</span>
+        </button>`;
+        
         categories.forEach(cat => {
-          html += `<button class="pill ${currentCatFilter === cat ? 'active' : ''}" data-cat="${escapeHTML(cat)}">${escapeHTML(cat)}</button>`;
+          const count = scripts.filter(s => s.category === cat).length;
+          html += `<button class="pill ${currentCatFilter === cat ? 'active' : ''}" data-cat="${escapeHTML(cat)}">
+            ${escapeHTML(cat)} <span class="pill-count">${count}</span>
+          </button>`;
         });
+        
         categoryPills.innerHTML = html;
 
         document.querySelectorAll('.pill').forEach(btn => {
           btn.onclick = (e) => {
-            currentCatFilter = e.target.getAttribute('data-cat');
+            currentCatFilter = e.target.closest('.pill').getAttribute('data-cat');
             renderCategories();
             filterPublic();
           };
@@ -2105,14 +1726,16 @@
           : '<option value="">-- No categories yet --</option>';
         if (categories.includes(val)) scriptCategory.value = val;
 
-        // Add Edit and Delete icons for category tags
-        catTagList.innerHTML = categories.map(c => `
+        // Add Edit and Delete icons for category tags (Admin Panel)
+        catTagList.innerHTML = categories.map(c => {
+          const count = scripts.filter(s => s.category === c).length;
+          return `
           <span class="cat-tag">
-            ${escapeHTML(c)}
+            ${escapeHTML(c)} <span class="cat-tag-count">${count}</span>
             <i class="fas fa-pen edit-cat" onclick="editCategory('${escapeHTML(c)}')" title="Edit Category Name"></i>
             <i class="fas fa-times" onclick="removeCategory('${escapeHTML(c)}')" title="Delete Category"></i>
           </span>
-        `).join('') || '<span style="font-size:0.8rem; color:var(--text-dark);">No categories created.</span>';
+        `}).join('') || '<span style="font-size:0.8rem; color:var(--text-dark);">No categories created.</span>';
       }
 
       window.editCategory = function(oldCat) {
@@ -2161,7 +1784,6 @@
       function createCard(script, isAdminView, index) {
         const id = `code-${isAdminView ? 'adm' : 'pub'}-${index}`;
         const delay = (index * 0.05).toFixed(2);
-        const imgSrc = script.image || '';
         const slug = slugify(script.name);
         
         const isPatched = script.status === 'Patched';
@@ -2189,12 +1811,8 @@
               </div>
             ` : ''}
 
-            <div class="card-img-container" ${imgSrc ? `onclick="openLightbox('${imgSrc}')"` : ''}>
-              ${imgSrc 
-                ? `<img src="${imgSrc}" class="card-img" onerror="this.src=''; this.style.display='none'; this.nextElementSibling.style.display='flex';">
-                   <div class="img-hover-overlay"><i class="fas fa-expand"></i> View Full Image</div>`
-                : `<div class="img-placeholder"><i class="fas ${getIcon(script.category)}"></i></div>`
-              }
+            <div class="card-img-container">
+              <div class="img-placeholder"><i class="fas ${getIcon(script.category)}"></i></div>
               ${isPatched ? `<div class="status-overlay">Patched</div>` : ''}
             </div>
 
@@ -2245,8 +1863,8 @@
       function filterPublic() {
         let filtered = [...scripts];
         
-        if (currentSearch) {
-          const q = currentSearch.toLowerCase();
+        if (currentPublicSearch) {
+          const q = currentPublicSearch.toLowerCase();
           filtered = filtered.filter(s => 
             s.name.toLowerCase().includes(q) || 
             (s.category && s.category.toLowerCase().includes(q))
@@ -2272,17 +1890,27 @@
       }
 
       function renderAdmin() {
-        if (scripts.length === 0) {
+        let filtered = [...scripts];
+        
+        if (currentAdminSearch) {
+          const q = currentAdminSearch.toLowerCase();
+          filtered = filtered.filter(s => 
+            s.name.toLowerCase().includes(q) || 
+            (s.category && s.category.toLowerCase().includes(q))
+          );
+        }
+
+        if (filtered.length === 0) {
           adminGrid.innerHTML = `
             <div class="empty-state" style="grid-column: 1/-1;">
-              <i class="fas fa-plus-circle"></i>
-              <h3>No scripts posted yet</h3>
-              <p>Use the form on the left to add your first script.</p>
+              <i class="fas fa-search"></i>
+              <h3>No scripts found</h3>
+              <p>Try a different search term.</p>
             </div>
           `;
           return;
         }
-        adminGrid.innerHTML = scripts.map((s, i) => createCard(s, true, i)).join('');
+        adminGrid.innerHTML = filtered.map((s, i) => createCard(s, true, i)).join('');
       }
 
       // ---------- ACTIONS ----------
@@ -2360,6 +1988,7 @@
         scripts = scripts.filter(s => s.id !== id);
         saveData();
         renderAdmin();
+        renderCategories(); // Update counts
         filterPublic();
         showToast('Script deleted');
       };
@@ -2380,18 +2009,6 @@
         scriptCode.value = s.code;
         scriptPrice.value = s.price || '';
         
-        if (s.image && s.image.startsWith('data:image')) {
-          currentBase64Image = s.image;
-          scriptImageUrl.value = '';
-          imagePreviewThumb.src = s.image;
-          imagePreviewThumb.style.display = 'block';
-        } else {
-          currentBase64Image = '';
-          scriptImageUrl.value = s.image || '';
-          imagePreviewThumb.src = '';
-          imagePreviewThumb.style.display = 'none';
-        }
-        
         cancelEditBtn.style.display = 'block';
         saveScriptBtn.innerHTML = '<i class="fas fa-save"></i> Update Script';
         document.querySelector('.admin-sidebar').scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -2404,13 +2021,8 @@
         scriptName.value = '';
         scriptStatus.value = 'Working';
         scriptAccess.value = 'Keyless';
-        scriptImageUrl.value = '';
         scriptCode.value = '';
         scriptPrice.value = '';
-        currentBase64Image = '';
-        imagePreviewThumb.src = '';
-        imagePreviewThumb.style.display = 'none';
-        scriptImageFile.value = '';
         cancelEditBtn.style.display = 'none';
         saveScriptBtn.innerHTML = '<i class="fas fa-upload"></i> Post Script';
       }
@@ -2456,9 +2068,6 @@
           // Changed to single backticks for mobile copy format
           description: `tap to copy:\n\`${script.code}\``,
           color: 15158332,
-          image: {
-            url: script.image || ''
-          },
           footer: {
             text: "discord.gg/luascript"
           }
@@ -2554,8 +2163,13 @@
         document.getElementById('logoutBtn').onclick = showPublic;
 
         searchInput.oninput = (e) => {
-          currentSearch = e.target.value;
+          currentPublicSearch = e.target.value;
           filterPublic();
+        };
+        
+        adminSearchInput.oninput = (e) => {
+          currentAdminSearch = e.target.value;
+          renderAdmin();
         };
 
         addCatBtn.onclick = () => {
@@ -2570,36 +2184,12 @@
         };
         newCatInput.onkeydown = (e) => { if (e.key === 'Enter') addCatBtn.click(); };
 
-        scriptImageFile.onchange = (e) => {
-          const file = e.target.files[0];
-          if (!file) return;
-          
-          const reader = new FileReader();
-          reader.onload = (event) => {
-            currentBase64Image = event.target.result;
-            imagePreviewThumb.src = currentBase64Image;
-            imagePreviewThumb.style.display = 'block';
-            scriptImageUrl.value = '';
-          };
-          reader.readAsDataURL(file);
-        };
-
-        scriptImageUrl.oninput = (e) => {
-          if (e.target.value.trim()) {
-            currentBase64Image = '';
-            imagePreviewThumb.src = '';
-            imagePreviewThumb.style.display = 'none';
-            scriptImageFile.value = '';
-          }
-        };
-
         saveScriptBtn.onclick = async () => {
           const id = editScriptId.value;
           const name = scriptName.value.trim();
           const status = scriptStatus.value;
           const access = scriptAccess.value;
           const cat = scriptCategory.value;
-          const url = scriptImageUrl.value.trim();
           const code = scriptCode.value.trim();
           const price = scriptPrice.value.trim();
           const webhook = webhookUrl.value.trim();
@@ -2608,19 +2198,17 @@
           if (!code) { showToast('Please enter the loadstring code'); scriptCode.focus(); return; }
           if (categories.length === 0) { showToast('Please create a category first'); newCatInput.focus(); return; }
 
-          const finalImage = currentBase64Image || url;
-
           if (id) {
             const idx = scripts.findIndex(s => s.id === id);
             if (idx !== -1) {
-              scripts[idx] = { ...scripts[idx], name, status, access, category: cat, image: finalImage, code, price };
+              scripts[idx] = { ...scripts[idx], name, status, access, category: cat, code, price };
               saveData();
               showToast('Script updated successfully!');
             }
           } else {
             const newScript = {
               id: 'script-' + Date.now(),
-              name, status, access, category: cat, image: finalImage, code, price,
+              name, status, access, category: cat, code, price,
               works: 0, fails: 0
             };
             scripts.unshift(newScript);
