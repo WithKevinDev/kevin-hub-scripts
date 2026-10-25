@@ -1536,41 +1536,41 @@
       // ---------- CONFIG ----------
       const ADMIN_PASSWORD = 'kevinontop';
       
-      // Pre-loaded scripts extracted from HTML, Images Removed (empty string)
+      // Mapped ImgBB URLs exactly based on user labels
       const DEFAULT_SCRIPTS = [
-        { id: 'script-1', name: 'Servers Finder', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-Servers-Finder/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 2, fails: 0 },
-        { id: 'script-2', name: 'Aim Control', category: 'Combat', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-aim-control/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-3', name: 'Friend Requester', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-Friend-Requester/refs/heads/main/main.lua"))()', status: 'Patched', access: 'Keyless', works: 0, fails: 1 },
-        { id: 'script-4', name: 'Fly GUI', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Fly-GUI/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-5', name: 'Korblox Headless', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Korblox-Headless/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-6', name: 'Avatar Copier', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Avatar-Copier/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 1, fails: 0 },
-        { id: 'script-7', name: 'Badge Thingy', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Badge-Thingy/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 3, fails: 0 },
-        { id: 'script-8', name: 'Anti Die', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Anti-Die/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-9', name: 'Fake Chat Bubble', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Fake-Chat-Bubble/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-10', name: 'Keyboard Overlay', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Keyboard-overlay/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-11', name: 'Account Lookup', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Account-Lookup/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 2, fails: 0 },
-        { id: 'script-12', name: 'Dark GPT', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Dark-GPT/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 1, fails: 0 },
-        { id: 'script-13', name: 'Desync', category: 'Combat', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-hub-desync/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-14', name: 'Silent Striker', category: 'Combat', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-silent-striker/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-15', name: 'Ride a Pet', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-ride-a-pet/refs/heads/main/ride%20a%20pet%20script"))()', status: 'Working', access: 'Key System', works: 0, fails: 0 },
-        { id: 'script-16', name: 'BaBT Auto Farm', category: 'Auto-Farm', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-BaBT-auto-farm/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-17', name: 'MM2 Auto Farm', category: 'Auto-Farm', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-MM2-auto-farm/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-18', name: 'Auto Harvest GAG2', category: 'Auto-Farm', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Auto-Harvest-GAG2/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-19', name: 'Visual GAG2 Gifter', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Visual-GAG2-Gifter/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-20', name: 'SAE Scripts', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-sae-scripts/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-21', name: 'PS Bypass SAE', category: 'Utility', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-PS-Bypass-SAE/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-22', name: 'Steal An Egg', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Steal-An-Egg/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-23', name: 'Instant Grab', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Instant-Grab/refs/heads/main/StealAnEgg.lua"))()', status: 'Working', access: 'Keyless', works: 3, fails: 0 },
-        { id: 'script-24', name: 'Touch Football', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Touch-Football/refs/heads/main/footballscript"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-25', name: 'fe R15 Tall', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-fe-tall/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-26', name: 'Headless & Korblox (No UI)', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://pastefy.app/WPl5Kk37/raw"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-27', name: 'Huss Valley', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-huss-valley/refs/heads/main/main.lua"))()', status: 'Working', access: 'Key System', works: 0, fails: 0 },
-        { id: 'script-28', name: '+1 Keyboard Escape Visual Gifter', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-keyboard-visual-gifter/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-29', name: 'Robux Visual Universal', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-universal-robux-visual/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 },
-        { id: 'script-30', name: 'Dice Predictor', category: 'Game Specific', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-dice-predictor/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 0 }
+        { id: 'script-1', name: 'Account Lookup', category: 'Random', image: 'https://i.ibb.co/0yQpmmNk/acc.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Account-Lookup/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 2, fails: 0 },
+        { id: 'script-2', name: 'Aim Bot', category: 'Universal', image: 'https://i.ibb.co/nM4rVbVY/bruih.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-aim-control/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-3', name: 'SAE Scripts all in 1', category: 'Steal an egg', image: 'https://i.ibb.co/GfKNSzsR/friendreq.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-sae-scripts/refs/heads/main/main.lua"))()', status: 'Patched', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-4', name: 'Anti Die', category: 'Universal', image: 'https://i.ibb.co/pjPkXs6L/antidie.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Anti-Die/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-5', name: 'BaBT Auto Farm', category: 'Other Games', image: 'https://i.ibb.co/XfPMX3FZ/babt.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-BaBT-auto-farm/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-6', name: 'MM2 Auto Farm', category: 'Other Games', image: 'https://i.ibb.co/04JGPYT/mm2.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-MM2-auto-farm/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-7', name: 'Servers Finder', category: 'Universal', image: 'https://i.ibb.co/JRNWpFCn/fafh.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-Servers-Finder/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 2, fails: 0 },
+        { id: 'script-8', name: 'Steal An Egg', category: 'Steal an egg', image: 'https://i.ibb.co/7xLrZ92V/steal.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Steal-An-Egg/refs/heads/main/main.lua"))()', status: 'Patched', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-9', name: 'Avatar Copier', category: 'Visual', image: 'https://i.ibb.co/dsL0DTpQ/copier.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Avatar-Copier/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 1, fails: 0 },
+        { id: 'script-10', name: 'Dark GPT', category: 'Random', image: 'https://i.ibb.co/svdTVbS7/darkgpt.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Dark-GPT/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 1, fails: 0 },
+        { id: 'script-11', name: 'Dice Predictor', category: 'Random', image: 'https://i.ibb.co/Kx4bMPQD/dice.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-dice-predictor/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-12', name: 'Desync', category: 'Universal', image: 'https://i.ibb.co/Z1z7ms2B/desync.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-hub-desync/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-13', name: 'Badge Thingy', category: 'Visual', image: 'https://i.ibb.co/fdY6tnhY/badge.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Badge-Thingy/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 3, fails: 0 },
+        { id: 'script-14', name: 'Fake Chat Bubble', category: 'Visual', image: 'https://i.ibb.co/5hJZ6WfV/fakechat.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Fake-Chat-Bubble/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-15', name: 'fe R15 Tall', category: 'Universal', image: 'https://i.ibb.co/pB533m7d/fe.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-fe-tall/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-16', name: 'Fly GUI', category: 'Universal', image: 'https://i.ibb.co/LDVxt6Ng/flygui.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Fly-GUI/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-17', name: 'Friend Requester', category: 'Universal', image: 'https://i.ibb.co/tpmRctSP/friendreq.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Hub-Friend-Requester/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 0, fails: 1 },
+        { id: 'script-18', name: 'Visual GAG2 Gifter', category: 'Visual', image: 'https://i.ibb.co/39dtzYkd/gag2.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Visual-GAG2-Gifter/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-19', name: 'Headless & Korblox', category: 'Visual', image: 'https://i.ibb.co/w83HBST/headless.png', code: 'loadstring(game:HttpGet("https://pastefy.app/WPl5Kk37/raw"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-20', name: 'Huss Valley', category: 'Other Games', image: 'https://i.ibb.co/39ThxPq4/huss.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-huss-valley/refs/heads/main/main.lua"))()', status: 'Working', access: 'Key System', works: 5, fails: 0 },
+        { id: 'script-21', name: 'SAE Instant Grab', category: 'Steal an egg', image: 'https://i.ibb.co/DDQ21wR9/instant.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Instant-Grab/refs/heads/main/StealAnEgg.lua"))()', status: 'Working', access: 'Keyless', works: 3, fails: 0 },
+        { id: 'script-22', name: 'Keyboard Overlay', category: 'Visual', image: 'https://i.ibb.co/ZRSZZc7w/keyboard.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Keyboard-overlay/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-23', name: 'SAE PS Bypass', category: 'Steal an egg', image: 'https://i.ibb.co/mLWCFS1/psbypass.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-PS-Bypass-SAE/refs/heads/main/main.lua"))()', status: 'Patched', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-24', name: 'Ride a Pet', category: 'Other Games', image: 'https://i.ibb.co/cSCMzKry/rideapet.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-ride-a-pet/refs/heads/main/ride%20a%20pet%20script"))()', status: 'Patched', access: 'Key System', works: 5, fails: 0 },
+        { id: 'script-25', name: 'Silent Asassins', category: 'Other Games', image: 'https://i.ibb.co/KzfDKX3t/silent.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-silent-striker/refs/heads/main/main.lua"))()', status: 'Patched', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-26', name: 'Touch Football', category: 'Other Games', image: 'https://i.ibb.co/Y7fPgzQ8/football.png', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Touch-Football/refs/heads/main/footballscript"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-27', name: 'Auto Harvest GAG2', category: 'Random', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/Kevin-Auto-Harvest-GAG2/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-28', name: '+1 Keyboard Escape Visual Gifter', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-keyboard-visual-gifter/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-29', name: 'Robux Visual Universal', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/kevin-universal-robux-visual/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 },
+        { id: 'script-30', name: 'Korblox Headless', category: 'Visual', image: '', code: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/WithKevinDev/KH-Korblox-Headless/refs/heads/main/main.lua"))()', status: 'Working', access: 'Keyless', works: 5, fails: 0 }
       ];
 
-      const DEFAULT_CATEGORIES = ['Game Specific', 'Combat', 'Visual', 'Utility', 'Auto-Farm'];
+      const DEFAULT_CATEGORIES = ['Other Games', 'Visual', 'Universal', 'Random', 'Steal an egg'];
 
       // ---------- STATE ----------
       let scripts = [];
@@ -1730,7 +1730,6 @@
             renderAdmin();
             filterPublic();
             
-            // If currently viewing the script page, re-render it
             if (window.location.hash === `#/script/${slugify(script.name)}`) {
               renderSingleScript(script);
             }
@@ -1741,15 +1740,14 @@
 
       // ---------- STORAGE ----------
       function loadData() {
-        const c = localStorage.getItem('kevinHub_cats_v26');
-        const s = localStorage.getItem('kevinHub_scripts_v26');
-        const w = localStorage.getItem('kevinHub_webhook_v26');
+        const c = localStorage.getItem('kevinHub_cats_v28');
+        const s = localStorage.getItem('kevinHub_scripts_v28');
+        const w = localStorage.getItem('kevinHub_webhook_v28');
         
         if (c && s) {
           categories = JSON.parse(c);
           scripts = JSON.parse(s);
         } else {
-          // First time loading, use defaults
           categories = [...DEFAULT_CATEGORIES];
           scripts = DEFAULT_SCRIPTS.map(s => ({ ...s }));
           saveData();
@@ -1759,13 +1757,12 @@
       }
 
       function saveData() {
-        localStorage.setItem('kevinHub_cats_v26', JSON.stringify(categories));
-        localStorage.setItem('kevinHub_scripts_v26', JSON.stringify(scripts));
+        localStorage.setItem('kevinHub_cats_v28', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v28', JSON.stringify(scripts));
       }
 
-      // Save webhook on input
       webhookUrl.addEventListener('input', (e) => {
-        localStorage.setItem('kevinHub_webhook_v26', e.target.value.trim());
+        localStorage.setItem('kevinHub_webhook_v28', e.target.value.trim());
       });
 
       // ---------- ROUTING ----------
@@ -1808,7 +1805,6 @@
         const imgSrc = script.image || '';
         const statusColor = getStatusColor(script.status);
         
-        // Format ratings
         let ratingHtml = '';
         if (script.works > 0 || script.fails > 0) {
            ratingHtml = `<span><i class="fas fa-fire" style="color:#f97316;"></i> ${script.works || 0} Works</span>
@@ -1852,7 +1848,6 @@
           </div>
         `;
 
-        // Add event listener for copy button in view page
         document.getElementById('copy-btn-view').onclick = function() {
           copyCode(script.id, this);
         };
@@ -1860,7 +1855,6 @@
 
       // ---------- RENDER CATEGORIES ----------
       function renderCategories() {
-        // Calculate counts
         const totalScripts = scripts.length;
         
         let html = `<button class="pill ${currentCatFilter === 'All' ? 'active' : ''}" data-cat="All">
@@ -1890,7 +1884,6 @@
           : '<option value="">-- No categories yet --</option>';
         if (categories.includes(val)) scriptCategory.value = val;
 
-        // Add Edit and Delete icons for category tags (Admin Panel)
         catTagList.innerHTML = categories.map(c => {
           const count = scripts.filter(s => s.category === c).length;
           return `
@@ -1912,15 +1905,8 @@
           return;
         }
 
-        // Update category list
         categories = categories.map(c => c === oldCat ? cleanCat : c);
-        
-        // Update all scripts using this category
-        scripts.forEach(s => {
-          if (s.category === oldCat) s.category = cleanCat;
-        });
-
-        // If the current filter was the old category, update it to the new one
+        scripts.forEach(s => { if (s.category === oldCat) s.category = cleanCat; });
         if (currentCatFilter === oldCat) currentCatFilter = cleanCat;
 
         saveData();
@@ -1958,7 +1944,6 @@
         if (script.access === 'Key System') accessBadgeStyle = 'background: rgba(234, 179, 8, 0.15); border-color: rgba(234, 179, 8, 0.4); color: var(--yellow-bright); box-shadow: 0 0 10px rgba(234,179,8,0.2);';
         if (script.access === 'Paid') accessBadgeStyle = 'background: rgba(230, 25, 25, 0.15); border-color: rgba(230, 25, 25, 0.4); color: var(--red-bright);';
 
-        // Format ratings for cards
         let ratingHtml = '';
         if (script.works > 0 || script.fails > 0) {
            ratingHtml = `<span title="${script.works || 0} Works"><i class="fas fa-fire" style="color:#f97316;"></i> ${script.works || 0}</span>
@@ -2103,8 +2088,6 @@
           }
 
           showToast('✅ Script copied to clipboard!', true);
-          
-          // TRIGGER FEEDBACK MODAL
           openFeedbackModal(scriptId);
 
         }).catch(() => {
@@ -2115,8 +2098,6 @@
           document.execCommand('copy');
           document.body.removeChild(ta);
           showToast('✅ Script copied!', true);
-          
-          // TRIGGER FEEDBACK MODAL ON FALLBACK TOO
           openFeedbackModal(scriptId);
         });
       };
@@ -2157,7 +2138,7 @@
         scripts = scripts.filter(s => s.id !== id);
         saveData();
         renderAdmin();
-        renderCategories(); // Update counts
+        renderCategories();
         filterPublic();
         showToast('Script deleted');
       };
@@ -2251,7 +2232,6 @@
 
         const embed = {
           title: `Kevin Hub  |  ${script.name} [${script.category}]`,
-          // Mobile copy format
           description: `tap to copy:\n\`${script.code}\``,
           color: 15158332,
           image: {
