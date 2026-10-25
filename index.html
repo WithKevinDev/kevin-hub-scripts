@@ -1658,9 +1658,9 @@
 
       // ---------- STORAGE ----------
       function loadData() {
-        const c = localStorage.getItem('kevinHub_cats_v19');
-        const s = localStorage.getItem('kevinHub_scripts_v19');
-        const w = localStorage.getItem('kevinHub_webhook_v19');
+        const c = localStorage.getItem('kevinHub_cats_v20');
+        const s = localStorage.getItem('kevinHub_scripts_v20');
+        const w = localStorage.getItem('kevinHub_webhook_v20');
         
         categories = c ? JSON.parse(c) : [...DEFAULT_CATEGORIES];
         scripts = s ? JSON.parse(s) : [...DEFAULT_SCRIPTS];
@@ -1669,13 +1669,13 @@
       }
 
       function saveData() {
-        localStorage.setItem('kevinHub_cats_v19', JSON.stringify(categories));
-        localStorage.setItem('kevinHub_scripts_v19', JSON.stringify(scripts));
+        localStorage.setItem('kevinHub_cats_v20', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v20', JSON.stringify(scripts));
       }
 
       // Save webhook on input
       webhookUrl.addEventListener('input', (e) => {
-        localStorage.setItem('kevinHub_webhook_v19', e.target.value.trim());
+        localStorage.setItem('kevinHub_webhook_v20', e.target.value.trim());
       });
 
       // ---------- ROUTING ----------
@@ -2105,8 +2105,7 @@
 
         const slug = slugify(script.name);
         
-        // Generate a clean URL without the # hash if possible to avoid Discord's spam filter
-        // We use the query param format as a fallback
+        // Use query string format to avoid Discord dropping the button due to hash (#) in URL
         const previewUrl = `https://kevin-hub-scripts.itskevin.workers.dev/?script=${slug}`;
 
         const embed = {
@@ -2121,7 +2120,7 @@
           }
         };
 
-        // Strict Discord Button Format
+        // EXACT STRICT FORMAT FOR LINK BUTTONS
         const payload = {
           embeds: [embed],
           components: [
@@ -2133,49 +2132,40 @@
                   style: 5, // Link Button
                   label: "Preview",
                   url: previewUrl
-                  // NO EMOJI OBJECT - Discord drops the button if the emoji fails validation
                 }
               ]
             }
           ]
         };
 
-        let attempts = 0;
-        const maxRetries = 2;
-        
-        while (attempts < maxRetries) {
-          try {
-            const res = await fetch(webhook, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(payload)
-            });
+        try {
+          const res = await fetch(webhook, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+          });
 
-            if (res.ok) {
-              console.log('Webhook sent successfully');
-              return;
-            }
-
+          if (!res.ok) {
             const errorData = await res.json();
             console.error('Discord Webhook Error:', errorData);
             
-            // If Discord rejects the button (components), try sending without it
+            // Fallback: If Discord rejects the components for ANY reason, send without them
             if (errorData.message && errorData.message.toLowerCase().includes('components')) {
-                showToast('⚠️ Discord rejected the button URL. Sending without it.');
+                showToast('⚠️ Discord rejected the button. Sending without it.');
                 delete payload.components;
-                attempts++;
-                continue;
+                await fetch(webhook, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify(payload)
+                });
             } else {
                 showToast('❌ Webhook failed. Check console.');
-                break;
             }
-          } catch (err) {
-            console.error('Webhook fetch failed', err);
-            showToast('❌ Network error sending webhook.');
-            break;
           }
+        } catch (err) {
+          console.error('Webhook failed', err);
         }
       }
 
@@ -2281,7 +2271,6 @@
           if (id) {
             const idx = scripts.findIndex(s => s.id === id);
             if (idx !== -1) {
-              // Keep the old works/fails count on edit
               scripts[idx] = { ...scripts[idx], name, status, access, category: cat, image: finalImage, code, price };
               saveData();
               showToast('Script updated successfully!');
