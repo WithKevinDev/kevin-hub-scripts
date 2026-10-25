@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kevin Hub - Free Scripts</title>
+  <title>Kevin Hub · Premium Scripts</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   
@@ -1015,6 +1015,153 @@
       transform: rotate(90deg) scale(1.1);
     }
 
+    /* ---------- FEEDBACK MODAL ---------- */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(5px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 10005;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .feedback-modal {
+      background: #111; /* Matches the dark theme */
+      border: 1px solid #222;
+      border-radius: 1.2rem;
+      padding: 2rem;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+      transform: scale(0.95);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      color: #eee;
+    }
+
+    .modal-overlay.active .feedback-modal {
+      transform: scale(1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-header-left {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .modal-icon-bg {
+      background: #1e1e2d;
+      width: 50px; height: 50px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; color: #7b7be5;
+    }
+
+    .modal-header h3 {
+      font-family: var(--font-sans);
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.2rem;
+    }
+
+    .modal-header p {
+      font-size: 0.9rem;
+      color: #888;
+      line-height: 1.4;
+    }
+
+    .modal-close {
+      background: transparent; border: none; color: #666;
+      font-size: 1.2rem; cursor: pointer; transition: color 0.2s;
+    }
+    .modal-close:hover { color: #fff; }
+
+    .feedback-options {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .feedback-btn {
+      flex: 1;
+      background: #181818;
+      border: 1px solid #2a2a2a;
+      border-radius: 12px;
+      padding: 1.5rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #fff;
+    }
+
+    .feedback-btn:hover {
+      border-color: #444;
+      background: #1c1c1c;
+      transform: translateY(-2px);
+    }
+
+    .fb-icon-bg {
+      width: 45px; height: 45px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .fb-works .fb-icon-bg { background: rgba(16, 185, 129, 0.15); color: #10b981; }
+    .fb-works:hover { border-color: #10b981; }
+    .fb-works .fb-title { color: #10b981; }
+    .fb-works .fb-sub { color: #10b981; opacity: 0.7; font-size: 0.8rem; }
+
+    .fb-fails .fb-icon-bg { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+    .fb-fails:hover { border-color: #3b82f6; }
+    .fb-fails .fb-title { color: #fff; }
+    .fb-fails .fb-sub { color: #888; font-size: 0.8rem; }
+
+    .fb-title { font-weight: 700; font-size: 1.1rem; }
+    
+    .modal-footer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .skip-btn {
+      background: transparent; border: none; color: #888;
+      font-size: 0.9rem; cursor: pointer; text-decoration: underline;
+      transition: color 0.2s;
+    }
+    .skip-btn:hover { color: #fff; }
+
+    .checkbox-container {
+      display: flex; align-items: center; gap: 0.5rem;
+      font-size: 0.85rem; color: #666; cursor: pointer;
+    }
+    .checkbox-container input {
+      accent-color: #666; width: 16px; height: 16px; cursor: pointer;
+    }
+
     @media (max-width: 600px) {
       .hub-container { padding: 1rem; }
       .header h1 { font-size: 2.8rem; flex-direction: column; gap: 0.5rem; }
@@ -1024,6 +1171,7 @@
       .view-script-details { padding: 1.5rem; }
       .view-script-title { font-size: 2rem; }
       .status-overlay { font-size: 2.5rem; }
+      .feedback-modal { padding: 1.5rem; margin: 1rem; }
     }
   </style>
 </head>
@@ -1199,6 +1347,44 @@
     <img class="lightbox-img" id="lightboxImg" src="" alt="Expanded Image">
   </div>
 
+  <!-- FEEDBACK MODAL -->
+  <div class="modal-overlay" id="feedbackModal">
+    <div class="feedback-modal">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-bg"><i class="fas fa-robot"></i></div>
+          <div>
+            <h3>Did this script work?</h3>
+            <p>Help the community discover reliable scripts by sharing your experience.</p>
+          </div>
+        </div>
+        <button class="modal-close" onclick="closeFeedbackModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="feedback-options">
+        <button class="feedback-btn fb-works" onclick="submitFeedback(true)">
+          <div class="fb-icon-bg"><i class="fas fa-fire"></i></div>
+          <div class="fb-title">Works Great</div>
+          <div class="fb-sub">Hot Script</div>
+        </button>
+        
+        <button class="feedback-btn fb-fails" onclick="submitFeedback(false)">
+          <div class="fb-icon-bg"><i class="fas fa-robot"></i></div>
+          <div class="fb-title">Not Working</div>
+          <div class="fb-sub">Cold Script</div>
+        </button>
+      </div>
+
+      <div class="modal-footer">
+        <button class="skip-btn" onclick="closeFeedbackModal()">Skip feedback</button>
+        <label class="checkbox-container">
+          <input type="checkbox" id="dontShowAgain">
+          Don't show this again
+        </label>
+      </div>
+    </div>
+  </div>
+
   <script>
     (function() {
       // ---------- CONFIG ----------
@@ -1213,6 +1399,7 @@
       let currentCatFilter = 'All';
       let currentSearch = '';
       let currentBase64Image = '';
+      let activeFeedbackScriptId = null;
 
       // ---------- DOM ----------
       const publicView = document.getElementById('publicView');
@@ -1259,6 +1446,10 @@
 
       const lightbox = document.getElementById('lightbox');
       const lightboxImg = document.getElementById('lightboxImg');
+
+      // Feedback Modal
+      const feedbackModal = document.getElementById('feedbackModal');
+      const dontShowAgainCheck = document.getElementById('dontShowAgain');
 
       // ---------- UTILS ----------
       function showToast(msg, isSuccess = false) {
@@ -1322,11 +1513,53 @@
         if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
       });
 
+      // ---------- FEEDBACK MODAL ----------
+      function openFeedbackModal(scriptId) {
+        if (localStorage.getItem('hideFeedback') === 'true') return;
+        
+        activeFeedbackScriptId = scriptId;
+        dontShowAgainCheck.checked = false;
+        feedbackModal.classList.add('active');
+      }
+
+      window.closeFeedbackModal = function() {
+        feedbackModal.classList.remove('active');
+        activeFeedbackScriptId = null;
+      }
+
+      window.submitFeedback = function(isPositive) {
+        if (dontShowAgainCheck.checked) {
+          localStorage.setItem('hideFeedback', 'true');
+        }
+
+        if (activeFeedbackScriptId) {
+          const script = scripts.find(s => s.id === activeFeedbackScriptId);
+          if (script) {
+            if (isPositive) {
+              script.works = (script.works || 0) + 1;
+              showToast('🔥 Thanks for your feedback!', true);
+            } else {
+              script.fails = (script.fails || 0) + 1;
+              showToast('🧊 Thanks for your feedback!', true);
+            }
+            saveData();
+            renderAdmin();
+            filterPublic();
+            
+            // If currently viewing the script page, re-render it
+            if (window.location.hash === `#/script/${slugify(script.name)}`) {
+              renderSingleScript(script);
+            }
+          }
+        }
+        closeFeedbackModal();
+      }
+
       // ---------- STORAGE ----------
       function loadData() {
-        const c = localStorage.getItem('kevinHub_cats_v14');
-        const s = localStorage.getItem('kevinHub_scripts_v14');
-        const w = localStorage.getItem('kevinHub_webhook_v14');
+        const c = localStorage.getItem('kevinHub_cats_v16');
+        const s = localStorage.getItem('kevinHub_scripts_v16');
+        const w = localStorage.getItem('kevinHub_webhook_v16');
         
         categories = c ? JSON.parse(c) : [...DEFAULT_CATEGORIES];
         scripts = s ? JSON.parse(s) : [...DEFAULT_SCRIPTS];
@@ -1335,13 +1568,13 @@
       }
 
       function saveData() {
-        localStorage.setItem('kevinHub_cats_v14', JSON.stringify(categories));
-        localStorage.setItem('kevinHub_scripts_v14', JSON.stringify(scripts));
+        localStorage.setItem('kevinHub_cats_v16', JSON.stringify(categories));
+        localStorage.setItem('kevinHub_scripts_v16', JSON.stringify(scripts));
       }
 
       // Save webhook on input
       webhookUrl.addEventListener('input', (e) => {
-        localStorage.setItem('kevinHub_webhook_v14', e.target.value.trim());
+        localStorage.setItem('kevinHub_webhook_v16', e.target.value.trim());
       });
 
       // ---------- ROUTING ----------
@@ -1384,6 +1617,15 @@
         const imgSrc = script.image || '';
         const statusColor = getStatusColor(script.status);
         
+        // Format ratings
+        let ratingHtml = '';
+        if (script.works > 0 || script.fails > 0) {
+           ratingHtml = `<span><i class="fas fa-fire" style="color:#f97316;"></i> ${script.works || 0} Works</span>
+                         <span><i class="fas fa-robot" style="color:#3b82f6;"></i> ${script.fails || 0} Fails</span>`;
+        } else {
+           ratingHtml = `<span><i class="fas fa-star"></i> 5.0</span>`;
+        }
+
         viewScriptContainer.innerHTML = `
           <div class="view-script-image" ${imgSrc ? `onclick="openLightbox('${imgSrc}')" style="cursor:pointer;"` : ''}>
             ${imgSrc 
@@ -1407,7 +1649,7 @@
                 <i class="fas fa-circle" style="color: ${statusColor}; font-size: 0.6rem;"></i> 
                 Status: <strong style="margin-left:0.3rem; color: ${statusColor};">${escapeHTML(script.status || 'Working')}</strong>
               </span>
-              <span><i class="fas fa-star"></i> 5.0 Rating</span>
+              ${ratingHtml}
               ${script.price ? `<span><i class="fas fa-tag"></i> ${escapeHTML(script.price)}</span>` : ''}
             </div>
 
@@ -1483,6 +1725,15 @@
         if (script.access === 'Key System') accessBadgeStyle = 'background: rgba(234, 179, 8, 0.1); border-color: rgba(234, 179, 8, 0.3); color: var(--yellow-bright);';
         if (script.access === 'Paid') accessBadgeStyle = 'background: rgba(230, 25, 25, 0.1); border-color: rgba(230, 25, 25, 0.3); color: var(--red-bright);';
 
+        // Format ratings for cards
+        let ratingHtml = '';
+        if (script.works > 0 || script.fails > 0) {
+           ratingHtml = `<span title="${script.works || 0} Works"><i class="fas fa-fire" style="color:#f97316;"></i> ${script.works || 0}</span>
+                         <span title="${script.fails || 0} Fails"><i class="fas fa-robot" style="color:#3b82f6;"></i> ${script.fails || 0}</span>`;
+        } else {
+           ratingHtml = `<span><i class="fas fa-star"></i> 5.0</span>`;
+        }
+
         return `
           <div class="script-card" style="animation-delay: ${delay}s">
             ${isAdminView ? `
@@ -1515,7 +1766,7 @@
                   <i class="fas fa-circle" style="color: ${statusColor}; font-size: 0.6rem;"></i> 
                   ${escapeHTML(script.status || 'Working')}
                 </span>
-                <span><i class="fas fa-star"></i> 5.0</span>
+                ${ratingHtml}
               </div>
 
               <div class="code-preview" onclick="copyCode('${script.id}', this)">
@@ -1609,6 +1860,9 @@
           }
 
           showToast('✅ Script copied to clipboard!', true);
+          
+          // TRIGGER FEEDBACK MODAL
+          openFeedbackModal(scriptId);
 
         }).catch(() => {
           const ta = document.createElement('textarea');
@@ -1618,6 +1872,9 @@
           document.execCommand('copy');
           document.body.removeChild(ta);
           showToast('✅ Script copied!', true);
+          
+          // TRIGGER FEEDBACK MODAL ON FALLBACK TOO
+          openFeedbackModal(scriptId);
         });
       };
 
@@ -1745,14 +2002,13 @@
       async function sendWebhook(script, webhook) {
         if (!webhook || !webhook.startsWith('http')) return;
 
-        // Generate the slug for the URL
         const slug = slugify(script.name);
         const previewUrl = `https://kevin-hub-scripts.itskevin.workers.dev/#/script/${slug}`;
 
         const embed = {
           title: `Kevin Hub  |  ${script.name} [${script.category}]`,
           description: `tap to copy:\n\`\`\`${script.code}\`\`\``,
-          color: 15158332, // Red color hex
+          color: 15158332,
           image: {
             url: script.image || ''
           },
@@ -1765,14 +2021,15 @@
           embeds: [embed],
           components: [
             {
-              type: 1, // Action Row
+              type: 1,
               components: [
                 {
-                  type: 2, // Button
+                  type: 2,
+                  style: 5,
                   label: "Preview",
-                  style: 5, // Link Button
                   url: previewUrl,
                   emoji: {
+                    id: null,
                     name: "💎"
                   }
                 }
@@ -1782,13 +2039,18 @@
         };
 
         try {
-          await fetch(webhook, {
+          const res = await fetch(webhook, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
             },
             body: JSON.stringify(payload)
           });
+
+          if (!res.ok) {
+            console.error('Webhook error:', await res.text());
+            showToast('❌ Webhook error: Check Console', false);
+          }
         } catch (err) {
           console.error('Webhook failed', err);
         }
@@ -1896,6 +2158,7 @@
           if (id) {
             const idx = scripts.findIndex(s => s.id === id);
             if (idx !== -1) {
+              // Keep the old works/fails count on edit
               scripts[idx] = { ...scripts[idx], name, status, access, category: cat, image: finalImage, code, price };
               saveData();
               showToast('Script updated successfully!');
@@ -1903,13 +2166,13 @@
           } else {
             const newScript = {
               id: 'script-' + Date.now(),
-              name, status, access, category: cat, image: finalImage, code, price
+              name, status, access, category: cat, image: finalImage, code, price,
+              works: 0, fails: 0
             };
             scripts.unshift(newScript);
             saveData();
             showToast('Script posted!');
             
-            // Send to Discord if webhook exists
             if (webhook) {
                await sendWebhook(newScript, webhook);
                showToast('Sent to Discord Webhook!', true);
